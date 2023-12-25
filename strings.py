@@ -17,7 +17,7 @@ Hello there! I am CranberryBot! You can call me CranBot if you like~
 - Roll the dice using `cb!dice`
 
 :gear: Other:
-- Show this help page using cb!help
+- Show this help page using `cb!help`
 """
 
 NSFW_USAGE = """
