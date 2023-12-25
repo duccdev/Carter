@@ -3,7 +3,6 @@ from discord import Intents, Game
 from os import getenv
 import logger
 import config
-import cogs
 
 devmode = True if getenv("CRANBERRY_ENV", "prod") == "dev" else False
 
