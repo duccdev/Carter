@@ -1,5 +1,6 @@
 from discord.ext import commands
-from discord import Intents
+from discord import Intents, Game
+from os import getenv
 import logger
 import config
 import cogs
@@ -18,6 +19,9 @@ cranberry.setup_hook = setup_hook
 
 @cranberry.event
 async def on_ready() -> None:
+    if getenv("CRANBERRY_ENV", "prod") == "dev":
+        await cranberry.change_presence(activity=Game("with myself (Development)"))
+
     logger.info("Ready!")
 
 
