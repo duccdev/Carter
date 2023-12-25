@@ -1,5 +1,5 @@
 from discord.ext import commands
-import time, secrets
+import time, secrets, tools, strings, logger
 
 randint = lambda min, max: secrets.randbelow(max) + min
 
@@ -13,6 +13,16 @@ class Games(commands.Cog):
         msg = await ctx.send(":game_die: Rolling...")
         time.sleep(2)
         await msg.edit(content=f":game_die: The dice landed on {randint(1, 6)}!")
+
+    @commands.command()
+    async def wyr(self, ctx: commands.Context) -> None:
+        await ctx.typing()
+
+        try:
+            await ctx.send(await tools.get_wyr())
+        except Exception as e:
+            logger.error(str(e))
+            await ctx.send(strings.ERROR)
 
 
 async def setup(bot: commands.Bot):

@@ -1,4 +1,4 @@
-ERROR = "Fuck! I broke something :("
+ERROR = "i fucked up LMAO :sob:"
 
 HELP_PAGE = """
 Hello there! I am CranberryBot! You can call me CranBot if you like~
@@ -15,6 +15,7 @@ Hello there! I am CranberryBot! You can call me CranBot if you like~
 
 :game_die: Games:
 - Roll the dice using `cb!dice`
+- Get a would you rather question using `cb!wyr`
 
 :gear: Other:
 - Show this help page using `cb!help`
