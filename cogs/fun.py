@@ -87,3 +87,7 @@ class Fun(commands.Cog):
         await ctx.send(
             content=f"`{meme_title}`:", file=discord.File(meme_bytes, f"meme{meme_ext}")
         )
+
+
+async def setup(bot: commands.Bot) -> None:
+    await bot.add_cog(Fun(bot))

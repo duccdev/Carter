@@ -9,3 +9,7 @@ class Other(commands.Cog):
     @commands.command()
     async def help(self, ctx: commands.Context) -> None:
         await ctx.send(strings.HELP_PAGE, silent=True)
+
+
+async def setup(bot: commands.Bot) -> None:
+    await bot.add_cog(Other(bot))

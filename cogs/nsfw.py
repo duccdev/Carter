@@ -37,3 +37,7 @@ class NSFW(commands.Cog):
             return
 
         await ctx.send(file=discord.File(nsfw_bytes, f"cat{nsfw_ext}"))
+
+
+async def setup(bot: commands.Bot) -> None:
+    await bot.add_cog(NSFW(bot))
