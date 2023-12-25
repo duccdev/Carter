@@ -30,6 +30,6 @@ async def on_ready() -> None:
 
 
 if devmode:
-    cranberry.run(config.TOKEN)
+    cranberry.run(config.TOKEN, log_handler=logger.LoggingHandler())
 else:
     cranberry.run(config.TOKEN, log_handler=None)
