@@ -1,21 +1,22 @@
 ERROR = "Fuck! I broke something :("
 
 HELP_PAGE = """
-## I am <@1167621252765188178> in bot form, full of devious activities and nefarious deeds >:3
-
+Hello there! I am CranberryBot! You can call me CranBot if you like~
 ### Features:
 
-NSFW:
+:smirk: NSFW:
 - Fetch images/GIFs using `cb!nsfw`
 
-Fun commands:
+:slight_smile: Fun commands:
 - Get a random cat using `cb!cat`
 - Get a random dog using `cb!dog`
 - Get a random (useless!) fact using `cb!fact`
 - Get a random meme using `cb!meme`
+
+:game_die: Games:
 - Roll the dice using `cb!dice`
 
-Other:
+:gear: Other:
 - Show this help page using cb!help
 """
 

@@ -15,6 +15,8 @@ async def setup_hook() -> None:
     await cranberry.load_extension("cogs.other")
     await cranberry.load_extension("cogs.fun")
     await cranberry.load_extension("cogs.nsfw")
+    await cranberry.load_extension("cogs.games")
+    await cranberry.load_extension("cogs.developer")
 
 
 cranberry = commands.Bot(config.BOT_PREFIX, intents=Intents.all(), help_command=None)
@@ -24,7 +26,7 @@ cranberry.setup_hook = setup_hook
 @cranberry.event
 async def on_ready() -> None:
     if devmode:
-        await cranberry.change_presence(activity=Game("with myself (Development)"))
+        await cranberry.change_presence(activity=Game("with myself (Devmode)"))
 
     logger.info("Ready!")
 
