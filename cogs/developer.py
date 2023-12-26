@@ -1,5 +1,9 @@
+from contextlib import redirect_stdout
+from io import StringIO
 from typing import Mapping
 from discord.ext import commands
+import tools
+import traceback
 
 
 class Developer(commands.Cog):
@@ -95,6 +99,48 @@ class Developer(commands.Cog):
             msg += msg_item + "\n"
 
         await ctx.send(msg)
+
+    @commands.command("dev-eval")
+    @commands.is_owner()
+    async def deveval(self, ctx: commands.Context):
+        code = tools.reverse_replace(
+            ctx.message.content.replace("cb!dev-eval", "", 1).replace("```py", "", 1),
+            "```",
+            "",
+            1,
+        )
+
+        stringIO = StringIO()
+
+        try:
+            with redirect_stdout(stringIO):
+                eval(code)
+        except Exception:
+            await ctx.send("```py\n" + traceback.format_exc() + "\n```")
+            return
+
+        await ctx.send("```py\n" + stringIO.getvalue().replace("`", "'") + "\n```")
+
+    @commands.command("dev-exec")
+    @commands.is_owner()
+    async def devexec(self, ctx: commands.Context):
+        code = tools.reverse_replace(
+            ctx.message.content.replace("cb!dev-eval", "", 1).replace("```py", "", 1),
+            "```",
+            "",
+            1,
+        )
+
+        stringIO = StringIO()
+
+        try:
+            with redirect_stdout(stringIO):
+                exec(code)
+        except Exception:
+            await ctx.send("```py\n" + traceback.format_exc() + "\n```")
+            return
+
+        await ctx.send("```py\n" + stringIO.getvalue().replace("`", "'") + "\n```")
 
 
 async def setup(bot: commands.Bot) -> None:
