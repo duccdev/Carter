@@ -1,6 +1,6 @@
 from discord.ext import commands
 from games.cup_game import CupGame
-import time, tools, strings, logger
+import asyncio, tools, constants, logger
 
 
 class Games(commands.Cog):
@@ -10,8 +10,10 @@ class Games(commands.Cog):
     @commands.command()
     async def dice(self, ctx: commands.Context) -> None:
         msg = await ctx.send(":game_die: Rolling...")
-        time.sleep(2)
-        await msg.edit(content=f":game_die: The dice landed on {tools.randint(1, 6)}!")
+        await asyncio.sleep(2)
+        await msg.edit(
+            content=f":game_die: The dice landed on {tools.random.randint(1, 6)}!"
+        )
 
     @commands.command()
     async def wyr(self, ctx: commands.Context) -> None:
@@ -21,13 +23,12 @@ class Games(commands.Cog):
             await ctx.send(await tools.get_wyr())
         except Exception as e:
             logger.error(str(e))
-            await ctx.send(strings.ERROR)
+            await ctx.send(constants.ERROR)
 
-    @commands.command("cup-game")
-    async def cupgame(self, ctx: commands.Context) -> None:
-        await ctx.send(
-            "Which cup has the ball? You have 15 seconds.", view=CupGame(ctx=ctx)
-        )
+    @commands.command()
+    async def cups(self, ctx: commands.Context) -> None:
+        msg = await ctx.send("Pick the cup:")
+        await msg.edit(view=CupGame(timeout=3, msg=msg, ctx=ctx))
 
 
 async def setup(bot: commands.Bot):

@@ -1,6 +1,6 @@
 from discord.ext import commands
 from discord import Embed, Color
-import strings
+import constants
 
 
 class Other(commands.Cog):
@@ -14,7 +14,7 @@ class Other(commands.Cog):
         if self._bot.user:  # i have to do this so python wont annoy me
             embed.set_thumbnail(url=self._bot.user.display_avatar)
 
-        for field in strings.HELP_PAGE:
+        for field in constants.HELP_PAGE:
             embed.add_field(name=field["name"], value=field["content"], inline=False)
 
         await ctx.send(embed=embed)

@@ -16,19 +16,18 @@ HELP_PAGE = [
         "content": """
 - Roll the dice using `cb!dice`
 - Get a would you rather question using `cb!wyr`
+- Play a cup game using `cb!cups`
     """,
     },
     {"name": ":gear: Other", "content": "- Show this help page using `cb!help`"},
 ]
 
-NSFW_USAGE = """
-## `cb!nsfw` usage:
-`cb!nsfw <category> <type>`
-
-### Example:
-`cb!nsfw blowjob gif`
-
-### Categories and types:
+NSFW_HELP_PAGE = [
+    {"name": "Usage", "content": "`cb!nsfw <category> <type>`"},
+    {"name": "Example", "content": "`cb!nsfw blowjob gif`"},
+    {
+        "name": "Categories and types",
+        "content": """
 - `anal` (`gif`)
 - `blowjob` (`gif`)
 - `cum` (`gif`)
@@ -42,9 +41,9 @@ NSFW_USAGE = """
 - `threesome_mmf` (`gif`)
 - `yaoi` (`gif`)
 - `yuri` (`gif`)
-
-## Let's see how down bad you are~ :smirk:
-"""
+    """,
+    },
+]
 
 NSFW_WRONG_CHANNEL = "ayo wtf you doin? take that shit to the nsfw channels!"
 NSFW_NOT_FOUND = (

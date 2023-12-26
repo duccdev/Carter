@@ -4,5 +4,4 @@ from .get_fact import get_fact
 from .get_meme import get_meme
 from .get_nsfw import get_nsfw, NsfwNotFoundError
 from .get_wyr import get_wyr
-from .randint import randint
-from .randbool import randbool
+from .random import random

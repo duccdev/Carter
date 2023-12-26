@@ -2,7 +2,7 @@ from io import BytesIO
 from discord.ext import commands
 import discord
 import logger
-import strings
+import constants
 import tools
 
 
@@ -18,7 +18,7 @@ class Fun(commands.Cog):
             cat_bytes, cat_ext = await tools.get_cat()
         except Exception as e:
             logger.error(e)
-            await ctx.send(strings.ERROR)
+            await ctx.send(constants.ERROR)
             return
 
         await ctx.send(file=discord.File(cat_bytes, f"cat{cat_ext}"))
@@ -31,7 +31,7 @@ class Fun(commands.Cog):
             dog_bytes, dog_ext = await tools.get_dog()
         except Exception as e:
             logger.error(e)
-            await ctx.send(strings.ERROR)
+            await ctx.send(constants.ERROR)
             return
 
         await ctx.send(file=discord.File(dog_bytes, f"dog{dog_ext}"))
@@ -45,7 +45,7 @@ class Fun(commands.Cog):
             fact = fact.replace("`", "\\`")
         except Exception as e:
             logger.error(e)
-            await ctx.send(strings.ERROR)
+            await ctx.send(constants.ERROR)
             return
 
         await ctx.send(fact)
@@ -64,7 +64,7 @@ class Fun(commands.Cog):
                 meme_title, meme_bytes, meme_ext, meme_nsfw = await tools.get_meme()
             except Exception as e:
                 logger.error(e)
-                await ctx.send(strings.ERROR)
+                await ctx.send(constants.ERROR)
                 return
 
         while meme_nsfw:
@@ -72,7 +72,7 @@ class Fun(commands.Cog):
                 meme_title, meme_bytes, meme_ext, meme_nsfw = await tools.get_meme()
             except Exception as e:
                 logger.error(e)
-                await ctx.send(strings.ERROR)
+                await ctx.send(constants.ERROR)
                 return
 
         meme_title = meme_title.replace("`", "'")
