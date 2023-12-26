@@ -1,6 +1,6 @@
 from contextlib import redirect_stdout
 from io import StringIO
-from typing import Mapping
+from typing import Any, Mapping
 from discord.ext import commands
 import tools
 import traceback
@@ -41,11 +41,11 @@ class Developer(commands.Cog):
                 pass
             else:
                 await ctx.send(
-                    f"❌ Error occured while loading the extension `{cog_name}`\n"
+                    f"error occured while loading the extension `{cog_name}`\n"
                     f"`{e.__class__.__name__}: {str(e)}`"
                 )
 
-        await ctx.send(f"✅ Loaded the extension: `{cog_name}`")
+        await ctx.send(f"loaded the extension: `{cog_name}`")
 
     @commands.command("dev-unload")
     @commands.is_owner()
@@ -57,11 +57,11 @@ class Developer(commands.Cog):
                 pass
             else:
                 await ctx.send(
-                    f"❌ Error occured while unloading the extension `{cog_name}`\n"
+                    f"error occured while unloading the extension `{cog_name}`\n"
                     f"`{e.__class__.__name__}: {str(e)}`"
                 )
 
-        await ctx.send(f"✅ Unloaded the extension: `{cog_name}`")
+        await ctx.send(f"unloaded the extension: `{cog_name}`")
 
     @commands.command("dev-reload")
     @commands.is_owner()
@@ -73,11 +73,11 @@ class Developer(commands.Cog):
                 pass
             else:
                 await ctx.send(
-                    f"❌ Error occured while reloading the extension `{cog_name}`\n"
+                    f"error occured while reloading the extension `{cog_name}`\n"
                     f"`{e.__class__.__name__}: {str(e)}`"
                 )
 
-        await ctx.send(f"✅ Reloaded the extension: `{cog_name}`")
+        await ctx.send(f"reloaded the extension: `{cog_name}`")
 
     @commands.command("dev-extensions")
     @commands.is_owner()
@@ -111,36 +111,60 @@ class Developer(commands.Cog):
         )
 
         stringIO = StringIO()
+        ret: Any
 
         try:
             with redirect_stdout(stringIO):
-                eval(code)
+                ret = eval(code)
         except Exception:
-            await ctx.send("```py\n" + traceback.format_exc() + "\n```")
+            tb = traceback.format_exc().strip().replace("`", "'")
+            await ctx.reply(f"traceback:\n```py\n{tb}\n```")
             return
 
-        await ctx.send("```py\n" + stringIO.getvalue().replace("`", "'") + "\n```")
+        ret = str(ret).strip().replace("`", "'")
+        stdout = stringIO.getvalue().strip().replace("`", "'")
+
+        msg = ""
+
+        if stdout:
+            msg += f"stdout:\n```\n{stdout}\n```"
+
+        msg += f"return:\n```py\n{ret}\n```"
+
+        await ctx.reply(msg)
 
     @commands.command("dev-exec")
     @commands.is_owner()
     async def devexec(self, ctx: commands.Context):
         code = tools.reverse_replace(
-            ctx.message.content.replace("cb!dev-eval", "", 1).replace("```py", "", 1),
+            ctx.message.content.replace("cb!dev-exec", "", 1).replace("```py", "", 1),
             "```",
             "",
             1,
         )
 
         stringIO = StringIO()
+        ret: Any
 
         try:
             with redirect_stdout(stringIO):
-                exec(code)
+                ret = exec(code)
         except Exception:
-            await ctx.send("```py\n" + traceback.format_exc() + "\n```")
+            tb = traceback.format_exc().strip().replace("`", "'")
+            await ctx.reply(f"traceback:\n```py\n{tb}\n```")
             return
 
-        await ctx.send("```py\n" + stringIO.getvalue().replace("`", "'") + "\n```")
+        ret = str(ret).strip().replace("`", "'")
+        stdout = stringIO.getvalue().strip().replace("`", "'")
+
+        msg = ""
+
+        if stdout:
+            msg += f"stdout:\n```\n{stdout}\n```"
+
+        msg += f"return:\n```py\n{ret}\n```"
+
+        await ctx.reply(msg)
 
 
 async def setup(bot: commands.Bot) -> None:
