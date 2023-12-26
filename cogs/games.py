@@ -1,4 +1,5 @@
 from discord.ext import commands
+from games.cup_game import CupGame
 import time, tools, strings, logger
 
 
@@ -21,6 +22,12 @@ class Games(commands.Cog):
         except Exception as e:
             logger.error(str(e))
             await ctx.send(strings.ERROR)
+
+    @commands.command("cup-game")
+    async def cupgame(self, ctx: commands.Context) -> None:
+        await ctx.send(
+            "Which cup has the ball? You have 15 seconds.", view=CupGame(ctx=ctx)
+        )
 
 
 async def setup(bot: commands.Bot):

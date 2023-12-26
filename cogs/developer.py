@@ -27,7 +27,7 @@ class Developer(commands.Cog):
 
         return paginated
 
-    @commands.command(name="dev-load")
+    @commands.command("dev-load")
     @commands.is_owner()
     async def load(self, ctx: commands.Context, cog_name: str):
         try:
@@ -43,7 +43,7 @@ class Developer(commands.Cog):
 
         await ctx.send(f"✅ Loaded the extension: `{cog_name}`")
 
-    @commands.command(name="dev-unload")
+    @commands.command("dev-unload")
     @commands.is_owner()
     async def unload(self, ctx: commands.Context, cog_name: str):
         try:
@@ -59,7 +59,7 @@ class Developer(commands.Cog):
 
         await ctx.send(f"✅ Unloaded the extension: `{cog_name}`")
 
-    @commands.command(name="dev-reload")
+    @commands.command("dev-reload")
     @commands.is_owner()
     async def reload(self, ctx: commands.Context, cog_name: str):
         try:
@@ -75,7 +75,7 @@ class Developer(commands.Cog):
 
         await ctx.send(f"✅ Reloaded the extension: `{cog_name}`")
 
-    @commands.command(name="dev-extensions")
+    @commands.command("dev-extensions")
     @commands.is_owner()
     async def extensions(self, ctx: commands.Context):
         msg = "Extension list:\n"
