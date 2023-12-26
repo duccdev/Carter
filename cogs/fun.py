@@ -85,38 +85,6 @@ class Fun(commands.Cog):
         await ctx.typing()
         await ctx.reply(file=discord.File("static/a-pussy.gif"))
 
-    @commands.command()
-    async def guy9401(self, ctx: commands.Context):
-        await ctx.typing()
-        await ctx.reply(file=discord.File("static/guy9401.mov"))
-
-    @commands.command()
-    async def panopticon(self, ctx: commands.Context):
-        if (
-            ctx.message.author.id == constants.DUCC
-            or ctx.message.author.id == constants.BALU
-        ):
-            await ctx.typing()
-            await ctx.reply(file=discord.File("static/panopticon.jpg"))
-
-    @commands.command()
-    async def sisyphus(self, ctx: commands.Context):
-        if (
-            ctx.message.author.id == constants.DUCC
-            or ctx.message.author.id == constants.BALU
-        ):
-            await ctx.typing()
-            await ctx.reply(file=discord.File("static/sisyphus.mp3"))
-
-    @commands.command()
-    async def judgement(self, ctx: commands.Context):
-        if (
-            ctx.message.author.id == constants.DUCC
-            or ctx.message.author.id == constants.BALU
-        ):
-            await ctx.typing()
-            await ctx.reply(file=discord.File("static/judgement.mp3"))
-
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Fun(bot))
