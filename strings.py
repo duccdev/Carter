@@ -1,25 +1,25 @@
 ERROR = "i fucked up LMAO :sob:"
 
-HELP_PAGE = """
-Hello there! I am CranberryBot! You can call me CranBot if you like~
-### Features:
-
-:smirk: NSFW:
-- Fetch images/GIFs using `cb!nsfw`
-
-:slight_smile: Fun commands:
+HELP_PAGE = [
+    {"name": ":smirk: NSFW", "content": "- Fetch images/GIFs using `cb!nsfw`"},
+    {
+        "name": ":slight_smile: Fun commands",
+        "content": """
 - Get a random cat using `cb!cat`
 - Get a random dog using `cb!dog`
 - Get a random (useless!) fact using `cb!fact`
 - Get a random meme using `cb!meme`
-
-:game_die: Games:
+    """,
+    },
+    {
+        "name": ":game_die: Games",
+        "content": """
 - Roll the dice using `cb!dice`
 - Get a would you rather question using `cb!wyr`
-
-:gear: Other:
-- Show this help page using `cb!help`
-"""
+    """,
+    },
+    {"name": ":gear: Other", "content": "- Show this help page using `cb!help`"},
+]
 
 NSFW_USAGE = """
 ## `cb!nsfw` usage:
