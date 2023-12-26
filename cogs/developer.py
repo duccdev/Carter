@@ -166,6 +166,51 @@ class Developer(commands.Cog):
 
         await ctx.reply(msg)
 
+    @commands.command("dev-run-async")
+    @commands.is_owner()
+    async def devrunasync(self, ctx: commands.Context):
+        code = tools.reverse_replace(
+            ctx.message.content.replace("cb!dev-run-async", "", 1).replace(
+                "```py", "", 1
+            ),
+            "```",
+            "",
+            1,
+        )
+
+        try:
+            exec(
+                f"async def __ex(ctx: commands.Context): "
+                + "".join(f"\n {l}" for l in code.split("\n"))
+            )
+        except Exception:
+            tb = traceback.format_exc().strip().replace("`", "'")
+            await ctx.reply(f"traceback:\n```py\n{tb}\n```")
+            return
+
+        stringIO = StringIO()
+        ret: Any
+
+        try:
+            with redirect_stdout(stringIO):
+                ret = await locals()["__ex"](ctx)
+        except Exception:
+            tb = traceback.format_exc().strip().replace("`", "'")
+            await ctx.reply(f"traceback:\n```py\n{tb}\n```")
+            return
+
+        ret = str(ret).strip().replace("`", "'")
+        stdout = stringIO.getvalue().strip().replace("`", "'")
+
+        msg = ""
+
+        if stdout:
+            msg += f"stdout:\n```\n{stdout}\n```"
+
+        msg += f"return:\n```py\n{ret}\n```"
+
+        await ctx.reply(msg)
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Developer(bot))
