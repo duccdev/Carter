@@ -1,7 +1,5 @@
 from discord.ext import commands
-import time, secrets, tools, strings, logger
-
-randint = lambda min, max: secrets.randbelow(max) + min
+import time, tools, strings, logger
 
 
 class Games(commands.Cog):
@@ -12,7 +10,7 @@ class Games(commands.Cog):
     async def dice(self, ctx: commands.Context) -> None:
         msg = await ctx.send(":game_die: Rolling...")
         time.sleep(2)
-        await msg.edit(content=f":game_die: The dice landed on {randint(1, 6)}!")
+        await msg.edit(content=f":game_die: The dice landed on {tools.randint(1, 6)}!")
 
     @commands.command()
     async def wyr(self, ctx: commands.Context) -> None:
