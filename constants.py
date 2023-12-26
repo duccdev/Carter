@@ -49,3 +49,6 @@ NSFW_WRONG_CHANNEL = "ayo wtf you doin? take that shit to the nsfw channels!"
 NSFW_NOT_FOUND = (
     "Category and/or type not found, guess you gotta jerk off to something else!"
 )
+
+DUCC = 719562834295390299
+BALU = 932331066637832273
