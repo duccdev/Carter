@@ -80,6 +80,10 @@ class Fun(commands.Cog):
             content=f"`{meme_title}`:", file=discord.File(meme_bytes, f"meme{meme_ext}")
         )
 
+    @commands.command(name="a-pussy")
+    async def pussy(self, ctx: commands.Context):
+        await ctx.send("https://tenor.com/view/cat-gif-25381727")
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Fun(bot))
