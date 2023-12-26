@@ -180,7 +180,8 @@ class Developer(commands.Cog):
 
         try:
             exec(
-                f"async def __ex(ctx: commands.Context): "
+                "import discord\nfrom discord.ext import commands\n"
+                + "async def __ex(ctx: commands.Context, bot: commands.Bot): "
                 + "".join(f"\n {l}" for l in code.split("\n"))
             )
         except Exception:
@@ -193,7 +194,7 @@ class Developer(commands.Cog):
 
         try:
             with redirect_stdout(stringIO):
-                ret = await locals()["__ex"](ctx)
+                ret = await locals()["__ex"](ctx, self._bot)
         except Exception:
             tb = traceback.format_exc().strip().replace("`", "'")
             await ctx.reply(f"traceback:\n```py\n{tb}\n```")
