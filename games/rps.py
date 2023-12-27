@@ -35,10 +35,6 @@ class RPSButton(discord.ui.Button):
 
             return
 
-        await self._ctx.send(
-            f"debug info: ```self._this_choice = {self._this_choice}\nself._ai_choice = {self._ai_choice}```"
-        )
-
         view = discord.ui.View(timeout=1)
 
         view.add_item(discord.ui.Button(emoji="🪨", disabled=True))
