@@ -86,7 +86,7 @@ class CupButton(discord.ui.Button):
             return
 
         await interaction.response.edit_message(
-            content=f"no you nigga, it was {self._correct_cup + 1}",
+            content=f"no you dumbass, it was {self._correct_cup + 1}",
             view=view,
         )
 
