@@ -143,6 +143,8 @@ class Developer(commands.Cog):
             1,
         )
 
+        await ctx.send(code)
+
         stringIO = StringIO()
         ret: Any
 
