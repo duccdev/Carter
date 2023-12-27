@@ -23,6 +23,9 @@ class DB:
         if not self._data["leaderboards"].get(leaderboard):
             self._data["leaderboards"][leaderboard] = {}
 
+        if not self._data["leaderboards"][leaderboard].get(str(player_id)):
+            self._data["leaderboards"][leaderboard][str(player_id)] = 0
+
         self._data["leaderboards"][leaderboard][str(player_id)] += 1
 
     def get_leaderboard(self, leaderboard: str) -> dict[str, int]:
