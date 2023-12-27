@@ -183,6 +183,9 @@ class Developer(commands.Cog):
             1,
         )
 
+        if not code:
+            await ctx.reply(f"usage: `{BOT_PREFIX}dev-system <py-codeblock>`")
+
         try:
             exec(
                 "import discord\nfrom discord.ext import commands\n"
@@ -233,6 +236,9 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def devsystem(self, ctx: commands.Context, *args):
         await ctx.typing()
+
+        if len(args) == 0:
+            await ctx.reply(f"usage: `{BOT_PREFIX}dev-system <args>`")
 
         msg = ""
         output = run(args, capture_output=True, text=True)
