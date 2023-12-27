@@ -111,7 +111,11 @@ class Developer(commands.Cog):
             "```",
             "",
             1,
-        )
+        ).strip()
+
+        if not code:
+            await ctx.reply(f"usage: `{BOT_PREFIX}dev-eval <py-codeblock>`")
+            return
 
         stringIO = StringIO()
         ret: Any
@@ -146,7 +150,7 @@ class Developer(commands.Cog):
             "```",
             "",
             1,
-        )
+        ).strip()
 
         stringIO = StringIO()
         ret: Any
@@ -181,10 +185,11 @@ class Developer(commands.Cog):
             "```",
             "",
             1,
-        )
+        ).strip()
 
         if not code:
-            await ctx.reply(f"usage: `{BOT_PREFIX}dev-system <py-codeblock>`")
+            await ctx.reply(f"usage: `{BOT_PREFIX}dev-run-async <py-codeblock>`")
+            return
 
         try:
             exec(
