@@ -69,4 +69,6 @@ LEADERBOARD_NO_PLAYERS = (
     "yeah uh there are no players currently on the leaderboard :skull_crossbones:"
 )
 
+SLURS = ["nigga", "nigga", "ching chong", "chink"]
+
 DUCC = 719562834295390299
