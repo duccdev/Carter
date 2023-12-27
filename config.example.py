@@ -2,7 +2,7 @@ import colors
 
 TOKEN = "nuh uh you dont get to see my token"
 
-BOT_PREFIX = "cb!"
+BOT_PREFIX = "."
 LOG_PREFIX = f"[{colors.RED}Cranberry{colors.END}Bot]"
 
 CAT_API_KEY = "you dont get to"
