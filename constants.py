@@ -86,7 +86,7 @@ SCISSORS = 2
 
 RPS_TIMEOUT = "fucker stop overthinking what to choose"
 RPS_TIE = "oop its a tie"
-RPS_WIN = "soo YOU WON!"
-RPS_LOSE = "soo YOU FUCKING LOST :skull_crossbones:"
+RPS_WIN = "soo YOU WON WOOOO"
+RPS_LOSE = "soo you lost lmaooooo"
 
 DUCC = 719562834295390299

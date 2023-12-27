@@ -35,6 +35,10 @@ class RPSButton(discord.ui.Button):
 
             return
 
+        await self._ctx.send(
+            f"debug info: ```self._this_choice = {self._this_choice}\nself._ai_choice = {self._ai_choice}```"
+        )
+
         view = discord.ui.View(timeout=1)
 
         view.add_item(discord.ui.Button(emoji="🪨", disabled=True))
@@ -42,7 +46,7 @@ class RPSButton(discord.ui.Button):
         view.add_item(discord.ui.Button(emoji="✂️", disabled=True))
 
         if self._this_choice == self._ai_choice:
-            await interaction.edit_original_response(
+            await interaction.response.edit_message(
                 content=constants.RPS_TIE, view=view
             )
         elif (
@@ -51,7 +55,7 @@ class RPSButton(discord.ui.Button):
         ):
             self._db.add_win("rps", self._ctx.author.id)
             self._db.save()
-            await interaction.edit_original_response(
+            await interaction.response.edit_message(
                 content=f"your rock breaks my scissor {constants.RPS_WIN}",
                 view=view,
             )
@@ -61,14 +65,14 @@ class RPSButton(discord.ui.Button):
         ):
             self._db.add_win("rps", self._ctx.author.id)
             self._db.save()
-            await interaction.edit_original_response(
+            await interaction.response.edit_message(
                 content=f"your scissors cut my paper {constants.RPS_WIN}",
                 view=view,
             )
         elif self._this_choice == constants.PAPER and self._ai_choice == constants.ROCK:
             self._db.add_win("rps", self._ctx.author.id)
             self._db.save()
-            await interaction.edit_original_response(
+            await interaction.response.edit_message(
                 content=f"your paper covers my rock {constants.RPS_WIN}",
                 view=view,
             )
@@ -76,7 +80,7 @@ class RPSButton(discord.ui.Button):
             self._this_choice == constants.SCISSORS
             and self._ai_choice == constants.ROCK
         ):
-            await interaction.edit_original_response(
+            await interaction.response.edit_message(
                 content=f"my rock breaks your scissors {constants.RPS_LOSE}",
                 view=view,
             )
@@ -84,12 +88,12 @@ class RPSButton(discord.ui.Button):
             self._this_choice == constants.PAPER
             and self._ai_choice == constants.SCISSORS
         ):
-            await interaction.edit_original_response(
+            await interaction.response.edit_message(
                 content=f"my scissors cut your paper {constants.RPS_LOSE}",
                 view=view,
             )
         elif self._this_choice == constants.ROCK and self._ai_choice == constants.PAPER:
-            await interaction.edit_original_response(
+            await interaction.response.edit_message(
                 content=f"my paper covers your rock {constants.RPS_LOSE}",
                 view=view,
             )
