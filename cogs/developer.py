@@ -3,6 +3,7 @@ from io import StringIO
 from typing import Any, Mapping
 from discord.ext import commands
 from config import BOT_PREFIX
+from subprocess import run
 import tools, traceback, os
 
 
@@ -227,6 +228,24 @@ class Developer(commands.Cog):
 
         await ctx.send("restarting...")
         os.system("sudo systemctl restart cranberrybot")
+
+    @commands.command("dev-system")
+    @commands.is_owner()
+    async def devsystem(self, ctx: commands.Context, *args):
+        await ctx.typing()
+
+        msg = ""
+        output = run(args, capture_output=True, text=True)
+
+        if output.stdout:
+            msg += f"stdout:\n```\n{output.stdout}\n```\n"
+
+        if output.stderr:
+            msg += f"stderr:\n```\n{output.stderr}\n```\n"
+
+        msg += f"return value: `{output.returncode}`"
+
+        await ctx.reply(msg)
 
 
 async def setup(bot: commands.Bot) -> None:
