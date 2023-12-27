@@ -18,6 +18,7 @@ HELP_PAGE = [
 - Roll the dice using `cb!dice`
 - Get a would you rather question using `cb!wyr`
 - Play a cup game using `cb!cups`
+- Play rock paper scissors using `cb!rps`
     """,
     },
     {
@@ -64,7 +65,7 @@ POLL_HELP_PAGE = [
 LEADERBOARD_HELP_PAGE = [
     {"name": "Usage", "content": "`cb!leaderboard <game>`"},
     {"name": "Example", "content": "`cb!leaderboard cups`"},
-    {"name": "Supported games", "content": "- `cups`"},
+    {"name": "Supported games", "content": "- `cups`\n- `rps`"},
 ]
 
 NSFW_WRONG_CHANNEL = "ayo wtf you doin? take that shit to the nsfw channels!"
@@ -81,7 +82,7 @@ CUPS_TIMEOUT = "bro you really took THAT long to press a FUCKING BUTTON??"
 
 ROCK = 0
 PAPER = 1
-SCISSOR = 2
+SCISSORS = 2
 
 RPS_TIMEOUT = "fucker stop overthinking what to choose"
 RPS_TIE = "oop its a tie"

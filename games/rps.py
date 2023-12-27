@@ -46,7 +46,8 @@ class RPSButton(discord.ui.Button):
                 content=constants.RPS_TIE, view=view
             )
         elif (
-            self._this_choice == constants.ROCK and self._ai_choice == constants.SCISSOR
+            self._this_choice == constants.ROCK
+            and self._ai_choice == constants.SCISSORS
         ):
             self._db.add_win("rps", self._ctx.author.id)
             self._db.save()
@@ -55,13 +56,13 @@ class RPSButton(discord.ui.Button):
                 view=view,
             )
         elif (
-            self._this_choice == constants.SCISSOR
+            self._this_choice == constants.SCISSORS
             and self._ai_choice == constants.PAPER
         ):
             self._db.add_win("rps", self._ctx.author.id)
             self._db.save()
             await interaction.edit_original_response(
-                content=f"your scissor cuts my paper {constants.RPS_WIN}",
+                content=f"your scissors cut my paper {constants.RPS_WIN}",
                 view=view,
             )
         elif self._this_choice == constants.PAPER and self._ai_choice == constants.ROCK:
@@ -72,18 +73,19 @@ class RPSButton(discord.ui.Button):
                 view=view,
             )
         elif (
-            self._this_choice == constants.SCISSOR and self._ai_choice == constants.ROCK
+            self._this_choice == constants.SCISSORS
+            and self._ai_choice == constants.ROCK
         ):
             await interaction.edit_original_response(
-                content=f"my rock breaks your scissor {constants.RPS_LOSE}",
+                content=f"my rock breaks your scissors {constants.RPS_LOSE}",
                 view=view,
             )
         elif (
             self._this_choice == constants.PAPER
-            and self._ai_choice == constants.SCISSOR
+            and self._ai_choice == constants.SCISSORS
         ):
             await interaction.edit_original_response(
-                content=f"my scissor cuts your paper {constants.RPS_LOSE}",
+                content=f"my scissors cut your paper {constants.RPS_LOSE}",
                 view=view,
             )
         elif self._this_choice == constants.ROCK and self._ai_choice == constants.PAPER:

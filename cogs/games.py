@@ -15,6 +15,7 @@ class Games(commands.Cog):
     async def leaderboard(self, ctx: commands.Context, game: str | None) -> None:
         supported_games = [
             "cups",
+            "rps",
         ]
 
         if not game or game not in supported_games:
