@@ -2,8 +2,7 @@ from contextlib import redirect_stdout
 from io import StringIO
 from typing import Any, Mapping
 from discord.ext import commands
-import tools
-import traceback
+import tools, traceback, os
 
 
 class Developer(commands.Cog):
@@ -211,6 +210,18 @@ class Developer(commands.Cog):
         msg += f"return:\n```py\n{ret}\n```"
 
         await ctx.reply(msg)
+
+    @commands.command("dev-update")
+    @commands.is_owner()
+    async def devupdate(self, ctx: commands.Context):
+        await ctx.send("running `git pull`...")
+
+        if os.system("git pull") == 1:
+            await ctx.send("failed!")
+            return
+
+        await ctx.send("restarting...")
+        os.system("sudo systemctl restart cranberrybot")
 
 
 async def setup(bot: commands.Bot) -> None:
