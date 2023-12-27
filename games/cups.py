@@ -77,6 +77,7 @@ class CupButton(discord.ui.Button):
 
             self._kill_view()
 
+            self._db.load()
             self._db.add_win(
                 "cups",
                 interaction.user.id,

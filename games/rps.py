@@ -49,6 +49,7 @@ class RPSButton(discord.ui.Button):
             self._this_choice == constants.ROCK
             and self._ai_choice == constants.SCISSORS
         ):
+            self._db.load()
             self._db.add_win("rps", self._ctx.author.id)
             self._db.save()
             await interaction.response.edit_message(
@@ -59,6 +60,7 @@ class RPSButton(discord.ui.Button):
             self._this_choice == constants.SCISSORS
             and self._ai_choice == constants.PAPER
         ):
+            self._db.load()
             self._db.add_win("rps", self._ctx.author.id)
             self._db.save()
             await interaction.response.edit_message(
@@ -66,6 +68,7 @@ class RPSButton(discord.ui.Button):
                 view=view,
             )
         elif self._this_choice == constants.PAPER and self._ai_choice == constants.ROCK:
+            self._db.load()
             self._db.add_win("rps", self._ctx.author.id)
             self._db.save()
             await interaction.response.edit_message(

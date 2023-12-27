@@ -9,10 +9,11 @@ class Games(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self._bot = bot
         self._db = db.DB()
-        self._db.load()
 
     @commands.command()
     async def leaderboard(self, ctx: commands.Context, game: str | None) -> None:
+        await ctx.typing()
+
         supported_games = [
             "cups",
             "rps",
@@ -27,6 +28,7 @@ class Games(commands.Cog):
 
             return
 
+        self._db.load()
         leaderboard = self._db.get_leaderboard(game)
 
         if len(leaderboard) > 0:
