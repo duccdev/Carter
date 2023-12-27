@@ -40,7 +40,7 @@ class CupButton(discord.ui.Button):
 
         if config.IMPOSSIBLE_GAMES:
             while self._this_cup == self._correct_cup:
-                self._this_cup = tools.random.randint(0, len(self._cups) - 1)
+                self._correct_cup = tools.random.randint(0, len(self._cups) - 1)
 
         for i in range(len(self._cups)):
             if self._correct_cup == i:
