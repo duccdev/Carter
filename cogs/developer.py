@@ -10,7 +10,7 @@ class Developer(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    def _lazy_paginate(
+    def lazy_paginate(
         self,
         array: list | tuple | set | Mapping,
         count: int = 3,
