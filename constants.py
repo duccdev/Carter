@@ -14,6 +14,7 @@ HELP_PAGE = [
     {
         "name": ":game_die: Games",
         "content": """
+- Get the leaderboard of a game using `cb!leaderboard`
 - Roll the dice using `cb!dice`
 - Get a would you rather question using `cb!wyr`
 - Play a cup game using `cb!cups`
