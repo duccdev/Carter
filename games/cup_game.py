@@ -97,7 +97,7 @@ class CupGame(discord.ui.View):
     def __init__(
         self,
         *,
-        timeout: float | None = 10,
+        timeout: float | None = 15,
         cups: list[discord.ButtonStyle] = [
             discord.ButtonStyle.red,
             discord.ButtonStyle.green,
