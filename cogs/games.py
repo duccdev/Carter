@@ -1,15 +1,58 @@
 from discord.ext import commands
+from discord import Embed, Color
 from games.cup_game import CupGame
-import asyncio, tools, constants, logger
+import asyncio, tools, constants, logger, db
 
 
 class Games(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self._bot = bot
+        self._db = db.DB()
+        self._db.load()
+
+    @commands.command()
+    async def leaderboard(self, ctx: commands.Context, game: str | None) -> None:
+        supported_games = [
+            "cups",
+        ]
+
+        if not game or game not in supported_games:
+            await ctx.reply(
+                embed=tools.create_embed(
+                    "`cb!leaderboard`", constants.LEADERBOARD_HELP_PAGE
+                )
+            )
+
+            return
+
+        leaderboard = self._db.get_leaderboard(game)
+
+        if len(leaderboard) > 0:
+            players = ""
+            count = 0
+
+            for player in leaderboard:
+                players += f"{count + 1}: <@{player}> with {leaderboard[player]} wins\n"
+
+                count += 1
+
+                if count >= 10:
+                    break
+
+            embed = Embed(
+                title="Leaderboard",
+                description=players.strip(),
+                color=Color.random(),
+            )
+
+            await ctx.send(embed=embed, silent=True)
+            return
+
+        await ctx.send(constants.LEADERBOARD_NO_PLAYERS)
 
     @commands.command()
     async def dice(self, ctx: commands.Context) -> None:
-        msg = await ctx.send(":game_die: Rolling...")
+        msg = await ctx.reply(":game_die: Rolling...")
         await asyncio.sleep(2)
         await msg.edit(
             content=f":game_die: The dice landed on {tools.random.randint(1, 6)}!"
@@ -20,15 +63,15 @@ class Games(commands.Cog):
         await ctx.typing()
 
         try:
-            await ctx.send(await tools.get_wyr())
+            await ctx.reply(await tools.get_wyr())
         except Exception as e:
             logger.error(str(e))
-            await ctx.send(constants.ERROR)
+            await ctx.reply(constants.ERROR)
 
     @commands.command()
     async def cups(self, ctx: commands.Context) -> None:
-        msg = await ctx.send("Pick the cup:")
-        await msg.edit(view=CupGame(timeout=3, msg=msg, ctx=ctx))
+        msg = await ctx.reply("Pick the cup:")
+        await msg.edit(view=CupGame(msg=msg, ctx=ctx, db=self._db))
 
 
 async def setup(bot: commands.Bot):

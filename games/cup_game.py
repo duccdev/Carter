@@ -1,7 +1,6 @@
 from typing import Callable
 from discord.ext.commands import Context
-import discord
-import tools
+import discord, tools, db
 
 
 class CupButton(discord.ui.Button):
@@ -12,22 +11,15 @@ class CupButton(discord.ui.Button):
         this_cup: int,
         correct_cup: int,
         cups: list[discord.ButtonStyle],
-        slurs: list[str] = [
-            "NIGGA",
-            "NIGGER",
-            "RETARD",
-            "CHING CHONG",
-            "CHINK",
-            "CHINKY",
-        ],
         ctx: Context,
+        db: db.DB,
         kill_view: Callable,
     ) -> None:
         self._this_cup = this_cup
         self._correct_cup = correct_cup
         self._cups = cups
-        self._slurs = slurs
         self._ctx = ctx
+        self._db = db
         self._kill_view = kill_view
 
         super().__init__(
@@ -38,8 +30,7 @@ class CupButton(discord.ui.Button):
     async def callback(self, interaction: discord.Interaction) -> None:
         if self._ctx.author != interaction.user:
             await interaction.response.send_message(
-                f"{tools.random.choice(self._slurs)} THIS ISNT YOUR GAME",
-                ephemeral=True,
+                "MF THIS ISNT YOUR GAME", ephemeral=True
             )
 
             return
@@ -84,10 +75,17 @@ class CupButton(discord.ui.Button):
             )
 
             self._kill_view()
+
+            self._db.add_win(
+                "cups",
+                interaction.user.id,
+            )
+            self._db.save()
+
             return
 
         await interaction.response.edit_message(
-            content=f"{tools.random.choice(self._slurs)} IT WAS CUP {self._correct_cup + 1}",
+            content=f"no you dumbass, it was {self._correct_cup + 1}",
             view=view,
         )
 
@@ -105,11 +103,13 @@ class CupGame(discord.ui.View):
             discord.ButtonStyle.blurple,
         ],
         ctx: Context,
+        db: db.DB,
         msg: discord.Message,
     ) -> None:
         self._cups = cups
         self._correct_cup = tools.random.randint(0, len(self._cups) - 1)
         self._ctx = ctx
+        self._db = db
         self._msg = msg
 
         super().__init__(timeout=timeout)
@@ -121,6 +121,7 @@ class CupGame(discord.ui.View):
                     this_cup=i,
                     correct_cup=self._correct_cup,
                     ctx=self._ctx,
+                    db=self._db,
                     cups=self._cups,
                     kill_view=self.stop,
                 )

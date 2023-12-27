@@ -23,9 +23,7 @@ class NSFW(commands.Cog):
             return
 
         if category == "unset" or content_type == "unset":
-            embed = discord.Embed(
-                title=":smirk: NSFW -> Help", color=discord.Color.random()
-            )
+            embed = discord.Embed(title="`cb!nsfw`", color=discord.Color.random())
 
             if self._bot.user:  # i have to do this so python wont annoy me
                 embed.set_thumbnail(url=self._bot.user.display_avatar)
