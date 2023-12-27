@@ -1,42 +1,44 @@
+from config import BOT_PREFIX
+
 ERROR = "i fucked up LMAO :sob:"
 
 HELP_PAGE = [
-    {"name": ":smirk: NSFW", "content": "- Fetch images/GIFs using `cb!nsfw`"},
+    {"name": ":smirk: NSFW", "content": f"- Fetch images/GIFs using `{BOT_PREFIX}nsfw`"},
     {
         "name": ":slight_smile: Fun commands",
-        "content": """
-- Get a random cat using `cb!cat`
-- Get a random dog using `cb!dog`
-- Get a random (useless!) fact using `cb!fact`
-- Get a random meme using `cb!meme`
+        "content": f"""
+- Get a random cat using `{BOT_PREFIX}cat`
+- Get a random dog using `{BOT_PREFIX}dog`
+- Get a random (useless!) fact using `{BOT_PREFIX}fact`
+- Get a random meme using `{BOT_PREFIX}meme`
     """,
     },
     {
         "name": ":game_die: Games",
-        "content": """
-- Get the leaderboard of a game using `cb!leaderboard`
-- Roll the dice using `cb!dice`
-- Get a would you rather question using `cb!wyr`
-- Play a cup game using `cb!cups`
-- Play rock paper scissors using `cb!rps`
+        "content": f"""
+- Get the leaderboard of a game using `{BOT_PREFIX}leaderboard`
+- Roll the dice using `{BOT_PREFIX}dice`
+- Get a would you rather question using `{BOT_PREFIX}wyr`
+- Play a cup game using `{BOT_PREFIX}cups`
+- Play rock paper scissors using `{BOT_PREFIX}rps`
     """,
     },
     {
         "name": ":gear: Other",
-        "content": """
-- Show this help page using `cb!help`
-- Start a server poll using `cb!poll` if permitted
-- Check bot ping using `cb!ping`
+        "content": f"""
+- Show this help page using `{BOT_PREFIX}help`
+- Start a server poll using `{BOT_PREFIX}poll` if permitted
+- Check bot ping using `{BOT_PREFIX}ping`
     """,
     },
 ]
 
 NSFW_HELP_PAGE = [
-    {"name": "Usage", "content": "`cb!nsfw <category> <type>`"},
-    {"name": "Example", "content": "`cb!nsfw blowjob gif`"},
+    {"name": "Usage", "content": f"`{BOT_PREFIX}nsfw <category> <type>`"},
+    {"name": "Example", "content": f"`{BOT_PREFIX}nsfw blowjob gif`"},
     {
         "name": "Categories and types",
-        "content": """
+        "content": f"""
 - `anal` (`gif`)
 - `blowjob` (`gif`)
 - `cum` (`gif`)
@@ -55,17 +57,17 @@ NSFW_HELP_PAGE = [
 ]
 
 POLL_HELP_PAGE = [
-    {"name": "Usage", "content": "`cb!poll <channel> <poll> <emojis>`"},
+    {"name": "Usage", "content": f"`{BOT_PREFIX}poll <channel> <poll> <emojis>`"},
     {
         "name": "Example",
-        "content": '`cb!poll #polls "should i set a minecraft server up for this server?" :x: :white_check_mark:`',
+        "content": f'`{BOT_PREFIX}poll #polls "should i set a minecraft server up for this server?" :x: :white_check_mark:`',
     },
 ]
 
 LEADERBOARD_HELP_PAGE = [
-    {"name": "Usage", "content": "`cb!leaderboard <game>`"},
-    {"name": "Example", "content": "`cb!leaderboard cups`"},
-    {"name": "Supported games", "content": "- `cups`\n- `rps`"},
+    {"name": "Usage", "content": "f`{BOT_PREFIX}leaderboard <game>`"},
+    {"name": "Example", "content": f"`{BOT_PREFIX}leaderboard cups`"},
+    {"name": "Supported games", "content": f"- `cups`\n- `rps`"},
 ]
 
 NSFW_WRONG_CHANNEL = "ayo wtf you doin? take that shit to the nsfw channels!"
