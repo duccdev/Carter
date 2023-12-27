@@ -8,7 +8,7 @@ import tools
 
 class Fun(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
-        self._bot = bot
+        self.bot = bot
 
     @commands.command()
     async def cat(self, ctx: commands.Context) -> None:

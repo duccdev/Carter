@@ -6,14 +6,14 @@ import constants, tools
 
 class Other(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
-        self._bot = bot
+        self.bot = bot
 
     @commands.command()
     async def help(self, ctx: commands.Context) -> None:
         embed = tools.create_embed("Help", constants.HELP_PAGE)
 
-        if self._bot.user:  # i have to do this so python wont annoy me
-            embed.set_thumbnail(url=self._bot.user.display_avatar)
+        if self.bot.user:  # i have to do this so python wont annoy me
+            embed.set_thumbnail(url=self.bot.user.display_avatar)
 
         await ctx.send(embed=embed)
 

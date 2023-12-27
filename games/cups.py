@@ -15,12 +15,12 @@ class CupButton(discord.ui.Button):
         db: db.DB,
         kill_view: Callable,
     ) -> None:
-        self._this_cup = this_cup
-        self._correct_cup = correct_cup
-        self._cups = cups
-        self._ctx = ctx
-        self._db = db
-        self._kill_view = kill_view
+        self.this_cup = this_cup
+        self.correct_cup = correct_cup
+        self.cups = cups
+        self.ctx = ctx
+        self.db = db
+        self.kill_view = kill_view
 
         super().__init__(
             style=style,
@@ -28,7 +28,7 @@ class CupButton(discord.ui.Button):
         )
 
     async def callback(self, interaction: discord.Interaction) -> None:
-        if self._ctx.author != interaction.user:
+        if self.ctx.author != interaction.user:
             await interaction.response.send_message(
                 constants.NON_OWNER_INTERACTION,
                 ephemeral=True,
@@ -39,14 +39,14 @@ class CupButton(discord.ui.Button):
         view = discord.ui.View(timeout=1)
 
         if config.IMPOSSIBLE_GAMES:
-            while self._this_cup == self._correct_cup:
-                self._correct_cup = tools.random.randint(0, len(self._cups) - 1)
+            while self.this_cup == self.correct_cup:
+                self.correct_cup = tools.random.randint(0, len(self.cups) - 1)
 
-        for i in range(len(self._cups)):
-            if self._correct_cup == i:
+        for i in range(len(self.cups)):
+            if self.correct_cup == i:
                 view.add_item(
                     discord.ui.Button(
-                        style=self._cups[i],
+                        style=self.cups[i],
                         emoji="🥎",
                         disabled=True,
                     )
@@ -54,10 +54,10 @@ class CupButton(discord.ui.Button):
 
                 continue
 
-            if self._this_cup == i and self._correct_cup != i:
+            if self.this_cup == i and self.correct_cup != i:
                 view.add_item(
                     discord.ui.Button(
-                        style=self._cups[i],
+                        style=self.cups[i],
                         emoji="❌",
                         disabled=True,
                     )
@@ -67,35 +67,35 @@ class CupButton(discord.ui.Button):
 
             view.add_item(
                 discord.ui.Button(
-                    style=self._cups[i],
+                    style=self.cups[i],
                     emoji="<:cup:1189263945744261121>",
                     disabled=True,
                 )
             )
 
-        if self._this_cup == self._correct_cup:
+        if self.this_cup == self.correct_cup:
             await interaction.response.edit_message(
-                content=f"ok good job, it was indeed cup {self._this_cup + 1} :thumbsup:",
+                content=f"ok good job, it was indeed cup {self.this_cup + 1} :thumbsup:",
                 view=view,
             )
 
-            self._kill_view()
+            self.kill_view()
 
-            self._db.load()
-            self._db.add_win(
+            self.db.load()
+            self.db.add_win(
                 "cups",
                 interaction.user.id,
             )
-            self._db.save()
+            self.db.save()
 
             return
 
         await interaction.response.edit_message(
-            content=f"no you dumbass, it was {self._correct_cup + 1}",
+            content=f"no you dumbass, it was {self.correct_cup + 1}",
             view=view,
         )
 
-        self._kill_view()
+        self.kill_view()
 
 
 class Cups(discord.ui.View):
@@ -112,23 +112,23 @@ class Cups(discord.ui.View):
         db: db.DB,
         msg: discord.Message,
     ) -> None:
-        self._cups = cups
-        self._correct_cup = tools.random.randint(0, len(self._cups) - 1)
-        self._ctx = ctx
-        self._db = db
-        self._msg = msg
+        self.cups = cups
+        self.correct_cup = tools.random.randint(0, len(self.cups) - 1)
+        self.ctx = ctx
+        self.db = db
+        self.msg = msg
 
         super().__init__(timeout=timeout)
 
-        for i in range(len(self._cups)):
+        for i in range(len(self.cups)):
             self.add_item(
                 CupButton(
-                    style=self._cups[i],
+                    style=self.cups[i],
                     this_cup=i,
-                    correct_cup=self._correct_cup,
-                    ctx=self._ctx,
-                    db=self._db,
-                    cups=self._cups,
+                    correct_cup=self.correct_cup,
+                    ctx=self.ctx,
+                    db=self.db,
+                    cups=self.cups,
                     kill_view=self.stop,
                 )
             )
@@ -136,16 +136,16 @@ class Cups(discord.ui.View):
     async def on_timeout(self) -> None:
         view = discord.ui.View(timeout=1)
 
-        for i in range(len(self._cups)):
+        for i in range(len(self.cups)):
             view.add_item(
                 discord.ui.Button(
-                    style=self._cups[i],
+                    style=self.cups[i],
                     emoji="<:cup:1189263945744261121>",
                     disabled=True,
                 )
             )
 
-        await self._msg.edit(
+        await self.msg.edit(
             content=constants.CUPS_TIMEOUT,
             view=view,
         )

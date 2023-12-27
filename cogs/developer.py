@@ -8,7 +8,7 @@ import tools, traceback, os
 
 class Developer(commands.Cog):
     def __init__(self, bot: commands.Bot):
-        self._bot = bot
+        self.bot = bot
 
     def _lazy_paginate(
         self,
@@ -35,7 +35,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def load(self, ctx: commands.Context, cog_name: str):
         try:
-            await self._bot.load_extension(cog_name)
+            await self.bot.load_extension(cog_name)
         except Exception as e:
             if isinstance(e, commands.CheckFailure):
                 pass
@@ -51,7 +51,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def unload(self, ctx: commands.Context, cog_name: str):
         try:
-            await self._bot.unload_extension(cog_name)
+            await self.bot.unload_extension(cog_name)
         except Exception as e:
             if isinstance(e, commands.CheckFailure):
                 pass
@@ -67,7 +67,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def reload(self, ctx: commands.Context, cog_name: str):
         try:
-            await self._bot.reload_extension(cog_name)
+            await self.bot.reload_extension(cog_name)
         except Exception as e:
             if isinstance(e, commands.CheckFailure):
                 pass
@@ -83,7 +83,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def extensions(self, ctx: commands.Context):
         msg = "Extension list:\n"
-        paginated_extlist = self._lazy_paginate(self._bot.extensions)
+        paginated_extlist = self.lazy_paginate(self.bot.extensions)
 
         for outerlist in paginated_extlist:
             msg_item = "- "
@@ -198,7 +198,7 @@ class Developer(commands.Cog):
 
         try:
             with redirect_stdout(stringIO):
-                ret = await locals()["__ex"](ctx, self._bot)
+                ret = await locals()["__ex"](ctx, self.bot)
         except Exception:
             tb = traceback.format_exc().strip().replace("`", "'")
             await ctx.reply(f"traceback:\n```py\n{tb}\n```")

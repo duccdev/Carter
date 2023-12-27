@@ -7,8 +7,8 @@ import asyncio, tools, constants, logger, db
 
 class Games(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
-        self._bot = bot
-        self._db = db.DB()
+        self.bot = bot
+        self.db = db.DB()
 
     @commands.command()
     async def leaderboard(self, ctx: commands.Context, game: str | None) -> None:
@@ -28,8 +28,8 @@ class Games(commands.Cog):
 
             return
 
-        self._db.load()
-        leaderboard = self._db.get_leaderboard(game)
+        self.db.load()
+        leaderboard = self.db.get_leaderboard(game)
 
         if len(leaderboard) > 0:
             players = ""
@@ -75,12 +75,12 @@ class Games(commands.Cog):
     @commands.command()
     async def cups(self, ctx: commands.Context) -> None:
         msg = await ctx.reply("Pick the cup:")
-        await msg.edit(view=Cups(msg=msg, ctx=ctx, db=self._db))
+        await msg.edit(view=Cups(msg=msg, ctx=ctx, db=self.db))
 
     @commands.command()
     async def rps(self, ctx: commands.Context) -> None:
         msg = await ctx.reply("Pick one:")
-        await msg.edit(view=RPSGame(msg=msg, ctx=ctx, db=self._db))
+        await msg.edit(view=RPSGame(msg=msg, ctx=ctx, db=self.db))
 
 
 async def setup(bot: commands.Bot):

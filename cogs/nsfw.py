@@ -7,7 +7,7 @@ import tools
 
 class NSFW(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
-        self._bot = bot
+        self.bot = bot
 
     @commands.command()
     async def nsfw(
@@ -25,8 +25,8 @@ class NSFW(commands.Cog):
         if category == "unset" or content_type == "unset":
             embed = discord.Embed(title="`cb!nsfw`", color=discord.Color.random())
 
-            if self._bot.user:  # i have to do this so python wont annoy me
-                embed.set_thumbnail(url=self._bot.user.display_avatar)
+            if self.bot.user:  # i have to do this so python wont annoy me
+                embed.set_thumbnail(url=self.bot.user.display_avatar)
 
             for field in constants.NSFW_HELP_PAGE:
                 embed.add_field(
