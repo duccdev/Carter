@@ -18,7 +18,12 @@ class Other(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    # @commands.has_permissions(manage_channels=True)
+    async def ping(self, ctx: commands.Context) -> None:
+        await ctx.typing()
+        await ctx.reply(f":ping_pong: `{tools.ping()}`")
+
+    @commands.command()
+    @commands.has_permissions(manage_channels=True)
     async def poll(
         self,
         ctx: commands.Context,

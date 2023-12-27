@@ -7,3 +7,4 @@ from .get_wyr import get_wyr
 from .random import random
 from .reverse_replace import reverse_replace
 from .create_embed import create_embed
+from .ping import ping

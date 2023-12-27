@@ -20,7 +20,14 @@ HELP_PAGE = [
 - Play a cup game using `cb!cups`
     """,
     },
-    {"name": ":gear: Other", "content": "- Show this help page using `cb!help`"},
+    {
+        "name": ":gear: Other",
+        "content": """
+- Show this help page using `cb!help`
+- Start a server poll using `cb!poll` if permitted
+- Check bot ping using `cb!ping`
+    """,
+    },
 ]
 
 NSFW_HELP_PAGE = [
