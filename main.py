@@ -27,6 +27,8 @@ cranberry.setup_hook = setup_hook
 async def on_ready() -> None:
     if devmode:
         await cranberry.change_presence(activity=Game("with myself (Devmode)"))
+    else:
+        await cranberry.change_presence(activity=Game("with myself"))
 
     logger.info("Ready!")
 
