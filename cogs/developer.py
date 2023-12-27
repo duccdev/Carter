@@ -104,6 +104,8 @@ class Developer(commands.Cog):
     @commands.command("dev-eval")
     @commands.is_owner()
     async def deveval(self, ctx: commands.Context):
+        await ctx.typing()
+
         code = tools.reverse_replace(
             ctx.message.content.replace(f"{BOT_PREFIX}dev-eval", "", 1).replace(
                 "```py", "", 1
@@ -143,6 +145,8 @@ class Developer(commands.Cog):
     @commands.command("dev-exec")
     @commands.is_owner()
     async def devexec(self, ctx: commands.Context):
+        await ctx.typing()
+
         code = tools.reverse_replace(
             ctx.message.content.replace(f"{BOT_PREFIX}dev-exec", "", 1).replace(
                 "```py", "", 1
@@ -178,6 +182,8 @@ class Developer(commands.Cog):
     @commands.command("dev-run-async")
     @commands.is_owner()
     async def devrunasync(self, ctx: commands.Context):
+        await ctx.typing()
+
         code = tools.reverse_replace(
             ctx.message.content.replace(f"{BOT_PREFIX}dev-run-async", "", 1).replace(
                 "```py", "", 1
