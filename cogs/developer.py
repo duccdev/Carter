@@ -2,6 +2,7 @@ from contextlib import redirect_stdout
 from io import StringIO
 from typing import Any, Mapping
 from discord.ext import commands
+from config import BOT_PREFIX
 import tools, traceback, os
 
 
@@ -103,7 +104,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def deveval(self, ctx: commands.Context):
         code = tools.reverse_replace(
-            ctx.message.content.replace("cb!dev-eval", "", 1).replace("```py", "", 1),
+            ctx.message.content.replace(f"{BOT_PREFIX}dev-eval", "", 1).replace("```py", "", 1),
             "```",
             "",
             1,
@@ -136,7 +137,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def devexec(self, ctx: commands.Context):
         code = tools.reverse_replace(
-            ctx.message.content.replace("cb!dev-exec", "", 1).replace("```py", "", 1),
+            ctx.message.content.replace("{BOT_PREFIX}dev-exec", "", 1).replace("```py", "", 1),
             "```",
             "",
             1,
@@ -169,7 +170,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def devrunasync(self, ctx: commands.Context):
         code = tools.reverse_replace(
-            ctx.message.content.replace("cb!dev-run-async", "", 1).replace(
+            ctx.message.content.replace("{BOT_PREFIX}dev-run-async", "", 1).replace(
                 "```py", "", 1
             ),
             "```",
