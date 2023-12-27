@@ -38,22 +38,20 @@ class RPSButton(discord.ui.Button):
         if config.IMPOSSIBLE_GAMES:
             if self._this_choice != self._ai_choice:
                 if (
-                    (
-                        self._this_choice == constants.ROCK
-                        and self._ai_choice == constants.SCISSORS
-                    )
-                    or (
-                        self._this_choice == constants.SCISSORS
-                        and self._ai_choice == constants.PAPER
-                    )
-                    or (
-                        self._this_choice == constants.PAPER
-                        and self._ai_choice == constants.ROCK
-                    )
+                    self._this_choice == constants.ROCK
+                    and self._ai_choice == constants.SCISSORS
                 ):
-                    tmp = self._ai_choice
-                    self._ai_choice = self._this_choice
-                    self._this_choice = tmp
+                    self._ai_choice = constants.PAPER
+                elif (
+                    self._this_choice == constants.SCISSORS
+                    and self._ai_choice == constants.PAPER
+                ):
+                    self._ai_choice = constants.ROCK
+                elif (
+                    self._this_choice == constants.PAPER
+                    and self._ai_choice == constants.ROCK
+                ):
+                    self._ai_choice = constants.SCISSORS
 
         view = discord.ui.View(timeout=1)
 
