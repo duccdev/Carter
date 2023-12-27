@@ -1,6 +1,7 @@
 from discord.ext import commands
 from discord import Embed, Color
-from games.cup_game import CupGame
+from games.cups import Cups
+from games.rps import RPSGame
 import asyncio, tools, constants, logger, db
 
 
@@ -71,7 +72,12 @@ class Games(commands.Cog):
     @commands.command()
     async def cups(self, ctx: commands.Context) -> None:
         msg = await ctx.reply("Pick the cup:")
-        await msg.edit(view=CupGame(msg=msg, ctx=ctx, db=self._db))
+        await msg.edit(view=Cups(msg=msg, ctx=ctx, db=self._db))
+
+    @commands.command()
+    async def rps(self, ctx: commands.Context) -> None:
+        msg = await ctx.reply("Pick one:")
+        await msg.edit(view=RPSGame(msg=msg, ctx=ctx, db=self._db))
 
 
 async def setup(bot: commands.Bot):

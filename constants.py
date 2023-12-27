@@ -76,4 +76,16 @@ LEADERBOARD_NO_PLAYERS = (
     "yeah uh there are no players currently on the leaderboard :skull_crossbones:"
 )
 
+NON_OWNER_INTERACTION = "MF THIS ISNT YOURS"
+CUPS_TIMEOUT = "bro you really took THAT long to press a FUCKING BUTTON??"
+
+ROCK = 0
+PAPER = 1
+SCISSOR = 2
+
+RPS_TIMEOUT = "fucker stop overthinking what to choose"
+RPS_TIE = "oop its a tie"
+RPS_WIN = "soo YOU WON!"
+RPS_LOSE = "soo YOU FUCKING LOST :skull_crossbones:"
+
 DUCC = 719562834295390299

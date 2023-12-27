@@ -1,6 +1,6 @@
 from typing import Callable
 from discord.ext.commands import Context
-import discord, tools, db
+import discord, tools, db, constants
 
 
 class CupButton(discord.ui.Button):
@@ -30,7 +30,7 @@ class CupButton(discord.ui.Button):
     async def callback(self, interaction: discord.Interaction) -> None:
         if self._ctx.author != interaction.user:
             await interaction.response.send_message(
-                "NIGGA THIS ISNT YOUR GAME",
+                constants.NON_OWNER_INTERACTION,
                 ephemeral=True,
             )
 
@@ -93,7 +93,7 @@ class CupButton(discord.ui.Button):
         self._kill_view()
 
 
-class CupGame(discord.ui.View):
+class Cups(discord.ui.View):
     def __init__(
         self,
         *,
@@ -141,6 +141,6 @@ class CupGame(discord.ui.View):
             )
 
         await self._msg.edit(
-            content="bro you really took THAT long to press a FUCKING BUTTON??",
+            content=constants.CUPS_TIMEOUT,
             view=view,
         )
