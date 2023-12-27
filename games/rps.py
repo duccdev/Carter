@@ -1,6 +1,6 @@
 from typing import Callable
 from discord.ext.commands import Context
-import discord, tools, db, constants
+import discord, tools, db, constants, config
 
 
 class RPSButton(discord.ui.Button):
@@ -34,6 +34,26 @@ class RPSButton(discord.ui.Button):
             )
 
             return
+
+        if config.IMPOSSIBLE_GAMES:
+            if self._this_choice != self._ai_choice:
+                if (
+                    (
+                        self._this_choice == constants.ROCK
+                        and self._ai_choice == constants.SCISSORS
+                    )
+                    or (
+                        self._this_choice == constants.SCISSORS
+                        and self._ai_choice == constants.PAPER
+                    )
+                    or (
+                        self._this_choice == constants.PAPER
+                        and self._ai_choice == constants.ROCK
+                    )
+                ):
+                    tmp = self._ai_choice
+                    self._ai_choice = self._this_choice
+                    self._this_choice = tmp
 
         view = discord.ui.View(timeout=1)
 

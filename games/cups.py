@@ -1,6 +1,6 @@
 from typing import Callable
 from discord.ext.commands import Context
-import discord, tools, db, constants
+import discord, tools, db, constants, config
 
 
 class CupButton(discord.ui.Button):
@@ -37,6 +37,13 @@ class CupButton(discord.ui.Button):
             return
 
         view = discord.ui.View(timeout=1)
+
+        if config.IMPOSSIBLE_GAMES:
+            if self._this_cup == self._correct_cup:
+                new_correct_cup = self._this_cup + 1
+
+                if new_correct_cup > len(self._cups):
+                    new_correct_cup -= 2
 
         for i in range(len(self._cups)):
             if self._correct_cup == i:
