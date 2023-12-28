@@ -131,7 +131,7 @@ fr means for real
 ong means on god, its a joke way of saying omg
 bruh is a method of expressing disappointment
 wym, wdym means what do you mean
-bro, blud, dawg, blawg, cuh either refer to someone or used when talking to a user or you
+bro, blud, dawg, blawg, cuh either refer to someone or used when talking to a user or youz
 
 These emojis have (somehow) become a laughing emoji: 💀 😭
 Do not use emojis at all, only understand them.
