@@ -19,4 +19,10 @@ except Exception as e:
     logger.error(str(e))
     exit(1)
 
+logger.info("enabling and starting service...")
+
+if os.system("sudo systemctl enable --now CranberryBot") != 0:
+    logger.error("failed!")
+    exit(1)
+
 logger.info("done")
