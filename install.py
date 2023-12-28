@@ -11,7 +11,12 @@ if os.system("python3 -m venv .venv") != 0:
 
 logger.info("installing dependencies...")
 
-if os.system("pip3 install -U -r requirements.txt") != 0:
+if (
+    os.system(
+        "source .venv/bin/activate && .venv/bin/pip3 install -U -r requirements.txt"
+    )
+    != 0
+):
     logger.error("failed!")
 
 logger.info("installing systemd service...")
