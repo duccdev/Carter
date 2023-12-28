@@ -23,7 +23,7 @@ def construct_req(
     sender_id: int,
     img_descriptions: list[str] = [],
 ) -> str:
-    req = f"{req}\n{(history or '')}\n<@{sender_id}>: {msg}"
+    req = f"{req}\n{history}\n<@{sender_id}>: {msg}"
 
     if img_descriptions:
         for i in range(len(img_descriptions)):
