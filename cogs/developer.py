@@ -236,7 +236,13 @@ class Developer(commands.Cog):
     async def devupdate(self, ctx: commands.Context):
         await ctx.send("running `git pull`...")
 
-        if os.system("git pull") == 1:
+        if os.system("git pull") != 0:
+            await ctx.send("failed!")
+            return
+
+        await ctx.send("updating pip packages...")
+
+        if os.system("pip install -U -r requirements.txt") != 0:
             await ctx.send("failed!")
             return
 
