@@ -64,4 +64,4 @@ class DB:
         self.data["msg_history"][str(id)] += f"\n{msg}"
 
     def clear_msg_history(self):
-        self.data["msg_history"] = ""
+        self.data["msg_history"] = {}
