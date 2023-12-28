@@ -7,7 +7,7 @@ from threading import Timer
 class DB:
     def __init__(self, path: str = "db.json") -> None:
         self.path = path
-        self.data: dict[str, Any] = {"leaderboards": {}}
+        self.data: dict[str, Any] = {"leaderboards": {}, "msg_history": {}}
 
         if not os.path.exists(self.path):
             with open(self.path, "w") as fp:
@@ -50,21 +50,18 @@ class DB:
             )
         )
 
-    def get_msg_history(self) -> str:
-        if not self.data.get("msg_history"):
-            return ""
+    def set_msg_history(self, history: str, id: int):
+        self.data["msg_history"][str(id)] = history
 
-        return self.data["msg_history"]
+    def get_msg_history(self, id: int) -> str:
+        return self.data["msg_history"].get(str(id), "")
 
-    def set_msg_history(self, history: str):
-        self.data["msg_history"] = history
-
-    def add_msg(self, msg: str):
-        if not self.data.get("msg_history"):
-            self.data["msg_history"] = msg
+    def add_msg(self, msg: str, id: int):
+        if not self.data["msg_history"].get(str(id)):
+            self.data["msg_history"][str(id)] = msg
             return
 
-        self.data["msg_history"] += f"\n{msg}"
+        self.data["msg_history"][str(id)] += f"\n{msg}"
 
     def clear_msg_history(self):
         del self.data["msg_history"]

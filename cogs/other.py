@@ -93,14 +93,9 @@ class Other(commands.Cog):
 
             await msg.reply(res)
             self.db.load()
-            self.db.add_msg(msg.content)
-            self.db.add_msg(res)
+            self.db.add_msg(msg.content, msg.author.id)
             self.db.save()
             return
-
-        self.db.load()
-        self.db.add_msg(msg.content)
-        self.db.save()
 
 
 async def setup(bot: commands.Bot) -> None:

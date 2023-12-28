@@ -40,7 +40,7 @@ async def send(
     db.load()
 
     prompt = constants.AI_PROMPT
-    history = db.get_msg_history()
+    history = db.get_msg_history(sender_id)
     img_descriptions: list[str] = []
 
     try:
@@ -78,7 +78,7 @@ async def send(
 
         req = reconstruct_req()
 
-    db.set_msg_history(history)
+    db.set_msg_history(history, sender_id)
     db.save()
 
     try:
