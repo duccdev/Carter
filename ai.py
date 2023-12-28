@@ -36,7 +36,7 @@ async def send(
     msg: str,
     sender_id: int,
     imgs: list[PIL.Image.Image] = [],
-) -> str | Exception:
+) -> dict[str, str | list[str]] | Exception:
     db.load()
 
     prompt = constants.AI_PROMPT
@@ -82,10 +82,13 @@ async def send(
     db.save()
 
     try:
-        return (
-            await gemini_pro.start_chat().send_message_async(
-                req, safety_settings=safety_settings
-            )
-        ).text
+        return {
+            "response": (
+                await gemini_pro.start_chat().send_message_async(
+                    req, safety_settings=safety_settings
+                )
+            ).text,
+            "images": img_descriptions,
+        }
     except Exception as e:
         return e

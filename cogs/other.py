@@ -92,9 +92,12 @@ class Other(commands.Cog):
                 await msg.reply(f"`{str(res)}`")
                 return
 
-            await msg.reply(res)
+            await msg.reply(str(res["response"]))
             self.db.load()
-            self.db.add_msg(msg.content, msg.author.id)
+            self.db.add_msg(
+                f"<@{msg.author.id}>: {msg.content}>\nCranberryBot: {res['response']}{''.join(res['images'])}",
+                msg.author.id,
+            )
             self.db.save()
 
 
