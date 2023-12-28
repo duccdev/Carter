@@ -246,7 +246,7 @@ class Developer(commands.Cog):
             return
 
         await ctx.send("restarting...")
-        os.system("sudo systemctl restart cranberrybot")
+        os.system("sudo systemctl restart CranberryBot")
 
     @commands.command("dev-system")
     @commands.is_owner()
@@ -273,7 +273,7 @@ class Developer(commands.Cog):
     async def devresetmsghistory(self, ctx: commands.Context):
         await ctx.typing()
         self.db.load()
-        self.db.set_msg_history("")
+        self.db.clear_msg_history()
         self.db.save()
         await ctx.reply("done")
 
