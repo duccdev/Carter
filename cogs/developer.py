@@ -199,8 +199,8 @@ class Developer(commands.Cog):
 
         try:
             exec(
-                "import discord\nfrom discord.ext import commands\n"
-                + "async def __ex(ctx: commands.Context, bot: commands.Bot): "
+                "async def __ex(ctx: commands.Context, bot: commands.Bot): "
+                + "\n import discord\n from discord.ext import commands\n "
                 + "".join(f"\n {l}" for l in code.split("\n"))
             )
         except Exception:
