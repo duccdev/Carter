@@ -1,16 +1,29 @@
 #!/bin/python3
-import os, logger
+import os, logger, getpass
 
-user = input("User to install as [root]: ").strip() or "root"
+if getpass.getuser() != "root":
+    logger.error("please re-run with sudo!")
+    exit(1)
+
+user = input("user to install as [root]: ").strip() or "root"
 cwd = os.getcwd()
+
+logger.info("setting up venv...")
+os.system(f'su {user} -c "python3 -m venv .venv"')
+
+logger.info("installing dependencies...")
+os.system(
+    f'su {user} -c "source .venv/bin/activate && .venv/bin/pip3 install -U -r requirements.txt"'
+)
 
 logger.info("installing systemd service...")
 
 with open("CranberryBot.service") as fp:
     service = fp.read()
 
-service.replace("USER_GOES_HERE", user)
-service.replace("WORKING_DIRECTORY_GOES_HERE", cwd)
+service = service.replace("USER_GOES_HERE", user).replace(
+    "WORKING_DIRECTORY_GOES_HERE", cwd
+)
 
 try:
     with open("/lib/systemd/system/CranberryBot.service", "w") as fp:
