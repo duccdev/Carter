@@ -1,4 +1,7 @@
 from config import BOT_PREFIX
+import colors
+
+LOG_PREFIX = f"[{colors.RED}Cranberry{colors.END}Bot]"
 
 ERROR = "i fucked up LMAO :sob:"
 
