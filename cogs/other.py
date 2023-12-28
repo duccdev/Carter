@@ -1,12 +1,14 @@
 from discord.ext import commands
 from discord import Embed, Color, Message, TextChannel
 from emoji import is_emoji
-import asyncio, constants, tools, google.generativeai as genai
+from db import DB
+import constants, tools, ai
 
 
 class Other(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
+        self.db = DB()
 
     @commands.command()
     async def help(self, ctx: commands.Context) -> None:
@@ -52,6 +54,32 @@ class Other(commands.Cog):
 
         for arg in args:
             await msg.add_reaction(arg)
+
+    @commands.Cog.listener()
+    async def on_message(self, msg: Message):
+        if not self.bot.user:
+            return
+
+        if msg.author.id == self.bot.user.id:
+            return
+
+        if self.bot.user in msg.mentions:
+            async with msg.channel.typing():
+                res = (
+                    await ai.send(msg.content, msg.author.id, None)
+                    or "`prompt/response blocked for unsafe content`"
+                )
+
+            await msg.reply(res)
+            self.db.load()
+            self.db.add_msg(msg.content)
+            self.db.add_msg(res)
+            self.db.save()
+            return
+
+        self.db.load()
+        self.db.add_msg(msg.content)
+        self.db.save()
 
 
 async def setup(bot: commands.Bot) -> None:

@@ -1,15 +1,25 @@
+from typing import Any
 import json
 import os
+from threading import Timer
 
 
 class DB:
     def __init__(self, path: str = "db.json") -> None:
         self.path = path
-        self.data = {"leaderboards": {}}
+        self.data: dict[str, Any] = {"leaderboards": {}}
 
         if not os.path.exists(self.path):
             with open(self.path, "w") as fp:
                 json.dump(self.data, fp)
+
+        def clean_up():
+            self.load()
+            self.clear_msg_history()
+            self.save()
+            Timer(60 * 10, clean_up)
+
+        Timer(60 * 10, clean_up)
 
     def save(self) -> None:
         with open(self.path, "w") as fp:
@@ -39,3 +49,22 @@ class DB:
                 reverse=True,
             )
         )
+
+    def get_msg_history(self) -> str:
+        if not self.data.get("msg_history"):
+            return ""
+
+        return self.data["msg_history"]
+
+    def set_msg_history(self, history: str):
+        self.data["msg_history"] = history
+
+    def add_msg(self, msg: str):
+        if not self.data.get("msg_history"):
+            self.data["msg_history"] = msg
+            return
+
+        self.data["msg_history"] += f"\n{msg}"
+
+    def clear_msg_history(self):
+        del self.data["msg_history"]

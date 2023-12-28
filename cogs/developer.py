@@ -4,12 +4,14 @@ from typing import Any, Mapping
 from discord.ext import commands
 from config import BOT_PREFIX
 from subprocess import run
+from db import DB
 import tools, traceback, os
 
 
 class Developer(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.db = DB()
 
     def lazy_paginate(
         self,
@@ -265,6 +267,15 @@ class Developer(commands.Cog):
             msg += f"return value: `{output.returncode}`"
 
             await ctx.reply(msg)
+
+    @commands.command("dev-reset-msg-history")
+    @commands.is_owner()
+    async def devresetmsghistory(self, ctx: commands.Context):
+        await ctx.typing()
+        self.db.load()
+        self.db.set_msg_history("")
+        self.db.save()
+        await ctx.reply("done")
 
 
 async def setup(bot: commands.Bot) -> None:

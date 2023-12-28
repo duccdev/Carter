@@ -10,6 +10,7 @@ IMPOSSIBLE_GAMES = False
 CAT_API_KEY = "you dont get to"
 DOG_API_KEY = "see my api keys either"
 RAPIDAPI_KEY = "no not this either"
+GENAI_API_KEY = "why are you still looking for keys jesus"
 
 FACTS_ROUTE = "https://uselessfacts.jsph.pl/api/v2/facts/random"
 CATS_ROUTE = "https://api.thecatapi.com/v1/images/search"
