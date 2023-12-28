@@ -89,7 +89,7 @@ class Other(commands.Cog):
                 res = await ai.send(msg.content, msg.author.id, imgs)
 
             if isinstance(res, Exception):
-                await msg.reply(f"`{str(res)}`")
+                await msg.reply(f"```\n{str(res)}```")
                 return
 
             await msg.reply(str(res["response"]))
