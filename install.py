@@ -13,11 +13,12 @@ logger.info("installing dependencies...")
 
 if (
     os.system(
-        "source .venv/bin/activate && .venv/bin/pip3 install -U -r requirements.txt"
+        'bash -c "source .venv/bin/activate && .venv/bin/pip3 install -U -r requirements.txt"'
     )
     != 0
 ):
     logger.error("failed!")
+    exit(1)
 
 logger.info("installing systemd service...")
 
