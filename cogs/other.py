@@ -86,16 +86,16 @@ class Other(commands.Cog):
 
                             os.remove(imgpath)
 
-                res = (
-                    await ai.send(msg.content, msg.author.id, imgs)
-                    or "`prompt/response blocked for unsafe content`"
-                )
+                res = await ai.send(msg.content, msg.author.id, imgs)
+
+            if isinstance(res, Exception):
+                await msg.reply(str(res))
+                return
 
             await msg.reply(res)
             self.db.load()
             self.db.add_msg(msg.content, msg.author.id)
             self.db.save()
-            return
 
 
 async def setup(bot: commands.Bot) -> None:

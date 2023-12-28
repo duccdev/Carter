@@ -36,7 +36,7 @@ async def send(
     msg: str,
     sender_id: int,
     imgs: list[PIL.Image.Image] = [],
-) -> str | None:
+) -> str | Exception:
     db.load()
 
     prompt = constants.AI_PROMPT
@@ -88,4 +88,4 @@ async def send(
             )
         ).text
     except Exception as e:
-        print(f"{type(e).__name__}: {e}")
+        return e
