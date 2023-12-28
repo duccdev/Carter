@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord import Embed, Color, Message, TextChannel
 from emoji import is_emoji
 from db import DB
-import constants, tools, ai
+import constants, tools, ai, os, PIL.Image
 
 
 class Other(commands.Cog):
@@ -65,8 +65,29 @@ class Other(commands.Cog):
 
         if self.bot.user in msg.mentions:
             async with msg.channel.typing():
+                imgs: list[PIL.Image.Image] = []
+
+                if msg.attachments:
+                    for attachment in msg.attachments:
+                        if (
+                            attachment.content_type
+                            and attachment.content_type.startswith("image/")
+                            and attachment.content_type != "image/gif"
+                        ):
+                            imgpath = f"/tmp/{attachment.filename}"
+
+                            with open(imgpath, "wb") as fp:
+                                await attachment.save(fp)
+
+                            img = PIL.Image.open(imgpath)
+                            img.load()
+
+                            imgs.append(img)
+
+                            os.remove(imgpath)
+
                 res = (
-                    await ai.send(msg.content, msg.author.id, None)
+                    await ai.send(msg.content, msg.author.id, imgs)
                     or "`prompt/response blocked for unsafe content`"
                 )
 

@@ -21,12 +21,13 @@ def construct_req(
     history: str,
     msg: str,
     sender_id: int,
-    img: str = "",
+    img_descriptions: list[str] = [],
 ) -> str:
     req = f"{req}\n{(history or '')}\n<@{sender_id}>: {msg}"
 
-    if img:
-        req += f"\nAttached image description:{img}"
+    if img_descriptions:
+        for i in range(len(img_descriptions)):
+            req += f"\nAttached image #{i} description: {img_descriptions[i]}"
 
     return req
 
@@ -34,25 +35,30 @@ def construct_req(
 async def send(
     msg: str,
     sender_id: int,
-    img: PIL.Image.Image | None = None,
+    imgs: list[PIL.Image.Image] = [],
 ) -> str | None:
     db.load()
 
     prompt = constants.AI_PROMPT
     history = db.get_msg_history()
-    img_desc = ""
+    img_descriptions: list[str] = []
 
     try:
-        if img:
-            img_desc = (
-                await gemini_pro_vision.generate_content_async(
-                    img, safety_settings=safety_settings
+        if imgs:
+            for img in imgs:
+                img_descriptions.append(
+                    (
+                        await gemini_pro_vision.generate_content_async(
+                            img, safety_settings=safety_settings
+                        )
+                    ).text
                 )
-            ).text
     except:
         pass
 
-    reconstruct_req = lambda: construct_req(prompt, history, msg, sender_id, img_desc)
+    reconstruct_req = lambda: construct_req(
+        prompt, history, msg, sender_id, img_descriptions
+    )
 
     req = reconstruct_req()
 
