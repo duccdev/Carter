@@ -1,0 +1,12 @@
+[Unit]
+Description=CranberryBot
+After=network.target
+
+[Service]
+Type=simple
+User=USER_GOES_HERE
+WorkingDirectory=WORKING_DIRECTORY_GOES_HERE
+ExecStart=WORKING_DIRECTORY_GOES_HERE/prod.sh
+
+[Install]
+WantedBy=multi-user.target
