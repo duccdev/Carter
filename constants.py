@@ -3,7 +3,10 @@ from config import BOT_PREFIX
 ERROR = "i fucked up LMAO :sob:"
 
 HELP_PAGE = [
-    {"name": ":smirk: NSFW", "content": f"- Fetch images/GIFs using `{BOT_PREFIX}nsfw`"},
+    {
+        "name": ":smirk: NSFW",
+        "content": f"- Fetch images/GIFs using `{BOT_PREFIX}nsfw`",
+    },
     {
         "name": ":slight_smile: Fun commands",
         "content": f"""
@@ -29,6 +32,7 @@ HELP_PAGE = [
 - Show this help page using `{BOT_PREFIX}help`
 - Start a server poll using `{BOT_PREFIX}poll` if permitted
 - Check bot ping using `{BOT_PREFIX}ping`
+- Chat with the bot by pinging/replying to it
     """,
     },
 ]
@@ -90,5 +94,3 @@ RPS_TIMEOUT = "fucker stop overthinking what to choose"
 RPS_TIE = "oop its a tie"
 RPS_WIN = "soo YOU WON WOOOO"
 RPS_LOSE = "soo you lost lmaooooo"
-
-DUCC = 719562834295390299

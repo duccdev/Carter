@@ -1,7 +1,7 @@
 from discord.ext import commands
-from discord import Embed, Color, TextChannel
+from discord import Embed, Color, Message, TextChannel
 from emoji import is_emoji
-import constants, tools
+import asyncio, constants, tools, google.generativeai as genai
 
 
 class Other(commands.Cog):

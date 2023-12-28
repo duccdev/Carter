@@ -41,12 +41,12 @@ class Developer(commands.Cog):
             if isinstance(e, commands.CheckFailure):
                 pass
             else:
-                await ctx.send(
+                await ctx.reply(
                     f"error occured while loading the extension `{cog_name}`\n"
                     f"`{e.__class__.__name__}: {str(e)}`"
                 )
 
-        await ctx.send(f"loaded the extension: `{cog_name}`")
+        await ctx.reply(f"loaded the extension: `{cog_name}`")
 
     @commands.command("dev-unload")
     @commands.is_owner()
@@ -57,12 +57,12 @@ class Developer(commands.Cog):
             if isinstance(e, commands.CheckFailure):
                 pass
             else:
-                await ctx.send(
+                await ctx.reply(
                     f"error occured while unloading the extension `{cog_name}`\n"
                     f"`{e.__class__.__name__}: {str(e)}`"
                 )
 
-        await ctx.send(f"unloaded the extension: `{cog_name}`")
+        await ctx.reply(f"unloaded the extension: `{cog_name}`")
 
     @commands.command("dev-reload")
     @commands.is_owner()
@@ -73,12 +73,12 @@ class Developer(commands.Cog):
             if isinstance(e, commands.CheckFailure):
                 pass
             else:
-                await ctx.send(
+                await ctx.reply(
                     f"error occured while reloading the extension `{cog_name}`\n"
                     f"`{e.__class__.__name__}: {str(e)}`"
                 )
 
-        await ctx.send(f"reloaded the extension: `{cog_name}`")
+        await ctx.reply(f"reloaded the extension: `{cog_name}`")
 
     @commands.command("dev-extensions")
     @commands.is_owner()
@@ -99,137 +99,134 @@ class Developer(commands.Cog):
 
             msg += msg_item + "\n"
 
-        await ctx.send(msg)
+        await ctx.reply(msg)
 
     @commands.command("dev-eval")
     @commands.is_owner()
     async def deveval(self, ctx: commands.Context):
-        await ctx.typing()
+        async with ctx.typing():
+            code = tools.reverse_replace(
+                ctx.message.content.replace(f"{BOT_PREFIX}dev-eval", "", 1).replace(
+                    "```py", "", 1
+                ),
+                "```",
+                "",
+                1,
+            ).strip()
 
-        code = tools.reverse_replace(
-            ctx.message.content.replace(f"{BOT_PREFIX}dev-eval", "", 1).replace(
-                "```py", "", 1
-            ),
-            "```",
-            "",
-            1,
-        ).strip()
+            if not code:
+                await ctx.reply(f"usage: `{BOT_PREFIX}dev-eval <py-codeblock>`")
+                return
 
-        if not code:
-            await ctx.reply(f"usage: `{BOT_PREFIX}dev-eval <py-codeblock>`")
-            return
+            stringIO = StringIO()
+            ret: Any
 
-        stringIO = StringIO()
-        ret: Any
+            try:
+                with redirect_stdout(stringIO):
+                    ret = eval(code)
+            except Exception:
+                tb = traceback.format_exc().strip().replace("`", "'")
+                await ctx.reply(f"traceback:\n```py\n{tb}\n```")
+                return
 
-        try:
-            with redirect_stdout(stringIO):
-                ret = eval(code)
-        except Exception:
-            tb = traceback.format_exc().strip().replace("`", "'")
-            await ctx.reply(f"traceback:\n```py\n{tb}\n```")
-            return
+            ret = str(ret).strip().replace("`", "'")
+            stdout = stringIO.getvalue().strip().replace("`", "'")
 
-        ret = str(ret).strip().replace("`", "'")
-        stdout = stringIO.getvalue().strip().replace("`", "'")
+            msg = ""
 
-        msg = ""
+            if stdout:
+                msg += f"stdout:\n```\n{stdout}\n```"
 
-        if stdout:
-            msg += f"stdout:\n```\n{stdout}\n```"
+            msg += f"return:\n```py\n{ret}\n```"
 
-        msg += f"return:\n```py\n{ret}\n```"
-
-        await ctx.reply(msg)
+            await ctx.reply(msg)
 
     @commands.command("dev-exec")
     @commands.is_owner()
     async def devexec(self, ctx: commands.Context):
-        await ctx.typing()
+        async with ctx.typing():
+            code = tools.reverse_replace(
+                ctx.message.content.replace(f"{BOT_PREFIX}dev-exec", "", 1).replace(
+                    "```py", "", 1
+                ),
+                "```",
+                "",
+                1,
+            ).strip()
 
-        code = tools.reverse_replace(
-            ctx.message.content.replace(f"{BOT_PREFIX}dev-exec", "", 1).replace(
-                "```py", "", 1
-            ),
-            "```",
-            "",
-            1,
-        ).strip()
+            stringIO = StringIO()
+            ret: Any
 
-        stringIO = StringIO()
-        ret: Any
+            try:
+                with redirect_stdout(stringIO):
+                    ret = exec(code)
+            except Exception:
+                tb = traceback.format_exc().strip().replace("`", "'")
+                await ctx.reply(f"traceback:\n```py\n{tb}\n```")
+                return
 
-        try:
-            with redirect_stdout(stringIO):
-                ret = exec(code)
-        except Exception:
-            tb = traceback.format_exc().strip().replace("`", "'")
-            await ctx.reply(f"traceback:\n```py\n{tb}\n```")
-            return
+            ret = str(ret).strip().replace("`", "'")
+            stdout = stringIO.getvalue().strip().replace("`", "'")
 
-        ret = str(ret).strip().replace("`", "'")
-        stdout = stringIO.getvalue().strip().replace("`", "'")
+            msg = ""
 
-        msg = ""
+            if stdout:
+                msg += f"stdout:\n```\n{stdout}\n```"
 
-        if stdout:
-            msg += f"stdout:\n```\n{stdout}\n```"
+            msg += f"return:\n```py\n{ret}\n```"
 
-        msg += f"return:\n```py\n{ret}\n```"
-
-        await ctx.reply(msg)
+            await ctx.reply(msg)
 
     @commands.command("dev-run-async")
     @commands.is_owner()
     async def devrunasync(self, ctx: commands.Context):
-        await ctx.typing()
+        async with ctx.typing():
+            code = tools.reverse_replace(
+                ctx.message.content.replace(
+                    f"{BOT_PREFIX}dev-run-async", "", 1
+                ).replace("```py", "", 1),
+                "```",
+                "",
+                1,
+            ).strip()
 
-        code = tools.reverse_replace(
-            ctx.message.content.replace(f"{BOT_PREFIX}dev-run-async", "", 1).replace(
-                "```py", "", 1
-            ),
-            "```",
-            "",
-            1,
-        ).strip()
+            if not code:
+                await ctx.reply(f"usage: `{BOT_PREFIX}dev-run-async <py-codeblock>`")
+                return
 
-        if not code:
-            await ctx.reply(f"usage: `{BOT_PREFIX}dev-run-async <py-codeblock>`")
-            return
+            try:
+                exec(
+                    "async def __ex(ctx: commands.Context, bot: commands.Bot): "
+                    + "\n import discord\n from discord.ext import commands\n "
+                    + "".join(f"\n {l}" for l in code.split("\n"))
+                )
+            except Exception:
+                tb = traceback.format_exc().strip().replace("`", "'")
+                await ctx.reply(f"traceback:\n```py\n{tb}\n```")
+                return
 
-        try:
-            exec(
-                "async def __ex(ctx: commands.Context, bot: commands.Bot): "
-                + "\n import discord\n from discord.ext import commands\n "
-                + "".join(f"\n {l}" for l in code.split("\n"))
-            )
-        except Exception:
-            tb = traceback.format_exc().strip().replace("`", "'")
-            await ctx.reply(f"traceback:\n```py\n{tb}\n```")
-            return
+            stringIO = StringIO()
+            ret: Any
 
-        stringIO = StringIO()
-        ret: Any
+            try:
+                with redirect_stdout(stringIO):
+                    ret = await locals()["__ex"](ctx, self.bot)
+            except Exception:
+                tb = traceback.format_exc().strip().replace("`", "'")
+                await ctx.reply(f"traceback:\n```py\n{tb}\n```")
+                return
 
-        try:
-            with redirect_stdout(stringIO):
-                ret = await locals()["__ex"](ctx, self.bot)
-        except Exception:
-            tb = traceback.format_exc().strip().replace("`", "'")
-            await ctx.reply(f"traceback:\n```py\n{tb}\n```")
-            return
+            ret = str(ret).strip().replace("`", "'")
+            stdout = stringIO.getvalue().strip().replace("`", "'")
 
-        ret = str(ret).strip().replace("`", "'")
-        stdout = stringIO.getvalue().strip().replace("`", "'")
+            msg = ""
 
-        msg = ""
+            if stdout:
+                msg += f"stdout:\n```\n{stdout}\n```"
 
-        if stdout:
-            msg += f"stdout:\n```\n{stdout}\n```"
+            msg += f"return:\n```py\n{ret}\n```"
 
-        msg += f"return:\n```py\n{ret}\n```"
-
-        await ctx.reply(msg)
+            await ctx.reply(msg)
 
     @commands.command("dev-update")
     @commands.is_owner()
@@ -252,23 +249,22 @@ class Developer(commands.Cog):
     @commands.command("dev-system")
     @commands.is_owner()
     async def devsystem(self, ctx: commands.Context, *args):
-        await ctx.typing()
+        async with ctx.typing():
+            if len(args) == 0:
+                await ctx.reply(f"usage: `{BOT_PREFIX}dev-system <args>`")
 
-        if len(args) == 0:
-            await ctx.reply(f"usage: `{BOT_PREFIX}dev-system <args>`")
+            msg = ""
+            output = run(args, capture_output=True, text=True)
 
-        msg = ""
-        output = run(args, capture_output=True, text=True)
+            if output.stdout:
+                msg += f"stdout:\n```\n{output.stdout}\n```\n"
 
-        if output.stdout:
-            msg += f"stdout:\n```\n{output.stdout}\n```\n"
+            if output.stderr:
+                msg += f"stderr:\n```\n{output.stderr}\n```\n"
 
-        if output.stderr:
-            msg += f"stderr:\n```\n{output.stderr}\n```\n"
+            msg += f"return value: `{output.returncode}`"
 
-        msg += f"return value: `{output.returncode}`"
-
-        await ctx.reply(msg)
+            await ctx.reply(msg)
 
 
 async def setup(bot: commands.Bot) -> None:

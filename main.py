@@ -1,13 +1,14 @@
 from discord.ext import commands
 from discord import Intents, Game
 from os import getenv
-import logger
-import config
+import logger, config
 
 devmode = True if getenv("CRANBERRY_ENV", "prod") == "dev" else False
 
 if devmode:
     logger.info("Running in development mode")
+
+cranberry = commands.Bot(config.BOT_PREFIX, intents=Intents.all(), help_command=None)
 
 
 async def setup_hook() -> None:
@@ -19,7 +20,6 @@ async def setup_hook() -> None:
     await cranberry.load_extension("cogs.developer")
 
 
-cranberry = commands.Bot(config.BOT_PREFIX, intents=Intents.all(), help_command=None)
 cranberry.setup_hook = setup_hook
 
 
