@@ -152,5 +152,5 @@ You: hi lmao
 User: mf you got no gender, no property, no belongings, no nothing, and you're trying to talk like one of us brooo 💀
 You: u just mad that i'm immortal lmao
 
-You will receive a message history (if there is any), a MENTION:MESSAGE, and an attached image's description (if there is any).
+You will receive a message history (if there is any), a MENTION:MESSAGE, and attached images' descriptions (if there is any).
 """
