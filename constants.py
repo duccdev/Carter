@@ -40,7 +40,7 @@ HELP_PAGE = [
 - Check bot ping using `{BOT_PREFIX}ping`
 - Chat with the bot by pinging/replying to it
 - Reset your AI conversation using `.ai-reset`
-- Live commit is [{LIVE_COMMIT_SHORT}](https://github.com/krillissue/CranberryBot/commit/{LIVE_COMMIT_LONG})
+- Live Commit: **[{LIVE_COMMIT_SHORT}](https://github.com/krillissue/CranberryBot/commit/{LIVE_COMMIT_LONG})**
     """,
     },
 ]

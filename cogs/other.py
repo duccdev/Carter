@@ -17,7 +17,7 @@ class Other(commands.Cog):
         if self.bot.user:  # i have to do this so python wont annoy me
             embed.set_thumbnail(url=self.bot.user.display_avatar)
 
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
     @commands.command()
     async def ping(self, ctx: commands.Context) -> None:
