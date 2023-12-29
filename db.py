@@ -1,7 +1,6 @@
 from typing import Any
 import json
 import os
-from threading import Timer
 
 
 class DB:

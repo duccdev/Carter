@@ -36,6 +36,7 @@ HELP_PAGE = [
 - Start a server poll using `{BOT_PREFIX}poll` if permitted
 - Check bot ping using `{BOT_PREFIX}ping`
 - Chat with the bot by pinging/replying to it
+- Reset your AI conversation using `.ai-reset`
     """,
     },
 ]

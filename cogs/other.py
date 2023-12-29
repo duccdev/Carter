@@ -55,6 +55,14 @@ class Other(commands.Cog):
         for arg in args:
             await msg.add_reaction(arg)
 
+    @commands.command("ai-reset")
+    async def aireset(self, ctx: commands.Context):
+        await ctx.typing()
+        self.db.load()
+        self.db.set_msg_history("", ctx.author.id)
+        self.db.save()
+        await ctx.reply("Done! :thumbsup:")
+
     @commands.Cog.listener()
     async def on_message(self, msg: Message):
         if not self.bot.user:

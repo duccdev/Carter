@@ -268,9 +268,9 @@ class Developer(commands.Cog):
 
             await ctx.reply(msg)
 
-    @commands.command("dev-reset-msg-history")
+    @commands.command("dev-ai-reset")
     @commands.is_owner()
-    async def devresetmsghistory(self, ctx: commands.Context):
+    async def devaireset(self, ctx: commands.Context):
         await ctx.typing()
         self.db.load()
         self.db.clear_msg_history()
