@@ -272,9 +272,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def devaireset(self, ctx: commands.Context):
         await ctx.typing()
-        self.db.load()
         self.db.clear_msg_history()
-        self.db.save()
         await ctx.reply("done")
 
     @commands.command("dev-update-memes")

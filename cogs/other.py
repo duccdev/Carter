@@ -1,7 +1,7 @@
 from discord.ext import commands
 from discord import TextChannel, Embed, Message, Color
-from emoji import is_emoji
 from db import DB
+from views.poll import Poll
 import constants, tools, PIL.Image, os, ai
 
 
@@ -30,12 +30,16 @@ class Other(commands.Cog):
         ctx: commands.Context,
         channel: TextChannel | None,
         poll: str | None,
-        *args,
+        *args: str,
     ) -> None:
         has_perms: bool
 
         try:
-            commands.has_permissions(manage_channels=True)
+            commands.has_permissions(
+                manage_channels=True,
+                manage_messages=True,
+                send_messages=True,
+            )
             has_perms = True
         except commands.MissingPermissions:
             has_perms = False
@@ -47,26 +51,20 @@ class Other(commands.Cog):
                 await ctx.reply(embed=help_page)
                 return
 
-            for arg in args:
-                if not is_emoji(arg):
-                    await ctx.reply(embed=help_page)
-                    return
-
             embed = Embed(
                 title=f"Poll by {ctx.message.author.display_name}",
                 description=poll,
                 color=Color.random(),
             )
 
-            msg = await channel.send(embed=embed)
-
-            for arg in args:
-                await msg.add_reaction(arg)
+            await channel.send(
+                embed=embed,
+                view=Poll(options=list(args)),
+            )
 
     @commands.command("ai-reset")
     async def aireset(self, ctx: commands.Context):
         await ctx.typing()
-        self.db.load()
         history = self.db.get_msg_history().splitlines()
         new_history = history
 
@@ -75,7 +73,6 @@ class Other(commands.Cog):
                 new_history.remove(line)
 
         self.db.set_msg_history("".join(new_history))
-        self.db.save()
         await ctx.reply("Done! :thumbsup:")
 
     @commands.command()
@@ -122,11 +119,9 @@ class Other(commands.Cog):
                 return
 
             await msg.reply(str(res["response"]))
-            self.db.load()
             self.db.add_msg(
                 f"<@{msg.author.id}> ({msg.author.name}): {msg.content}\nCranberryBot: {res['response']}{''.join(res['images'])}",
             )
-            self.db.save()
 
 
 async def setup(bot: commands.Bot) -> None:

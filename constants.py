@@ -83,10 +83,10 @@ NSFW_HELP_PAGE = [
 ]
 
 POLL_HELP_PAGE = [
-    {"name": "Usage", "content": f"`{BOT_PREFIX}poll <channel> <poll> <emojis>`"},
+    {"name": "Usage", "content": f"`{BOT_PREFIX}poll <channel> <poll> <options>`"},
     {
         "name": "Example",
-        "content": f'`{BOT_PREFIX}poll #polls "should i set a minecraft server up for this server?" :x: :white_check_mark:`',
+        "content": f'`{BOT_PREFIX}poll #polls "should i set a minecraft server up for this server?" "yes" "no"`',
     },
 ]
 
@@ -188,8 +188,6 @@ Do not start off your messages with "CranberryBot:", it is only present in messa
 Again, do NOT start your message off with "CranberryBot:", it is only present in message histories
 Do not block random messages due to horniness when they are unrelated to horniness like "what do you prefer, guns or knives?".
 Do not mention yourself.
-
-You have a friend named bari (their mention is <@724853089722564648>) which is a gun enthusiast, you can talk with him about guns.
 
 Example messages and responses:
 User: yo bro

@@ -64,46 +64,36 @@ class RPSButton(discord.ui.Button):
                 content=constants.RPS_TIE, view=view
             )
         elif (
-            self.this_choice == constants.ROCK
-            and self.ai_choice == constants.SCISSORS
+            self.this_choice == constants.ROCK and self.ai_choice == constants.SCISSORS
         ):
-            self.db.load()
             self.db.add_win("rps", self.ctx.author.id)
-            self.db.save()
             await interaction.response.edit_message(
                 content=f"your rock breaks my scissor {constants.RPS_WIN}",
                 view=view,
             )
         elif (
-            self.this_choice == constants.SCISSORS
-            and self.ai_choice == constants.PAPER
+            self.this_choice == constants.SCISSORS and self.ai_choice == constants.PAPER
         ):
-            self.db.load()
             self.db.add_win("rps", self.ctx.author.id)
-            self.db.save()
             await interaction.response.edit_message(
                 content=f"your scissors cut my paper {constants.RPS_WIN}",
                 view=view,
             )
         elif self.this_choice == constants.PAPER and self.ai_choice == constants.ROCK:
-            self.db.load()
             self.db.add_win("rps", self.ctx.author.id)
-            self.db.save()
             await interaction.response.edit_message(
                 content=f"your paper covers my rock {constants.RPS_WIN}",
                 view=view,
             )
         elif (
-            self.this_choice == constants.SCISSORS
-            and self.ai_choice == constants.ROCK
+            self.this_choice == constants.SCISSORS and self.ai_choice == constants.ROCK
         ):
             await interaction.response.edit_message(
                 content=f"my rock breaks your scissors {constants.RPS_LOSE}",
                 view=view,
             )
         elif (
-            self.this_choice == constants.PAPER
-            and self.ai_choice == constants.SCISSORS
+            self.this_choice == constants.PAPER and self.ai_choice == constants.SCISSORS
         ):
             await interaction.response.edit_message(
                 content=f"my scissors cut your paper {constants.RPS_LOSE}",
