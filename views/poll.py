@@ -31,7 +31,7 @@ class ViewVotesButton(Button):
         self.db = DB()
         self.poll_id = poll_id
 
-        super().__init__(style=style, label="View votes")
+        super().__init__(style=style, label="View votes", row=2)
 
     async def callback(self, interaction: Interaction):
         votes = self.db.get_votes(self.poll_id)
@@ -48,7 +48,7 @@ class RemoveVoteButton(Button):
         self.db = DB()
         self.poll_id = poll_id
 
-        super().__init__(style=style, label="Remove vote")
+        super().__init__(style=style, label="Remove vote", row=2)
 
     async def callback(self, interaction: Interaction):
         self.db.remove_vote(self.poll_id, interaction.user.id)
