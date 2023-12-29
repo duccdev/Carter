@@ -13,14 +13,6 @@ class DB:
             with open(self.path, "w") as fp:
                 json.dump(self.data, fp)
 
-        def clean_up():
-            self.load()
-            self.clear_msg_history()
-            self.save()
-            Timer(60 * 10, clean_up)
-
-        Timer(60 * 10, clean_up)
-
     def save(self) -> None:
         with open(self.path, "w") as fp:
             json.dump(self.data, fp)
