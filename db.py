@@ -42,7 +42,7 @@ class DB:
         )
 
     def set_msg_history(self, history: str):
-        self.data["msg_history"][str(id)] = history
+        self.data["msg_history"] = history
 
     def get_msg_history(self) -> str:
         return self.data.get("msg_history", "")
