@@ -88,8 +88,7 @@ async def send(
             )
         ).text
 
-        while response.startswith("CranberryBot:"):
-            response.replace("CranberryBot:", "", 1)
+        response.replace("CranberryBot:", "")
 
         return {
             "response": response,
