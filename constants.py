@@ -1,5 +1,7 @@
 from config import BOT_PREFIX
-import colors
+import colors, tools
+
+LIVE_COMMIT_SHORT, LIVE_COMMIT_LONG = tools.get_live_commit()
 
 LOG_PREFIX = f"[{colors.RED}Cranberry{colors.END}Bot]"
 
@@ -38,6 +40,7 @@ HELP_PAGE = [
 - Check bot ping using `{BOT_PREFIX}ping`
 - Chat with the bot by pinging/replying to it
 - Reset your AI conversation using `.ai-reset`
+- Live commit is [{LIVE_COMMIT_SHORT}](https://github.com/krillissue/CranberryBot/commit/{LIVE_COMMIT_LONG})
     """,
     },
 ]

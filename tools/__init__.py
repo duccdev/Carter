@@ -9,3 +9,4 @@ from .reverse_replace import reverse_replace
 from .create_embed import create_embed
 from .ping import ping
 from .insensitive_replace import insensitive_replace
+from .get_live_commit import get_live_commit

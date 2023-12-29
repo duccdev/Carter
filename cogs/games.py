@@ -49,7 +49,7 @@ class Games(commands.Cog):
                 color=Color.random(),
             )
 
-            await ctx.send(embed=embed, silent=True)
+            await ctx.send(embed=embed)
             return
 
         await ctx.send(constants.LEADERBOARD_NO_PLAYERS)
