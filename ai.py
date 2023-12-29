@@ -1,4 +1,4 @@
-import config, constants, PIL.Image, google.generativeai as genai
+import tools, config, constants, PIL.Image, google.generativeai as genai
 from db import DB
 
 genai.configure(api_key=config.GENAI_API_KEY)
@@ -82,16 +82,16 @@ async def send(
     db.save()
 
     try:
-        response = (
-            await gemini_pro.start_chat().send_message_async(
-                req, safety_settings=safety_settings
-            )
-        ).text
-
-        response.replace("CranberryBot:", "")
-
         return {
-            "response": response,
+            "response": tools.insensitive_replace(
+                (
+                    await gemini_pro.start_chat().send_message_async(
+                        req, safety_settings=safety_settings
+                    )
+                ).text,
+                "cranberrybot:",
+                "",
+            ),
             "images": img_descriptions,
         }
     except Exception as e:
