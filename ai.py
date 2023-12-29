@@ -21,9 +21,10 @@ def construct_req(
     history: str,
     msg: str,
     sender_id: int,
+    sender_name: str,
     img_descriptions: list[str] = [],
 ) -> str:
-    req = f"{req}\n{history}\n<@{sender_id}>: {msg}"
+    req = f"{req}\n{history}\n<@{sender_id}> ({sender_name}): {msg}"
 
     if img_descriptions:
         for i in range(len(img_descriptions)):
@@ -35,12 +36,13 @@ def construct_req(
 async def send(
     msg: str,
     sender_id: int,
+    sender_name: str,
     imgs: list[PIL.Image.Image] = [],
 ) -> dict[str, str | list[str]] | Exception:
     db.load()
 
     prompt = constants.AI_PROMPT
-    history = db.get_msg_history(sender_id)
+    history = db.get_msg_history()
     img_descriptions: list[str] = []
 
     try:
@@ -57,7 +59,7 @@ async def send(
         pass
 
     reconstruct_req = lambda: construct_req(
-        prompt, history, msg, sender_id, img_descriptions
+        prompt, history, msg, sender_id, sender_name, img_descriptions
     )
 
     req = reconstruct_req()
@@ -78,7 +80,7 @@ async def send(
 
         req = reconstruct_req()
 
-    db.set_msg_history(history, sender_id)
+    db.set_msg_history(history)
     db.save()
 
     try:
@@ -91,7 +93,9 @@ async def send(
                 ).text,
                 "cranberrybot:",
                 "",
-            ).replace(f"<@{constants.BOT}>", ""),
+            )
+            .replace(f"<@{constants.BOT}>", "")
+            .replace("*", "\\*"),
             "images": img_descriptions,
         }
     except Exception as e:

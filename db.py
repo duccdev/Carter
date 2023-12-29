@@ -6,7 +6,7 @@ import os
 class DB:
     def __init__(self, path: str = "db.json") -> None:
         self.path = path
-        self.data: dict[str, Any] = {"leaderboards": {}, "msg_history": {}}
+        self.data: dict[str, Any] = {"leaderboards": {}, "msg_history": ""}
 
         if not os.path.exists(self.path):
             with open(self.path, "w") as fp:
@@ -41,18 +41,18 @@ class DB:
             )
         )
 
-    def set_msg_history(self, history: str, id: int):
+    def set_msg_history(self, history: str):
         self.data["msg_history"][str(id)] = history
 
-    def get_msg_history(self, id: int) -> str:
-        return self.data["msg_history"].get(str(id), "")
+    def get_msg_history(self) -> str:
+        return self.data.get("msg_history", "")
 
-    def add_msg(self, msg: str, id: int):
+    def add_msg(self, msg: str):
         if not self.data["msg_history"].get(str(id)):
-            self.data["msg_history"][str(id)] = msg
+            self.data["msg_history"] = msg
             return
 
-        self.data["msg_history"][str(id)] += f"\n{msg}"
+        self.data["msg_history"] += f"\n{msg}"
 
     def clear_msg_history(self):
-        self.data["msg_history"] = {}
+        self.data["msg_history"] = ""

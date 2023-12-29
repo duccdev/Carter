@@ -67,7 +67,14 @@ class Other(commands.Cog):
     async def aireset(self, ctx: commands.Context):
         await ctx.typing()
         self.db.load()
-        self.db.set_msg_history("", ctx.author.id)
+        history = self.db.get_msg_history().splitlines()
+        new_history = history
+
+        for line in history:
+            if str(ctx.author.id) in line:
+                new_history.remove(line)
+
+        self.db.set_msg_history("".join(new_history))
         self.db.save()
         await ctx.reply("Done! :thumbsup:")
 
@@ -102,7 +109,7 @@ class Other(commands.Cog):
 
                             os.remove(imgpath)
 
-                res = await ai.send(msg.content, msg.author.id, imgs)
+                res = await ai.send(msg.content, msg.author.id, msg.author.name, imgs)
 
             if isinstance(res, Exception):
                 await msg.reply(f"```\n{str(res)}```")
@@ -111,8 +118,7 @@ class Other(commands.Cog):
             await msg.reply(str(res["response"]))
             self.db.load()
             self.db.add_msg(
-                f"<@{msg.author.id}>: {msg.content}>\nCranberryBot: {res['response']}{''.join(res['images'])}",
-                msg.author.id,
+                f"<@{msg.author.id}> ({msg.author.name}): {msg.content}>\nCranberryBot: {res['response']}{''.join(res['images'])}",
             )
             self.db.save()
 
