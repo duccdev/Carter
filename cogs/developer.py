@@ -233,9 +233,9 @@ class Developer(commands.Cog):
     @commands.command("dev-update")
     @commands.is_owner()
     async def devupdate(self, ctx: commands.Context):
-        await ctx.send("running `git pull`...")
+        await ctx.send("running `git pull origin main`...")
 
-        if os.system("git pull") != 0:
+        if os.system("git pull origin main") != 0:
             await ctx.send("failed!")
             return
 
@@ -283,7 +283,7 @@ class Developer(commands.Cog):
         error = False
 
         async with ctx.typing():
-            if os.system('bash -c "cd krill-memes && git pull"') != 0:
+            if os.system('bash -c "cd krill-memes && git pull origin main"') != 0:
                 error = True
 
         await ctx.reply("failed" if error else "done")
