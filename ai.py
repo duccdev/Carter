@@ -82,12 +82,17 @@ async def send(
     db.save()
 
     try:
+        response = (
+            await gemini_pro.start_chat().send_message_async(
+                req, safety_settings=safety_settings
+            )
+        ).text
+
+        while response.startswith("CranberryBot:"):
+            response.replace("CranberryBot:", "", 1)
+
         return {
-            "response": (
-                await gemini_pro.start_chat().send_message_async(
-                    req, safety_settings=safety_settings
-                )
-            ).text,
+            "response": response,
             "images": img_descriptions,
         }
     except Exception as e:
