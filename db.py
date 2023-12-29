@@ -48,7 +48,7 @@ class DB:
         return self.data.get("msg_history", "")
 
     def add_msg(self, msg: str):
-        if not self.data["msg_history"].get(str(id)):
+        if not self.data.get("msg_history"):
             self.data["msg_history"] = msg
             return
 
