@@ -86,8 +86,9 @@ POLL_HELP_PAGE = [
     {"name": "Usage", "content": f"`{BOT_PREFIX}poll <channel> <poll> <options>`"},
     {
         "name": "Example",
-        "content": f'`{BOT_PREFIX}poll #polls "should i set a minecraft server up for this server?" "yes" "no"`',
+        "content": f'`{BOT_PREFIX}poll #polls "should i set a minecraft server up for this server? (1: yes, 2: no)" 2`',
     },
+    {"name": "Rules", "content": "- Options must be between 1 and 10"},
 ]
 
 LEADERBOARD_HELP_PAGE = [

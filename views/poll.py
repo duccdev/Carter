@@ -9,14 +9,14 @@ class PollOption(Button):
         self,
         *,
         style: ButtonStyle = ButtonStyle.secondary,
-        option: str,
+        option: int,
         poll_id: str,
     ):
         self.db = DB()
         self.option = option
         self.poll_id = poll_id
 
-        super().__init__(style=style, label=self.option)
+        super().__init__(style=style, label=str(self.option))
 
     async def callback(self, interaction: Interaction):
         self.db.set_vote(self.poll_id, interaction.user.id, self.option)
@@ -60,7 +60,7 @@ class Poll(View):
         self,
         *,
         timeout: float | None = None,
-        options: list[str],
+        options: list[int],
     ):
         self.db = DB()
         self.options = options

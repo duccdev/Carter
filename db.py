@@ -71,14 +71,14 @@ class DB:
         self.data["msg_history"] = ""
         self.save()
 
-    def create_poll(self, options: list[str]) -> str:
+    def create_poll(self, options: list[int]) -> str:
         self.load()
         id = tools.random_id()
         self.data["polls"][id] = {"options": options, "votes": {}}
         self.save()
         return id
 
-    def set_vote(self, poll_id: str, user_id: int, option: str):
+    def set_vote(self, poll_id: str, user_id: int, option: int):
         self.load()
         self.data["polls"][poll_id]["votes"][str(user_id)] = option
         self.save()
@@ -88,7 +88,7 @@ class DB:
         votes = {}
 
         for option in self.data["polls"][poll_id]["options"]:
-            votes[option] = 0
+            votes[str(option)] = 0
 
         for vote in self.data["polls"][poll_id]["votes"].values():
             votes[vote] += 1

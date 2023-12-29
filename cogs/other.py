@@ -30,7 +30,7 @@ class Other(commands.Cog):
         ctx: commands.Context,
         channel: TextChannel | None,
         poll: str | None,
-        *args: str,
+        options: str | None,
     ) -> None:
         has_perms: bool
 
@@ -47,7 +47,17 @@ class Other(commands.Cog):
         if ctx.author.id == constants.KRILL or has_perms:
             help_page = tools.create_embed("`cb!poll`", constants.POLL_HELP_PAGE)
 
-            if not channel or not poll:
+            if not channel or not poll or not options:
+                await ctx.reply(embed=help_page)
+                return
+
+            try:
+                options_int = int(options)
+            except:
+                await ctx.reply(embed=help_page)
+                return
+
+            if options_int > 10 or options_int < 1:
                 await ctx.reply(embed=help_page)
                 return
 
@@ -59,7 +69,7 @@ class Other(commands.Cog):
 
             await channel.send(
                 embed=embed,
-                view=Poll(options=list(args)),
+                view=Poll(options=list(range(1, options_int + 1))),
             )
 
     @commands.command("ai-reset")
