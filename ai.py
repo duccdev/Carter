@@ -91,7 +91,7 @@ async def send(
                 ).text,
                 "cranberrybot:",
                 "",
-            ),
+            ).replace(f"<@{constants.BOT}>", ""),
             "images": img_descriptions,
         }
     except Exception as e:
