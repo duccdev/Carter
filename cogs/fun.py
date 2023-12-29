@@ -125,9 +125,7 @@ class Fun(commands.Cog):
             )
             return
 
-        await ctx.send(
-            file=discord.File(f"krill-memes/{tools.random.choice(os.listdir())}")
-        )
+        await ctx.send(file=discord.File(f"krill-memes/{tools.random.choice(memes)}"))
 
     @commands.command("a-pussy")
     async def pussy(self, ctx: commands.Context):
