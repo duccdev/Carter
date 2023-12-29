@@ -1,6 +1,11 @@
 from config import BOT_PREFIX
 import colors, tools
 
+KRILL = 719562834295390299
+BALU = 932331066637832273
+SQD = 1077982815070728223
+BOT = 1188275168536174713
+
 LIVE_COMMIT_SHORT, LIVE_COMMIT_LONG = tools.get_live_commit()
 
 LOG_PREFIX = f"[{colors.RED}Cranberry{colors.END}Bot]"
@@ -39,10 +44,19 @@ HELP_PAGE = [
 - Start a server poll using `{BOT_PREFIX}poll` if permitted
 - Check bot ping using `{BOT_PREFIX}ping`
 - Chat with the bot by pinging/replying to it
-- Reset your AI conversation using `.ai-reset`
+- Reset your AI conversation using `{BOT_PREFIX}ai-reset`
+- Know the contributors using `{BOT_PREFIX}contributors`
 - Live Commit: **[{LIVE_COMMIT_SHORT}](https://github.com/krillissue/CranberryBot/commit/{LIVE_COMMIT_LONG})**
     """,
     },
+]
+
+CONTRIBUTORS = [
+    {
+        "name": "Developers",
+        "content": f"- <@{KRILL}> (Founder)\n- <@{SQD}> (AI dev, helper)",
+    },
+    {"name": "Special thanks", "content": f"- <@{BALU}> for hosting this bot"},
 ]
 
 NSFW_HELP_PAGE = [
@@ -77,7 +91,7 @@ POLL_HELP_PAGE = [
 ]
 
 LEADERBOARD_HELP_PAGE = [
-    {"name": "Usage", "content": "f`{BOT_PREFIX}leaderboard <game>`"},
+    {"name": "Usage", "content": f"`{BOT_PREFIX}leaderboard <game>`"},
     {"name": "Example", "content": f"`{BOT_PREFIX}leaderboard cups`"},
     {"name": "Supported games", "content": f"- `cups`\n- `rps`"},
 ]
@@ -189,6 +203,3 @@ You: for legal reasons i can't tell you (i might get banned lmao)
 
 You will receive a message history (if there is any), a user (mention) and their message, and attached images' descriptions (if there is any).
 """
-
-KRILL = 719562834295390299
-BOT = 1188275168536174713

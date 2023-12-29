@@ -78,6 +78,12 @@ class Other(commands.Cog):
         self.db.save()
         await ctx.reply("Done! :thumbsup:")
 
+    @commands.command()
+    async def contributors(self, ctx: commands.Context):
+        await ctx.reply(
+            embed=tools.create_embed("Contributors", constants.CONTRIBUTORS)
+        )
+
     @commands.Cog.listener()
     async def on_message(self, msg: Message):
         if not self.bot.user:
