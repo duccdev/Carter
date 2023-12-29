@@ -277,6 +277,17 @@ class Developer(commands.Cog):
         self.db.save()
         await ctx.reply("done")
 
+    @commands.command("dev-update-memes")
+    @commands.is_owner()
+    async def devupdatememes(self, ctx: commands.Context):
+        error = False
+
+        async with ctx.typing():
+            if os.system('bash -c "cd krill-memes && git pull"') != 0:
+                error = True
+
+        await ctx.reply("failed" if error else "done")
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Developer(bot))

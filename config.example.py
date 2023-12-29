@@ -1,5 +1,3 @@
-import colors
-
 TOKEN = "nuh uh you dont get to see my token"
 
 BOT_PREFIX = "."
@@ -17,6 +15,7 @@ DOGS_ROUTE = "https://api.thedogapi.com/v1/images/search"
 MEMES_ROUTE = "https://meme-api.com/gimme"
 WYR_HOST = "would-you-rather.p.rapidapi.com"
 WYR_ROUTE = f"https://{WYR_HOST}/wyr/random"
+KRILL_MEME_ROUTE = "http://localhost:8080"
 
 
 def nsfw_route(category: str, content_type: str) -> str:

@@ -17,6 +17,7 @@ HELP_PAGE = [
 - Get a random dog using `{BOT_PREFIX}dog`
 - Get a random (useless!) fact using `{BOT_PREFIX}fact`
 - Get a random meme using `{BOT_PREFIX}meme`
+- Get a random meme from <@719562834295390299>'s collection using `{BOT_PREFIX}krill-meme`
     """,
     },
     {
