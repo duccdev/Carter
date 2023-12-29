@@ -111,7 +111,15 @@ class Fun(commands.Cog):
     async def krillmeme(self, ctx: commands.Context):
         await ctx.typing()
 
-        if not os.listdir("krill-memes"):
+        memes = os.listdir("krill-memes")
+
+        try:
+            memes.remove(".git")
+            memes.remove(".gitignore")
+        except:
+            pass
+
+        if not memes:
             await ctx.reply(
                 "the fucker <@719562834295390299> forgot to update my krill memes collection"
             )
