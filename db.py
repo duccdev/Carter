@@ -91,7 +91,7 @@ class DB:
             votes[str(option)] = 0
 
         for vote in self.data["polls"][poll_id]["votes"].values():
-            votes[vote] += 1
+            votes[str(vote)] += 1
 
         return votes
 
