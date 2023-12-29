@@ -22,7 +22,8 @@ class Games(commands.Cog):
         if not game or game not in supported_games:
             await ctx.reply(
                 embed=tools.create_embed(
-                    "`cb!leaderboard`", constants.LEADERBOARD_HELP_PAGE
+                    f"`{constants.BOT_PREFIX}leaderboard`",
+                    constants.LEADERBOARD_HELP_PAGE,
                 )
             )
 

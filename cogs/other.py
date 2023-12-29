@@ -45,7 +45,9 @@ class Other(commands.Cog):
             has_perms = False
 
         if ctx.author.id == constants.KRILL or has_perms:
-            help_page = tools.create_embed("`cb!poll`", constants.POLL_HELP_PAGE)
+            help_page = tools.create_embed(
+                f"`{constants.BOT_PREFIX}poll`", constants.POLL_HELP_PAGE
+            )
 
             if not channel or not poll or not options:
                 await ctx.reply(embed=help_page)
