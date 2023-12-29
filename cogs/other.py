@@ -1,8 +1,8 @@
 from discord.ext import commands
-from discord import Embed, Color, Message, TextChannel
+from discord import TextChannel, Embed, Message, Color
 from emoji import is_emoji
 from db import DB
-import constants, tools, ai, os, PIL.Image
+import constants, tools, PIL.Image, os, ai
 
 
 class Other(commands.Cog):
@@ -25,7 +25,6 @@ class Other(commands.Cog):
         await ctx.reply(f":ping_pong: `{tools.ping()}`")
 
     @commands.command()
-    @commands.has_permissions(manage_channels=True)
     async def poll(
         self,
         ctx: commands.Context,
@@ -33,27 +32,36 @@ class Other(commands.Cog):
         poll: str | None,
         *args,
     ) -> None:
-        help_page = tools.create_embed("`cb!poll`", constants.POLL_HELP_PAGE)
+        has_perms: bool
 
-        if not channel or not poll:
-            await ctx.reply(embed=help_page)
-            return
+        try:
+            commands.has_permissions(manage_channels=True)
+            has_perms = True
+        except commands.MissingPermissions:
+            has_perms = False
 
-        for arg in args:
-            if not is_emoji(arg):
+        if ctx.author.id == constants.KRILL or has_perms:
+            help_page = tools.create_embed("`cb!poll`", constants.POLL_HELP_PAGE)
+
+            if not channel or not poll:
                 await ctx.reply(embed=help_page)
                 return
 
-        embed = Embed(
-            title=f"Poll by {ctx.message.author.display_name}",
-            description=poll,
-            color=Color.random(),
-        )
+            for arg in args:
+                if not is_emoji(arg):
+                    await ctx.reply(embed=help_page)
+                    return
 
-        msg = await channel.send(embed=embed)
+            embed = Embed(
+                title=f"Poll by {ctx.message.author.display_name}",
+                description=poll,
+                color=Color.random(),
+            )
 
-        for arg in args:
-            await msg.add_reaction(arg)
+            msg = await channel.send(embed=embed)
+
+            for arg in args:
+                await msg.add_reaction(arg)
 
     @commands.command("ai-reset")
     async def aireset(self, ctx: commands.Context):

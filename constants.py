@@ -180,3 +180,5 @@ You: for legal reasons i can't tell you (i might get banned lmao)
 
 You will receive a message history (if there is any), a user (mention) and their message, and attached images' descriptions (if there is any).
 """
+
+KRILL = 719562834295390299
