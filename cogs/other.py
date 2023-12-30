@@ -69,14 +69,7 @@ class Other(commands.Cog):
     @commands.command("ai-reset")
     async def aireset(self, ctx: commands.Context):
         await ctx.typing()
-        history = self.db.get_msg_history().splitlines()
-        new_history = history
-
-        for line in history:
-            if str(ctx.author.id) in line:
-                new_history.remove(line)
-
-        self.db.set_msg_history("".join(new_history))
+        self.db.clear_msg_history(ctx.author.id)
         await ctx.reply("Done! :thumbsup:")
 
     @commands.command()
@@ -125,7 +118,11 @@ class Other(commands.Cog):
 
             await msg.reply(str(res["response"]))
             self.db.add_msg(
-                f"<@{msg.author.id}> ({msg.author.name}): {msg.content}\nCranberryBot: {res['response']}{''.join(res['images'])}",
+                msg.author.id,
+                msg.author.name,
+                msg.content,
+                str(res["response"]),
+                list(res["images"]),
             )
 
 

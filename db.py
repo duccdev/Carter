@@ -5,7 +5,7 @@ import json, os, tools
 class DB:
     def __init__(self, path: str = "db.json") -> None:
         self.path = path
-        self.data: dict[str, Any] = {"leaderboards": {}, "msg_history": "", "polls": {}}
+        self.data: dict[str, Any] = {"leaderboards": {}, "msg_history": {}, "polls": {}}
 
         if not os.path.exists(self.path):
             with open(self.path, "w") as fp:
@@ -46,29 +46,35 @@ class DB:
             )
         )
 
-    def set_msg_history(self, history: str):
+    def set_msg_history(self, id: int, history: str):
         self.load()
-        self.data["msg_history"] = history
+        self.data["msg_history"][str(id)] = history
         self.save()
 
-    def get_msg_history(self) -> str:
+    def get_msg_history(self, id: int) -> str:
         self.load()
-        return self.data.get("msg_history", "")
+        return self.data["msg_history"].get(str(id), "")
 
-    def add_msg(self, msg: str):
+    def add_msg(self, id: int, name: str, msg: str, res: str, images: list[str]):
         self.load()
 
-        if not self.data.get("msg_history"):
-            self.data["msg_history"] = msg
+        images = [
+            f"\nAttached image #{i} description: {images[i]}"
+            for i in range(len(images))
+        ]
+        entry = f"{name}: {msg}\nCranberryBot: {res}{''.join(images)}"
+
+        if not self.data["msg_history"].get(str(id), ""):
+            self.data["msg_history"][str(id)] = entry
+            self.save()
             return
 
-        self.data["msg_history"] += f"\n{msg}"
-
+        self.data["msg_history"][str(id)] += f"\n{entry}"
         self.save()
 
-    def clear_msg_history(self):
+    def clear_msg_history(self, id: int):
         self.load()
-        self.data["msg_history"] = ""
+        self.data["msg_history"][str(id)] = ""
         self.save()
 
     def create_poll(self, options: list[int]) -> str:

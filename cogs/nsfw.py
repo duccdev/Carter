@@ -15,7 +15,7 @@ class NSFW(commands.Cog):
     ) -> None:
         async with ctx.typing():
             if type(ctx.channel) is discord.TextChannel and not ctx.channel.is_nsfw():
-                await ctx.send(constants.NSFW_WRONG_CHANNEL)
+                await ctx.reply(constants.NSFW_WRONG_CHANNEL)
                 return
 
             if category == "unset" or content_type == "unset":
@@ -32,21 +32,21 @@ class NSFW(commands.Cog):
                         name=field["name"], value=field["content"], inline=False
                     )
 
-                await ctx.send(embed=embed)
+                await ctx.reply(embed=embed)
 
                 return
 
             try:
                 nsfw_bytes, nsfw_ext = await tools.get_nsfw(category, content_type)
             except tools.NsfwNotFoundError as e:
-                await ctx.send(constants.NSFW_NOT_FOUND)
+                await ctx.reply(constants.NSFW_NOT_FOUND)
                 return
             except Exception as e:
                 logger.error(str(e))
-                await ctx.send(f"`{e}`")
+                await ctx.reply(f"`{e}`")
                 return
 
-            await ctx.send(file=discord.File(nsfw_bytes, f"cat{nsfw_ext}"))
+            await ctx.reply(file=discord.File(nsfw_bytes, f"cat{nsfw_ext}"))
 
 
 async def setup(bot: commands.Bot) -> None:

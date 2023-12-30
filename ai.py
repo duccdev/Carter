@@ -17,14 +17,13 @@ db = DB()
 
 
 def construct_req(
-    req: str,
+    prompt: str,
     history: str,
     msg: str,
-    sender_id: int,
-    sender_name: str,
+    name: str,
     img_descriptions: list[str] = [],
 ) -> str:
-    req = f"{req}\n{history}\n<@{sender_id}> ({sender_name}): {msg}"
+    req = f"{prompt}\n{history}\n{name}: {msg}"
 
     if img_descriptions:
         for i in range(len(img_descriptions)):
@@ -35,14 +34,14 @@ def construct_req(
 
 async def send(
     msg: str,
-    sender_id: int,
-    sender_name: str,
+    id: int,
+    name: str,
     imgs: list[PIL.Image.Image] = [],
 ) -> dict[str, str | list[str]] | Exception:
     db.load()
 
     prompt = constants.AI_PROMPT
-    history = db.get_msg_history()
+    history = db.get_msg_history(id)
     img_descriptions: list[str] = []
 
     try:
@@ -59,7 +58,7 @@ async def send(
         pass
 
     reconstruct_req = lambda: construct_req(
-        prompt, history, msg, sender_id, sender_name, img_descriptions
+        prompt, history, msg, name, img_descriptions
     )
 
     req = reconstruct_req()
@@ -80,7 +79,7 @@ async def send(
 
         req = reconstruct_req()
 
-    db.set_msg_history(history)
+    db.set_msg_history(id, history)
     db.save()
 
     try:
