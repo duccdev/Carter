@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord import TextChannel, Embed, Message, Color
 from db import DB
 from views.poll import Poll
-import constants, tools, PIL.Image, os, ai
+import constants, tools, PIL.Image, os, ai, logger
 
 
 class Other(commands.Cog):
@@ -127,6 +127,7 @@ class Other(commands.Cog):
                 res = await ai.send(msg.content, msg.author.id, msg.author.name, imgs)
 
             if isinstance(res, Exception):
+                logger.error(str(res))
                 await msg.reply(f"```\n{str(res)}```")
                 return
 

@@ -1,8 +1,5 @@
 from discord.ext import commands
-import discord
-import constants
-import logger
-import tools
+import discord, constants, logger, tools
 
 
 class NSFW(commands.Cog):
@@ -22,7 +19,10 @@ class NSFW(commands.Cog):
                 return
 
             if category == "unset" or content_type == "unset":
-                embed = discord.Embed(title="`cb!nsfw`", color=discord.Color.random())
+                embed = discord.Embed(
+                    title=f"`{constants.BOT_PREFIX}nsfw`",
+                    color=discord.Color.random(),
+                )
 
                 if self.bot.user:  # i have to do this so python wont annoy me
                     embed.set_thumbnail(url=self.bot.user.display_avatar)
@@ -42,8 +42,8 @@ class NSFW(commands.Cog):
                 await ctx.send(constants.NSFW_NOT_FOUND)
                 return
             except Exception as e:
-                logger.error(e)
-                await ctx.send(constants.ERROR)
+                logger.error(str(e))
+                await ctx.send(f"`{e}`")
                 return
 
             await ctx.send(file=discord.File(nsfw_bytes, f"cat{nsfw_ext}"))

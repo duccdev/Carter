@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord import Embed, Color, TextChannel
 from games.cups import Cups
 from games.rps import RPSGame
-import asyncio, tools, constants, db
+import asyncio, tools, constants, db, logger
 
 
 class Games(commands.Cog):
@@ -96,6 +96,7 @@ class Games(commands.Cog):
         try:
             await ctx.reply(await tools.get_truth(rating))
         except Exception as e:
+            logger.error(str(e))
             await ctx.reply(f"`{e}`")
 
     @commands.command()
@@ -121,6 +122,7 @@ class Games(commands.Cog):
         try:
             await ctx.reply(await tools.get_dare(rating))
         except Exception as e:
+            logger.error(str(e))
             await ctx.reply(f"`{e}`")
 
     @commands.command()
@@ -146,6 +148,7 @@ class Games(commands.Cog):
         try:
             await ctx.reply(await tools.would_you_rather(rating))
         except Exception as e:
+            logger.error(str(e))
             await ctx.reply(f"`{e}`")
 
     @commands.command()
@@ -171,6 +174,7 @@ class Games(commands.Cog):
         try:
             await ctx.reply(await tools.never_have_i_ever(rating))
         except Exception as e:
+            logger.error(str(e))
             await ctx.reply(f"`{e}`")
 
 
