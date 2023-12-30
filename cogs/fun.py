@@ -115,6 +115,10 @@ class Fun(commands.Cog):
 
         try:
             memes.remove(".git")
+        except:
+            pass
+
+        try:
             memes.remove(".gitignore")
         except:
             pass
