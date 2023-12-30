@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord import TextChannel, Embed, Message, Color
 from db import DB
 from views.poll import Poll
-import constants, tools, PIL.Image, os, ai, logger
+import constants, tools, PIL.Image, os, ai, logger, checks
 
 
 class Other(commands.Cog):
@@ -25,6 +25,11 @@ class Other(commands.Cog):
         await ctx.reply(f":ping_pong: `{tools.ping()}`")
 
     @commands.command()
+    @checks.owner_or_perms(
+        manage_channels=True,
+        manage_messages=True,
+        send_messages=True,
+    )
     async def poll(
         self,
         ctx: commands.Context,
@@ -32,47 +37,34 @@ class Other(commands.Cog):
         poll: str | None,
         options: str | None,
     ) -> None:
-        has_perms: bool
+        help_page = tools.create_embed(
+            f"`{constants.BOT_PREFIX}poll`", constants.POLL_HELP_PAGE
+        )
+
+        if not channel or not poll or not options:
+            await ctx.reply(embed=help_page)
+            return
 
         try:
-            commands.has_permissions(
-                manage_channels=True,
-                manage_messages=True,
-                send_messages=True,
-            )
-            has_perms = True
-        except commands.MissingPermissions:
-            has_perms = False
+            options_int = int(options)
+        except:
+            await ctx.reply(embed=help_page)
+            return
 
-        if ctx.author.id == constants.KRILL or has_perms:
-            help_page = tools.create_embed(
-                f"`{constants.BOT_PREFIX}poll`", constants.POLL_HELP_PAGE
-            )
+        if options_int > 10 or options_int < 1:
+            await ctx.reply(embed=help_page)
+            return
 
-            if not channel or not poll or not options:
-                await ctx.reply(embed=help_page)
-                return
+        embed = Embed(
+            title=f"Poll by {ctx.message.author.display_name}",
+            description=poll,
+            color=Color.random(),
+        )
 
-            try:
-                options_int = int(options)
-            except:
-                await ctx.reply(embed=help_page)
-                return
-
-            if options_int > 10 or options_int < 1:
-                await ctx.reply(embed=help_page)
-                return
-
-            embed = Embed(
-                title=f"Poll by {ctx.message.author.display_name}",
-                description=poll,
-                color=Color.random(),
-            )
-
-            await channel.send(
-                embed=embed,
-                view=Poll(options=list(range(1, options_int + 1))),
-            )
+        await channel.send(
+            embed=embed,
+            view=Poll(options=list(range(1, options_int + 1))),
+        )
 
     @commands.command("ai-reset")
     async def aireset(self, ctx: commands.Context):
