@@ -77,6 +77,11 @@ class DB:
         self.data["msg_history"][str(id)] = ""
         self.save()
 
+    def clear_global_msg_history(self):
+        self.load()
+        self.data["msg_history"] = {}
+        self.save()
+
     def create_poll(self, options: list[int]) -> str:
         self.load()
         id = tools.random_id()
