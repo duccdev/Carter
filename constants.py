@@ -32,7 +32,6 @@ HELP_PAGE = [
         "content": f"""
 - Get the leaderboard of a game using `{BOT_PREFIX}leaderboard`
 - Roll the dice using `{BOT_PREFIX}dice`
-- Get a would you rather question using `{BOT_PREFIX}wyr`
 - Play a cup game using `{BOT_PREFIX}cups`
 - Play rock paper scissors using `{BOT_PREFIX}rps`
     """,

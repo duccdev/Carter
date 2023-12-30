@@ -64,16 +64,6 @@ class Games(commands.Cog):
         )
 
     @commands.command()
-    async def wyr(self, ctx: commands.Context) -> None:
-        await ctx.typing()
-
-        try:
-            await ctx.reply(await tools.get_wyr())
-        except Exception as e:
-            logger.error(str(e))
-            await ctx.reply(constants.ERROR)
-
-    @commands.command()
     async def cups(self, ctx: commands.Context) -> None:
         msg = await ctx.reply("Pick the cup:")
         await msg.edit(view=Cups(msg=msg, ctx=ctx, db=self.db))
