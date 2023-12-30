@@ -75,6 +75,8 @@ class Games(commands.Cog):
 
     @commands.command()
     async def truth(self, ctx: commands.Context, rating: str | None) -> None:
+        await ctx.typing()
+
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
@@ -98,6 +100,8 @@ class Games(commands.Cog):
 
     @commands.command()
     async def dare(self, ctx: commands.Context, rating: str | None) -> None:
+        await ctx.typing()
+
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
@@ -121,6 +125,8 @@ class Games(commands.Cog):
 
     @commands.command()
     async def wyr(self, ctx: commands.Context, rating: str | None) -> None:
+        await ctx.typing()
+
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
@@ -144,6 +150,8 @@ class Games(commands.Cog):
 
     @commands.command()
     async def nhie(self, ctx: commands.Context, rating: str | None) -> None:
+        await ctx.typing()
+
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":

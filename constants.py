@@ -34,8 +34,8 @@ HELP_PAGE = [
 - Roll the dice using `{BOT_PREFIX}dice`
 - Play a cup game using `{BOT_PREFIX}cups`
 - Play rock paper scissors using `{BOT_PREFIX}rps`
-- Get a dare using `{BOT_PREFIX}dare` (read `{BOT_PREFIX}dare help`)
 - Get a truth using `{BOT_PREFIX}truth` (read `{BOT_PREFIX}truth help`)
+- Get a dare using `{BOT_PREFIX}dare` (read `{BOT_PREFIX}dare help`)
 - Get a would you rather using `{BOT_PREFIX}wyr` (read `{BOT_PREFIX}wyr help`)
 - Get a never have I ever using `{BOT_PREFIX}nhie` (read `{BOT_PREFIX}nhie help`)
     """,
@@ -63,7 +63,7 @@ TRUTH_HELP_PAGE = [
 - If no rating is specified, it will randomly choose `pg` or `pg13`
 - `pg`
 - `pg13`
-- `r` (NSFW channels only)",
+- `r` (NSFW channels only)
     """,
     },
 ]
@@ -77,7 +77,7 @@ DARE_HELP_PAGE = [
 - If no rating is specified, it will randomly choose `pg` or `pg13`
 - `pg`
 - `pg13`
-- `r` (NSFW channels only)",
+- `r` (NSFW channels only)
     """,
     },
 ]
@@ -91,7 +91,7 @@ WYR_HELP_PAGE = [
 - If no rating is specified, it will randomly choose `pg` or `pg13`
 - `pg`
 - `pg13`
-- `r` (NSFW channels only)",
+- `r` (NSFW channels only)
     """,
     },
 ]
@@ -105,7 +105,7 @@ NHIE_HELP_PAGE = [
 - If no rating is specified, it will randomly choose `pg` or `pg13`
 - `pg`
 - `pg13`
-- `r` (NSFW channels only)",
+- `r` (NSFW channels only)
     """,
     },
 ]
