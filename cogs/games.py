@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord import Embed, Color
 from games.cups import Cups
 from games.rps import RPSGame
-import asyncio, tools, constants, logger, db
+import asyncio, tools, constants, db
 
 
 class Games(commands.Cog):
