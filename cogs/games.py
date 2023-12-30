@@ -94,7 +94,11 @@ class Games(commands.Cog):
             return
 
         try:
-            await ctx.reply(await tools.get_truth(rating))
+            truth = await tools.get_truth(rating)
+            self.db.add_msg(
+                f'<@{ctx.author.id}> ({ctx.author.name}): give me a "truth or dare" truth question\nCranberryBot: {truth.lower()[:-1]}'
+            )
+            await ctx.reply(truth)
         except Exception as e:
             logger.error(str(e))
             await ctx.reply(f"`{e}`")
@@ -120,7 +124,11 @@ class Games(commands.Cog):
             return
 
         try:
-            await ctx.reply(await tools.get_dare(rating))
+            dare = await tools.get_dare(rating)
+            self.db.add_msg(
+                f'<@{ctx.author.id}> ({ctx.author.name}): give me a "truth or dare" dare\nCranberryBot: {dare.lower()[:-1]}'
+            )
+            await ctx.reply(dare)
         except Exception as e:
             logger.error(str(e))
             await ctx.reply(f"`{e}`")
@@ -146,7 +154,11 @@ class Games(commands.Cog):
             return
 
         try:
-            await ctx.reply(await tools.would_you_rather(rating))
+            wyr = await tools.would_you_rather(rating)
+            self.db.add_msg(
+                f"<@{ctx.author.id}> ({ctx.author.name}): give me a would you rather question\nCranberryBot: {wyr.lower()[:-1]}"
+            )
+            await ctx.reply(wyr)
         except Exception as e:
             logger.error(str(e))
             await ctx.reply(f"`{e}`")
@@ -172,7 +184,11 @@ class Games(commands.Cog):
             return
 
         try:
-            await ctx.reply(await tools.never_have_i_ever(rating))
+            nhie = await tools.never_have_i_ever(rating)
+            self.db.add_msg(
+                f"<@{ctx.author.id}> ({ctx.author.name}): give me a never have i ever question\nCranberryBot: {nhie.lower()[:-1]}"
+            )
+            await ctx.reply(nhie)
         except Exception as e:
             logger.error(str(e))
             await ctx.reply(f"`{e}`")
