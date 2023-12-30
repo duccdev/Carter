@@ -1,5 +1,5 @@
 from discord.ext import commands
-from discord import Embed, Color
+from discord import Embed, Color, TextChannel
 from games.cups import Cups
 from games.rps import RPSGame
 import asyncio, tools, constants, db
@@ -72,6 +72,98 @@ class Games(commands.Cog):
     async def rps(self, ctx: commands.Context) -> None:
         msg = await ctx.reply("Pick one:")
         await msg.edit(view=RPSGame(msg=msg, ctx=ctx, db=self.db))
+
+    @commands.command()
+    async def truth(self, ctx: commands.Context, rating: str | None) -> None:
+        if not rating:
+            rating = tools.random.choice(["pg", "pg13"])
+        elif rating != "pg" and rating != "pg13" and rating != "r":
+            embed = tools.create_embed(
+                f"`{constants.BOT_PREFIX}truth`",
+                constants.TRUTH_HELP_PAGE,
+            )
+            await ctx.reply(embed=embed)
+            return
+
+        if rating == "r" and (
+            isinstance(ctx.channel, TextChannel) and not ctx.channel.is_nsfw()
+        ):
+            await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
+            return
+
+        try:
+            await ctx.reply(await tools.get_truth(rating))
+        except Exception as e:
+            await ctx.reply(f"`{e}`")
+
+    @commands.command()
+    async def dare(self, ctx: commands.Context, rating: str | None) -> None:
+        if not rating:
+            rating = tools.random.choice(["pg", "pg13"])
+        elif rating != "pg" and rating != "pg13" and rating != "r":
+            embed = tools.create_embed(
+                f"`{constants.BOT_PREFIX}dare`",
+                constants.DARE_HELP_PAGE,
+            )
+            await ctx.reply(embed=embed)
+            return
+
+        if rating == "r" and (
+            isinstance(ctx.channel, TextChannel) and not ctx.channel.is_nsfw()
+        ):
+            await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
+            return
+
+        try:
+            await ctx.reply(await tools.get_dare(rating))
+        except Exception as e:
+            await ctx.reply(f"`{e}`")
+
+    @commands.command()
+    async def wyr(self, ctx: commands.Context, rating: str | None) -> None:
+        if not rating:
+            rating = tools.random.choice(["pg", "pg13"])
+        elif rating != "pg" and rating != "pg13" and rating != "r":
+            embed = tools.create_embed(
+                f"`{constants.BOT_PREFIX}wyr`",
+                constants.WYR_HELP_PAGE,
+            )
+            await ctx.reply(embed=embed)
+            return
+
+        if rating == "r" and (
+            isinstance(ctx.channel, TextChannel) and not ctx.channel.is_nsfw()
+        ):
+            await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
+            return
+
+        try:
+            await ctx.reply(await tools.would_you_rather(rating))
+        except Exception as e:
+            await ctx.reply(f"`{e}`")
+
+    @commands.command()
+    async def nhie(self, ctx: commands.Context, rating: str | None) -> None:
+        if not rating:
+            rating = tools.random.choice(["pg", "pg13"])
+        elif rating != "pg" and rating != "pg13" and rating != "r":
+            embed = tools.create_embed(
+                f"`{constants.BOT_PREFIX}nhie`",
+                constants.NHIE_HELP_PAGE,
+            )
+            await ctx.reply(embed=embed)
+            return
+
+        if rating == "r" and (
+            isinstance(ctx.channel, TextChannel) and not ctx.channel.is_nsfw()
+        ):
+            await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
+            return
+
+        try:
+            await ctx.reply(await tools.never_have_i_ever(rating))
+        except Exception as e:
+            await ctx.reply(f"`{e}`")
 
 
 async def setup(bot: commands.Bot):

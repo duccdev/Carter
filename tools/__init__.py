@@ -10,3 +10,6 @@ from .ping import ping
 from .insensitive_replace import insensitive_replace
 from .get_live_commit import get_live_commit
 from .random_id import random_id
+from .never_have_i_ever import never_have_i_ever
+from .truth_or_dare import get_truth, get_dare
+from .would_you_rather import would_you_rather

@@ -24,7 +24,7 @@ HELP_PAGE = [
 - Get a random dog using `{BOT_PREFIX}dog`
 - Get a random (useless!) fact using `{BOT_PREFIX}fact`
 - Get a random meme using `{BOT_PREFIX}meme`
-- Get a random meme from <@719562834295390299>'s collection using `{BOT_PREFIX}krill-meme`
+- Get a random meme from <@{KRILL}>'s collection using `{BOT_PREFIX}krill-meme`
     """,
     },
     {
@@ -34,6 +34,10 @@ HELP_PAGE = [
 - Roll the dice using `{BOT_PREFIX}dice`
 - Play a cup game using `{BOT_PREFIX}cups`
 - Play rock paper scissors using `{BOT_PREFIX}rps`
+- Get a dare using `{BOT_PREFIX}dare` (read `{BOT_PREFIX}dare help`)
+- Get a truth using `{BOT_PREFIX}truth` (read `{BOT_PREFIX}truth help`)
+- Get a would you rather using `{BOT_PREFIX}wyr` (read `{BOT_PREFIX}wyr help`)
+- Get a never have I ever using `{BOT_PREFIX}nhie` (read `{BOT_PREFIX}nhie help`)
     """,
     },
     {
@@ -46,6 +50,62 @@ HELP_PAGE = [
 - Reset your AI conversation using `{BOT_PREFIX}ai-reset`
 - Know the contributors using `{BOT_PREFIX}contributors`
 - Live Commit: **[{LIVE_COMMIT_SHORT}](https://github.com/krillissue/CranberryBot/commit/{LIVE_COMMIT_LONG})**
+    """,
+    },
+]
+
+TRUTH_HELP_PAGE = [
+    {"name": "Usage", "content": f"`{BOT_PREFIX}truth [rating]`"},
+    {"name": "Example", "content": f"`{BOT_PREFIX}truth pg13`"},
+    {
+        "name": "Ratings",
+        "content": """
+- If no rating is specified, it will randomly choose `pg` or `pg13`
+- `pg`
+- `pg13`
+- `r` (NSFW channels only)",
+    """,
+    },
+]
+
+DARE_HELP_PAGE = [
+    {"name": "Usage", "content": f"`{BOT_PREFIX}dare [rating]`"},
+    {"name": "Example", "content": f"`{BOT_PREFIX}dare pg13`"},
+    {
+        "name": "Ratings",
+        "content": """
+- If no rating is specified, it will randomly choose `pg` or `pg13`
+- `pg`
+- `pg13`
+- `r` (NSFW channels only)",
+    """,
+    },
+]
+
+WYR_HELP_PAGE = [
+    {"name": "Usage", "content": f"`{BOT_PREFIX}wyr [rating]`"},
+    {"name": "Example", "content": f"`{BOT_PREFIX}wyr pg13`"},
+    {
+        "name": "Ratings",
+        "content": """
+- If no rating is specified, it will randomly choose `pg` or `pg13`
+- `pg`
+- `pg13`
+- `r` (NSFW channels only)",
+    """,
+    },
+]
+
+NHIE_HELP_PAGE = [
+    {"name": "Usage", "content": f"`{BOT_PREFIX}nhie [rating]`"},
+    {"name": "Example", "content": f"`{BOT_PREFIX}nhie pg13`"},
+    {
+        "name": "Ratings",
+        "content": """
+- If no rating is specified, it will randomly choose `pg` or `pg13`
+- `pg`
+- `pg13`
+- `r` (NSFW channels only)",
     """,
     },
 ]
@@ -63,7 +123,7 @@ NSFW_HELP_PAGE = [
     {"name": "Example", "content": f"`{BOT_PREFIX}nsfw blowjob gif`"},
     {
         "name": "Categories and types",
-        "content": f"""
+        "content": """
 - `anal` (`gif`)
 - `blowjob` (`gif`)
 - `cum` (`gif`)
