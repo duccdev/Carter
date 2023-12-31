@@ -1,5 +1,5 @@
 from typing import Callable
-from discord.ext.commands import Context
+from discord.ext import commands
 from db import DB
 import discord, tools, constants, config
 
@@ -12,7 +12,7 @@ class CupButton(discord.ui.Button):
         this_cup: int,
         correct_cup: int,
         cups: list[discord.ButtonStyle],
-        ctx: Context,
+        ctx: commands.Context,
         stop_view: Callable,
     ) -> None:
         self.this_cup = this_cup
@@ -106,7 +106,7 @@ class Cups(discord.ui.View):
             discord.ButtonStyle.green,
             discord.ButtonStyle.blurple,
         ],
-        ctx: Context,
+        ctx: commands.Context,
         msg: discord.Message,
     ) -> None:
         self.cups = cups

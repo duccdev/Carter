@@ -1,5 +1,5 @@
 from typing import Callable
-from discord.ext.commands import Context
+from discord.ext import commands
 from db import DB
 import discord, tools, constants, config
 
@@ -11,7 +11,7 @@ class RPSButton(discord.ui.Button):
         style: discord.ButtonStyle = discord.ButtonStyle.secondary,
         this_choice: int,
         ai_choice: int,
-        ctx: Context,
+        ctx: commands.Context,
         stop_view: Callable,
     ) -> None:
         self.this_choice = this_choice
@@ -113,7 +113,7 @@ class RPSGame(discord.ui.View):
         self,
         *,
         timeout: float | None = 180,
-        ctx: Context,
+        ctx: commands.Context,
         msg: discord.Message,
     ) -> None:
         self.ai_choice = tools.random.randint(0, 2)

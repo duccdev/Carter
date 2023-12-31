@@ -42,6 +42,13 @@ HELP_PAGE = [
     """,
     },
     {
+        "name": ":hammer: Moderation",
+        "content": f"""
+- Ban a member using `{BOT_PREFIX}ban` (check `{BOT_PREFIX}ban help` for usage)
+- Unban a member using `{BOT_PREFIX}unban` (check `{BOT_PREFIX}unban help`)
+    """,
+    },
+    {
         "name": ":gear: Other",
         "content": f"""
 - Show this help page using `{BOT_PREFIX}help`
@@ -155,6 +162,25 @@ LEADERBOARD_HELP_PAGE = [
     {"name": "Usage", "content": f"`{BOT_PREFIX}leaderboard <game>`"},
     {"name": "Example", "content": f"`{BOT_PREFIX}leaderboard cups`"},
     {"name": "Supported games", "content": f"- `cups`\n- `rps`\n- `rps-pvp`"},
+]
+
+BAN_HELP_PAGE = [
+    {"name": "Usage", "content": f"`{BOT_PREFIX}ban <user> [reason]`"},
+    {
+        "name": "Examples",
+        "content": f"""
+- `{BOT_PREFIX}ban @mewhenkrillissue trolling`
+- `{BOT_PREFIX}ban @mewhenkrillissue`
+    """,
+    },
+]
+
+UNBAN_HELP_PAGE = [
+    {"name": "Usage", "content": f"`{BOT_PREFIX}unban <user>`"},
+    {
+        "name": "Examples",
+        "content": f"- `{BOT_PREFIX}unban @mewhenkrillissue`",
+    },
 ]
 
 NSFW_WRONG_CHANNEL = "ayo wtf you doin? take that shit to the nsfw channels!"

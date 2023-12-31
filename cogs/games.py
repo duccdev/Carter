@@ -1,9 +1,8 @@
 from discord.ext import commands
-from discord import Embed, Color, Member, TextChannel, User
 from games.cups import Cups
 from games.rps import RPSGame
 from games.rpspvp import RPSPVPGame
-import asyncio, tools, constants, db, logger
+import asyncio, tools, constants, db, logger, discord
 
 
 class Games(commands.Cog):
@@ -42,10 +41,10 @@ class Games(commands.Cog):
                 if count >= 10:
                     break
 
-            embed = Embed(
+            embed = discord.Embed(
                 title="Leaderboard",
                 description=players.strip(),
-                color=Color.random(),
+                color=discord.Color.random(),
             )
 
             await ctx.send(embed=embed)
@@ -72,7 +71,9 @@ class Games(commands.Cog):
         await msg.edit(view=RPSGame(msg=msg, ctx=ctx))
 
     @commands.command("rps-pvp")
-    async def rpspvp(self, ctx: commands.Context, p2: Member | User | None) -> None:
+    async def rpspvp(
+        self, ctx: commands.Context, p2: discord.Member | discord.User | None
+    ) -> None:
         if not p2:
             await ctx.reply(f"Usage: `{constants.BOT_PREFIX}rps-pvp <other_member>`")
             return
@@ -104,7 +105,7 @@ class Games(commands.Cog):
             return
 
         if rating == "r" and (
-            isinstance(ctx.channel, TextChannel) and not ctx.channel.is_nsfw()
+            isinstance(ctx.channel, discord.TextChannel) and not ctx.channel.is_nsfw()
         ):
             await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
             return
@@ -138,7 +139,7 @@ class Games(commands.Cog):
             return
 
         if rating == "r" and (
-            isinstance(ctx.channel, TextChannel) and not ctx.channel.is_nsfw()
+            isinstance(ctx.channel, discord.TextChannel) and not ctx.channel.is_nsfw()
         ):
             await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
             return
@@ -172,7 +173,7 @@ class Games(commands.Cog):
             return
 
         if rating == "r" and (
-            isinstance(ctx.channel, TextChannel) and not ctx.channel.is_nsfw()
+            isinstance(ctx.channel, discord.TextChannel) and not ctx.channel.is_nsfw()
         ):
             await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
             return
@@ -206,7 +207,7 @@ class Games(commands.Cog):
             return
 
         if rating == "r" and (
-            isinstance(ctx.channel, TextChannel) and not ctx.channel.is_nsfw()
+            isinstance(ctx.channel, discord.TextChannel) and not ctx.channel.is_nsfw()
         ):
             await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
             return

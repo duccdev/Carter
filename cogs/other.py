@@ -1,8 +1,7 @@
 from discord.ext import commands
-from discord import TextChannel, Embed, Message, Color
 from db import DB
 from views.poll import Poll
-import constants, tools, PIL.Image, os, ai, logger, checks
+import constants, tools, PIL.Image, os, ai, logger, checks, discord
 
 
 class Other(commands.Cog):
@@ -33,7 +32,7 @@ class Other(commands.Cog):
     async def poll(
         self,
         ctx: commands.Context,
-        channel: TextChannel | None,
+        channel: discord.TextChannel | None,
         poll: str | None,
         options: str | None,
     ) -> None:
@@ -55,10 +54,10 @@ class Other(commands.Cog):
             await ctx.reply(embed=help_page)
             return
 
-        embed = Embed(
+        embed = discord.Embed(
             title=f"Poll by {ctx.message.author.display_name}",
             description=poll,
-            color=Color.random(),
+            color=discord.Color.random(),
         )
 
         await channel.send(
@@ -79,7 +78,7 @@ class Other(commands.Cog):
         )
 
     @commands.Cog.listener()
-    async def on_message(self, msg: Message):
+    async def on_message(self, msg: discord.Message):
         if not self.bot.user:
             return
 

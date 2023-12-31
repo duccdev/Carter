@@ -1,6 +1,6 @@
 from typing import Callable
 from db import DB
-import discord, tools, constants, config
+import discord, constants
 
 
 class RPSP1Button(discord.ui.Button):

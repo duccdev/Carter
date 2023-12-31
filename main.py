@@ -18,6 +18,7 @@ async def setup_hook() -> None:
     await cranberry.load_extension("cogs.nsfw")
     await cranberry.load_extension("cogs.games")
     await cranberry.load_extension("cogs.developer")
+    await cranberry.load_extension("cogs.moderation")
 
 
 cranberry.setup_hook = setup_hook
