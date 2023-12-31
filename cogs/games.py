@@ -17,13 +17,7 @@ class Games(commands.Cog):
         supported_games = ["cups", "rps", "rps-pvp"]
 
         if not game or game not in supported_games:
-            await ctx.reply(
-                embed=tools.create_embed(
-                    f"`{constants.BOT_PREFIX}leaderboard`",
-                    constants.LEADERBOARD_HELP_PAGE,
-                )
-            )
-
+            await ctx.reply(embed=tools.create_embed(constants.LEADERBOARD_HELP_PAGE))
             return
 
         self.db.load()
@@ -97,11 +91,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            embed = tools.create_embed(
-                f"`{constants.BOT_PREFIX}truth`",
-                constants.TRUTH_HELP_PAGE,
-            )
-            await ctx.reply(embed=embed)
+            await ctx.reply(embed=tools.create_embed(constants.TRUTH_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -131,11 +121,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            embed = tools.create_embed(
-                f"`{constants.BOT_PREFIX}dare`",
-                constants.DARE_HELP_PAGE,
-            )
-            await ctx.reply(embed=embed)
+            await ctx.reply(embed=tools.create_embed(constants.DARE_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -165,11 +151,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            embed = tools.create_embed(
-                f"`{constants.BOT_PREFIX}wyr`",
-                constants.WYR_HELP_PAGE,
-            )
-            await ctx.reply(embed=embed)
+            await ctx.reply(embed=tools.create_embed(constants.WYR_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -199,11 +181,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            embed = tools.create_embed(
-                f"`{constants.BOT_PREFIX}nhie`",
-                constants.NHIE_HELP_PAGE,
-            )
-            await ctx.reply(embed=embed)
+            await ctx.reply(embed=tools.create_embed(constants.NHIE_HELP_PAGE))
             return
 
         if rating == "r" and (

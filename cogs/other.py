@@ -1,6 +1,7 @@
 from discord.ext import commands
 from db import DB
 from views.poll import Poll
+from views.help import HelpView
 import constants, tools, PIL.Image, os, ai, logger, checks, discord
 
 
@@ -11,12 +12,12 @@ class Other(commands.Cog):
 
     @commands.command()
     async def help(self, ctx: commands.Context) -> None:
-        embed = tools.create_embed("Help", constants.HELP_PAGE)
+        embed = tools.create_embed(constants.HELP_PAGES["main"])
 
         if self.bot.user:  # i have to do this so python wont annoy me
             embed.set_thumbnail(url=self.bot.user.display_avatar)
 
-        await ctx.reply(embed=embed)
+        await ctx.reply(embed=embed, view=HelpView(sender=ctx.author.id))
 
     @commands.command()
     async def ping(self, ctx: commands.Context) -> None:
@@ -36,9 +37,7 @@ class Other(commands.Cog):
         poll: str | None,
         options: str | None,
     ) -> None:
-        help_page = tools.create_embed(
-            f"`{constants.BOT_PREFIX}poll`", constants.POLL_HELP_PAGE
-        )
+        help_page = tools.create_embed(constants.POLL_HELP_PAGE)
 
         if not channel or not poll or not options:
             await ctx.reply(embed=help_page)
@@ -73,9 +72,7 @@ class Other(commands.Cog):
 
     @commands.command()
     async def contributors(self, ctx: commands.Context):
-        await ctx.reply(
-            embed=tools.create_embed("Contributors", constants.CONTRIBUTORS)
-        )
+        await ctx.reply(embed=tools.create_embed(constants.CONTRIBUTORS))
 
     @commands.Cog.listener()
     async def on_message(self, msg: discord.Message):

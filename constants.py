@@ -10,26 +10,30 @@ LIVE_COMMIT_SHORT, LIVE_COMMIT_LONG = tools.get_live_commit()
 
 LOG_PREFIX = f"[{colors.RED}Cranberry{colors.END}Bot]"
 
-ERROR = "i fucked up LMAO :sob:"
-
-HELP_PAGE = [
-    {
-        "name": ":smirk: NSFW",
-        "content": f"- Fetch images/GIFs using `{BOT_PREFIX}nsfw`",
+HELP_PAGES = {
+    "main": {
+        "title": "❓ Help",
+        "description": """
+- 🙂 Fun
+- 🎲 Games
+- 🔨 Moderation
+- 😏 NSFW
+- ⚙️ Other
+        """,
     },
-    {
-        "name": ":slight_smile: Fun commands",
-        "content": f"""
+    "fun": {
+        "title": "🙂 Fun",
+        "description": f"""
 - Get a random cat using `{BOT_PREFIX}cat`
 - Get a random dog using `{BOT_PREFIX}dog`
 - Get a random (useless!) fact using `{BOT_PREFIX}fact`
 - Get a random meme using `{BOT_PREFIX}meme`
 - Get a random meme from <@{KRILL}>'s collection using `{BOT_PREFIX}krill-meme`
-    """,
+        """,
     },
-    {
-        "name": ":game_die: Games",
-        "content": f"""
+    "games": {
+        "title": "🎲 Games",
+        "description": f"""
 - Get the leaderboard of a game using `{BOT_PREFIX}leaderboard`
 - Roll the dice using `{BOT_PREFIX}dice`
 - Play a cup game using `{BOT_PREFIX}cups`
@@ -39,18 +43,22 @@ HELP_PAGE = [
 - Get a dare using `{BOT_PREFIX}dare` (read `{BOT_PREFIX}dare help`)
 - Get a would you rather using `{BOT_PREFIX}wyr` (read `{BOT_PREFIX}wyr help`)
 - Get a never have I ever using `{BOT_PREFIX}nhie` (read `{BOT_PREFIX}nhie help`)
-    """,
+        """,
     },
-    {
-        "name": ":hammer: Moderation",
-        "content": f"""
+    "moderation": {
+        "title": "🔨 Moderation",
+        "description": f"""
 - Ban a member using `{BOT_PREFIX}ban` (check `{BOT_PREFIX}ban help` for usage)
 - Unban a member using `{BOT_PREFIX}unban` (check `{BOT_PREFIX}unban help`)
-    """,
+        """,
     },
-    {
-        "name": ":gear: Other",
-        "content": f"""
+    "nsfw": {
+        "title": "😏 NSFW",
+        "description": f"- Fetch images/GIFs using `{BOT_PREFIX}nsfw`",
+    },
+    "other": {
+        "title": "⚙️ Other",
+        "description": f"""
 - Show this help page using `{BOT_PREFIX}help`
 - Start a server poll using `{BOT_PREFIX}poll` if permitted
 - Check bot ping using `{BOT_PREFIX}ping`
@@ -58,80 +66,97 @@ HELP_PAGE = [
 - Reset your AI conversation using `{BOT_PREFIX}ai-reset`
 - Know the contributors using `{BOT_PREFIX}contributors`
 - Live Commit: **[{LIVE_COMMIT_SHORT}](https://github.com/krillissue/CranberryBot/commit/{LIVE_COMMIT_LONG})**
-    """,
+        """,
     },
-]
+}
 
-TRUTH_HELP_PAGE = [
-    {"name": "Usage", "content": f"`{BOT_PREFIX}truth [rating]`"},
-    {"name": "Example", "content": f"`{BOT_PREFIX}truth pg13`"},
-    {
-        "name": "Ratings",
-        "content": """
+TRUTH_HELP_PAGE = {
+    "title": f"{BOT_PREFIX}truth",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}truth [rating]`"},
+        {"name": "Example", "content": f"`{BOT_PREFIX}truth pg13`"},
+        {
+            "name": "Ratings",
+            "content": """
 - If no rating is specified, it will randomly choose `pg` or `pg13`
 - `pg`
 - `pg13`
 - `r` (NSFW channels only)
-    """,
-    },
-]
+            """,
+        },
+    ],
+}
 
-DARE_HELP_PAGE = [
-    {"name": "Usage", "content": f"`{BOT_PREFIX}dare [rating]`"},
-    {"name": "Example", "content": f"`{BOT_PREFIX}dare pg13`"},
-    {
-        "name": "Ratings",
-        "content": """
+DARE_HELP_PAGE = {
+    "title": f"{BOT_PREFIX}dare",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}dare [rating]`"},
+        {"name": "Example", "content": f"`{BOT_PREFIX}dare pg13`"},
+        {
+            "name": "Ratings",
+            "content": """
 - If no rating is specified, it will randomly choose `pg` or `pg13`
 - `pg`
 - `pg13`
 - `r` (NSFW channels only)
-    """,
-    },
-]
+        """,
+        },
+    ],
+}
 
-WYR_HELP_PAGE = [
-    {"name": "Usage", "content": f"`{BOT_PREFIX}wyr [rating]`"},
-    {"name": "Example", "content": f"`{BOT_PREFIX}wyr pg13`"},
-    {
-        "name": "Ratings",
-        "content": """
+WYR_HELP_PAGE = {
+    "title": f"{BOT_PREFIX}wyr",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}wyr [rating]`"},
+        {"name": "Example", "content": f"`{BOT_PREFIX}wyr pg13`"},
+        {
+            "name": "Ratings",
+            "content": """
 - If no rating is specified, it will randomly choose `pg` or `pg13`
 - `pg`
 - `pg13`
 - `r` (NSFW channels only)
-    """,
-    },
-]
+        """,
+        },
+    ],
+}
 
-NHIE_HELP_PAGE = [
-    {"name": "Usage", "content": f"`{BOT_PREFIX}nhie [rating]`"},
-    {"name": "Example", "content": f"`{BOT_PREFIX}nhie pg13`"},
-    {
-        "name": "Ratings",
-        "content": """
+NHIE_HELP_PAGE = {
+    "title": f"{BOT_PREFIX}nhie",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}nhie [rating]`"},
+        {"name": "Example", "content": f"`{BOT_PREFIX}nhie pg13`"},
+        {
+            "name": "Ratings",
+            "content": """
 - If no rating is specified, it will randomly choose `pg` or `pg13`
 - `pg`
 - `pg13`
 - `r` (NSFW channels only)
-    """,
-    },
-]
+        """,
+        },
+    ],
+}
 
-CONTRIBUTORS = [
-    {
-        "name": "Developers",
-        "content": f"- <@{KRILL}> (Founder)\n- <@{SQD}> (AI dev, helper)",
-    },
-    {"name": "Special thanks", "content": f"- <@{BALU}> for hosting this bot"},
-]
+CONTRIBUTORS = {
+    "title": "Contributors",
+    "fields": [
+        {
+            "name": "Developers",
+            "content": f"- <@{KRILL}> (Founder)\n- <@{SQD}> (AI dev, helper)",
+        },
+        {"name": "Special thanks", "content": f"- <@{BALU}> for hosting this bot"},
+    ],
+}
 
-NSFW_HELP_PAGE = [
-    {"name": "Usage", "content": f"`{BOT_PREFIX}nsfw <category> <type>`"},
-    {"name": "Example", "content": f"`{BOT_PREFIX}nsfw blowjob gif`"},
-    {
-        "name": "Categories and types",
-        "content": """
+NSFW_HELP_PAGE = {
+    "title": f"{BOT_PREFIX}nsfw",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}nsfw <category> <type>`"},
+        {"name": "Example", "content": f"`{BOT_PREFIX}nsfw blowjob gif`"},
+        {
+            "name": "Categories and types",
+            "content": """
 - `anal` (`gif`)
 - `blowjob` (`gif`)
 - `cum` (`gif`)
@@ -145,43 +170,56 @@ NSFW_HELP_PAGE = [
 - `threesome_mmf` (`gif`)
 - `yaoi` (`gif`)
 - `yuri` (`gif`)
-    """,
-    },
-]
+        """,
+        },
+    ],
+}
 
-POLL_HELP_PAGE = [
-    {"name": "Usage", "content": f"`{BOT_PREFIX}poll <channel> <poll> <options>`"},
-    {
-        "name": "Example",
-        "content": f'`{BOT_PREFIX}poll #polls "should i set a minecraft server up for this server? (1: yes, 2: no)" 2`',
-    },
-    {"name": "Rules", "content": "- Options must be between 1 and 10"},
-]
+POLL_HELP_PAGE = {
+    "title": f"{BOT_PREFIX}poll",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}poll <channel> <poll> <options>`"},
+        {
+            "name": "Example",
+            "content": f'`{BOT_PREFIX}poll #polls "should i set a minecraft server up for this server? (1: yes, 2: no)" 2`',
+        },
+        {"name": "Rules", "content": "- Options must be between 1 and 10"},
+    ],
+}
 
-LEADERBOARD_HELP_PAGE = [
-    {"name": "Usage", "content": f"`{BOT_PREFIX}leaderboard <game>`"},
-    {"name": "Example", "content": f"`{BOT_PREFIX}leaderboard cups`"},
-    {"name": "Supported games", "content": f"- `cups`\n- `rps`\n- `rps-pvp`"},
-]
+LEADERBOARD_HELP_PAGE = {
+    "title": f"{BOT_PREFIX}leaderboard",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}leaderboard <game>`"},
+        {"name": "Example", "content": f"`{BOT_PREFIX}leaderboard cups`"},
+        {"name": "Supported games", "content": f"- `cups`\n- `rps`\n- `rps-pvp`"},
+    ],
+}
 
-BAN_HELP_PAGE = [
-    {"name": "Usage", "content": f"`{BOT_PREFIX}ban <user> [reason]`"},
-    {
-        "name": "Examples",
-        "content": f"""
+BAN_HELP_PAGE = {
+    "title": f"{BOT_PREFIX}ban",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}ban <user> [reason]`"},
+        {
+            "name": "Examples",
+            "content": f"""
 - `{BOT_PREFIX}ban @mewhenkrillissue trolling`
 - `{BOT_PREFIX}ban @mewhenkrillissue`
-    """,
-    },
-]
+        """,
+        },
+    ],
+}
 
-UNBAN_HELP_PAGE = [
-    {"name": "Usage", "content": f"`{BOT_PREFIX}unban <user>`"},
-    {
-        "name": "Examples",
-        "content": f"- `{BOT_PREFIX}unban @mewhenkrillissue`",
-    },
-]
+UNBAN_HELP_PAGE = {
+    "title": f"{BOT_PREFIX}unban",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}unban <user>`"},
+        {
+            "name": "Examples",
+            "content": f"- `{BOT_PREFIX}unban @mewhenkrillissue`",
+        },
+    ],
+}
 
 NSFW_WRONG_CHANNEL = "ayo wtf you doin? take that shit to the nsfw channels!"
 NSFW_NOT_FOUND = (

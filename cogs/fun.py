@@ -11,44 +11,40 @@ class Fun(commands.Cog):
     async def cat(self, ctx: commands.Context) -> None:
         cat_bytes = BytesIO()
         cat_ext = ""
-        error = False
+        error = ""
 
         async with ctx.typing():
             try:
                 cat_bytes, cat_ext = await tools.get_cat()
             except Exception as e:
-                logger.error(e)
-                error = True
-                return
-
-        await ctx.typing()
+                logger.error(str(e))
+                error = str(e)
 
         if error:
-            await ctx.reply(constants.ERROR)
+            await ctx.reply(error)
             return
 
-        await ctx.reply(file=discord.File(cat_bytes, f"dog{cat_ext}"))
+        await ctx.typing()
+        await ctx.reply(file=discord.File(cat_bytes, f"cat{cat_ext}"))
 
     @commands.command()
     async def dog(self, ctx: commands.Context) -> None:
         dog_bytes = BytesIO()
         dog_ext = ""
-        error = False
+        error = ""
 
         async with ctx.typing():
             try:
                 dog_bytes, dog_ext = await tools.get_dog()
             except Exception as e:
-                logger.error(e)
-                error = True
-                return
-
-        await ctx.typing()
+                logger.error(str(e))
+                error = str(e)
 
         if error:
-            await ctx.reply(constants.ERROR)
+            await ctx.reply(error)
             return
 
+        await ctx.typing()
         await ctx.reply(file=discord.File(dog_bytes, f"dog{dog_ext}"))
 
     @commands.command()
@@ -60,12 +56,11 @@ class Fun(commands.Cog):
                 fact = await tools.get_fact()
                 fact = fact.replace("`", "\\`")
             except Exception as e:
-                logger.error(e)
-                fact = constants.ERROR
+                logger.error(str(e))
+                fact = f"`{e}`"
                 return
 
         await ctx.typing()
-
         await ctx.reply(fact)
 
     @commands.command()
@@ -73,7 +68,7 @@ class Fun(commands.Cog):
         meme_title = ""
         meme_bytes = BytesIO()
         meme_ext = ""
-        error = False
+        error = ""
 
         async with ctx.typing():
             meme_nsfw = True
@@ -82,24 +77,22 @@ class Fun(commands.Cog):
                 try:
                     meme_title, meme_bytes, meme_ext, meme_nsfw = await tools.get_meme()
                 except Exception as e:
-                    logger.error(e)
-                    error = True
-                    return
+                    logger.error(str(e))
+                    error = str(e)
 
             while meme_nsfw:
                 try:
                     meme_title, meme_bytes, meme_ext, meme_nsfw = await tools.get_meme()
                 except Exception as e:
-                    logger.error(e)
-                    error = True
-                    return
+                    logger.error(str(e))
+                    error = str(e)
 
             meme_title = meme_title.replace("`", "'")
 
         await ctx.typing()
 
         if error:
-            await ctx.reply(constants.ERROR)
+            await ctx.reply(error)
             return
 
         await ctx.reply(

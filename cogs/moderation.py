@@ -17,12 +17,7 @@ class Moderation(commands.Cog):
         await ctx.typing()
 
         if not user:
-            await ctx.reply(
-                embed=tools.create_embed(
-                    f"`{constants.BOT_PREFIX}ban`",
-                    constants.BAN_HELP_PAGE,
-                )
-            )
+            await ctx.reply(embed=tools.create_embed(constants.BAN_HELP_PAGE))
             return
 
         if user == self.bot.user:
@@ -81,12 +76,7 @@ class Moderation(commands.Cog):
         await ctx.typing()
 
         if not user:
-            await ctx.reply(
-                embed=tools.create_embed(
-                    f"`{constants.BOT_PREFIX}unban`",
-                    constants.UNBAN_HELP_PAGE,
-                )
-            )
+            await ctx.reply(embed=tools.create_embed(constants.UNBAN_HELP_PAGE))
             return
 
         if not ctx.guild:
