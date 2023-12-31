@@ -134,7 +134,7 @@ class Fun(commands.Cog):
     @commands.command("a-pussy")
     async def pussy(self, ctx: commands.Context):
         await ctx.typing()
-        await ctx.reply(file=discord.File("static/a-pussy.gif"))
+        await ctx.reply("https://tenor.com/view/cat-gif-25381727")
 
 
 async def setup(bot: commands.Bot) -> None:
