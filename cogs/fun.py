@@ -136,6 +136,11 @@ class Fun(commands.Cog):
         await ctx.typing()
         await ctx.reply("https://tenor.com/view/cat-gif-25381727")
 
+    @commands.command()
+    async def ascension(self, ctx: commands.Context):
+        await ctx.typing()
+        await ctx.reply(file=discord.File("static/ascension.mp3"))
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Fun(bot))
