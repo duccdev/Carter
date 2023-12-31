@@ -60,7 +60,7 @@ class Moderation(commands.Cog):
         await user.send(
             f"You have been banned from **{ctx.guild.name}**\nReason: **{reason_str.strip() or 'Unprovided'}**"
         )
-        await ctx.guild.ban(user)
+        await ctx.guild.ban(user, reason=(reason_str.strip() or "Unprovided"))
 
         await ctx.message.add_reaction("✅")
 
