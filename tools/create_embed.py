@@ -7,6 +7,9 @@ def create_embed(embed_template: dict):
     if embed_template.get("description"):
         embed.description = embed_template["description"]
 
+    if embed_template.get("footer"):
+        embed.set_footer(text=embed_template["footer"])
+
     for field in embed_template.get("fields", []):
         embed.add_field(name=field["name"], value=field["content"], inline=False)
 

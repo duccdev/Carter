@@ -20,6 +20,7 @@ HELP_PAGES = {
 - 😏 NSFW
 - ⚙️ Other
         """,
+        "footer": f"Quickly access this page using `{BOT_PREFIX}help main`",
     },
     "fun": {
         "title": "🙂 Fun",
@@ -30,6 +31,7 @@ HELP_PAGES = {
 - Get a random meme using `{BOT_PREFIX}meme`
 - Get a random meme from <@{KRILL}>'s collection using `{BOT_PREFIX}krill-meme`
         """,
+        "footer": f"Quickly access this page using `{BOT_PREFIX}help fun`",
     },
     "games": {
         "title": "🎲 Games",
@@ -44,6 +46,7 @@ HELP_PAGES = {
 - Get a would you rather using `{BOT_PREFIX}wyr` (read `{BOT_PREFIX}wyr help`)
 - Get a never have I ever using `{BOT_PREFIX}nhie` (read `{BOT_PREFIX}nhie help`)
         """,
+        "footer": f"Quickly access this page using `{BOT_PREFIX}help games`",
     },
     "moderation": {
         "title": "🔨 Moderation",
@@ -51,10 +54,12 @@ HELP_PAGES = {
 - Ban a member using `{BOT_PREFIX}ban` (check `{BOT_PREFIX}ban help` for usage)
 - Unban a member using `{BOT_PREFIX}unban` (check `{BOT_PREFIX}unban help`)
         """,
+        "footer": f"Quickly access this page using `{BOT_PREFIX}help moderation`",
     },
     "nsfw": {
         "title": "😏 NSFW",
         "description": f"- Fetch images/GIFs using `{BOT_PREFIX}nsfw`",
+        "footer": f"Quickly access this page using `{BOT_PREFIX}help nsfw`",
     },
     "other": {
         "title": "⚙️ Other",
@@ -67,6 +72,7 @@ HELP_PAGES = {
 - Know the contributors using `{BOT_PREFIX}contributors`
 - Live Commit: **[{LIVE_COMMIT_SHORT}](https://github.com/krillissue/CranberryBot/commit/{LIVE_COMMIT_LONG})**
         """,
+        "footer": f"Quickly access this page using `{BOT_PREFIX}help other`",
     },
 }
 

@@ -11,11 +11,11 @@ class Other(commands.Cog):
         self.db = DB()
 
     @commands.command()
-    async def help(self, ctx: commands.Context) -> None:
-        embed = tools.create_embed(constants.HELP_PAGES["main"])
-
-        if self.bot.user:  # i have to do this so python wont annoy me
-            embed.set_thumbnail(url=self.bot.user.display_avatar)
+    async def help(self, ctx: commands.Context, page: str | None) -> None:
+        if page and page in constants.HELP_PAGES:
+            embed = tools.create_embed(constants.HELP_PAGES[page])
+        else:
+            embed = tools.create_embed(constants.HELP_PAGES["main"])
 
         await ctx.reply(embed=embed, view=HelpView(sender=ctx.author.id))
 
