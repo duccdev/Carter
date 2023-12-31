@@ -53,6 +53,7 @@ HELP_PAGES = {
         "description": f"""
 - Ban a member using `{BOT_PREFIX}ban` (check `{BOT_PREFIX}ban help` for usage)
 - Unban a member using `{BOT_PREFIX}unban` (check `{BOT_PREFIX}unban help`)
+- Kick a member using `{BOT_PREFIX}kick` (check `{BOT_PREFIX}kick help` for usage)
         """,
         "footer": f"Quickly access this page using `{BOT_PREFIX}help moderation`",
     },
@@ -221,8 +222,22 @@ UNBAN_HELP_PAGE = {
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}unban <user>`"},
         {
-            "name": "Examples",
+            "name": "Example",
             "content": f"- `{BOT_PREFIX}unban @mewhenkrillissue`",
+        },
+    ],
+}
+
+KICK_HELP_PAGE = {
+    "title": f"{BOT_PREFIX}kick",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}kick <user> [reason]`"},
+        {
+            "name": "Examples",
+            "content": f"""
+- `{BOT_PREFIX}kick @mewhenkrillissue trolling`
+- `{BOT_PREFIX}kick @mewhenkrillissue`
+        """,
         },
     ],
 }

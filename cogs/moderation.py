@@ -96,6 +96,64 @@ class Moderation(commands.Cog):
         except discord.NotFound:
             await ctx.reply(":x: User is already unbanned!")
 
+    @commands.command()
+    @checks.owner_or_perms(kick_members=True)
+    async def kick(
+        self,
+        ctx: commands.Context,
+        user: discord.User | discord.Member | None,
+        *reason: str,
+    ) -> None:
+        if not user:
+            await ctx.reply(embed=tools.create_embed(constants.KICK_HELP_PAGE))
+            return
+
+        if user == self.bot.user:
+            await ctx.reply("NEGAWATT")
+            return
+
+        if user == ctx.author:
+            await ctx.reply("but why tho :skull:")
+            return
+
+        if user.id == constants.KRILL:
+            await ctx.reply("AIN'T NO WAY :skull_crossbones:")
+            return
+
+        if not ctx.guild:
+            return
+
+        user = ctx.guild.get_member(user.id)
+
+        if not user:
+            await ctx.reply(":x: User is not a member of this server!")
+            return
+
+        reason_str = "".join([f"{word} " for word in reason])
+
+        if not self.bot.user:
+            return
+
+        bot_member = ctx.guild.get_member(self.bot.user.id)
+
+        if not bot_member:
+            return
+
+        if not bot_member.guild_permissions.kick_members:
+            await ctx.reply(":x: I don't have the permission to kick!")
+            return
+
+        if user.top_role.position > bot_member.top_role.position:
+            await ctx.reply(":x: Cannot kick a user higher than me!")
+            return
+
+        await user.send(
+            f"You have been kicked from **{ctx.guild.name}**\nReason: **{reason_str.strip() or 'Unprovided'}**"
+        )
+        await ctx.guild.kick(user, reason=(reason_str.strip() or "Unprovided"))
+
+        await ctx.message.add_reaction("✅")
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Moderation(bot))
