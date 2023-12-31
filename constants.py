@@ -78,7 +78,7 @@ HELP_PAGES = {
 }
 
 TRUTH_HELP_PAGE = {
-    "title": f"{BOT_PREFIX}truth",
+    "title": f"`{BOT_PREFIX}truth`",
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}truth [rating]`"},
         {"name": "Example", "content": f"`{BOT_PREFIX}truth pg13`"},
@@ -95,7 +95,7 @@ TRUTH_HELP_PAGE = {
 }
 
 DARE_HELP_PAGE = {
-    "title": f"{BOT_PREFIX}dare",
+    "title": f"`{BOT_PREFIX}dare`",
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}dare [rating]`"},
         {"name": "Example", "content": f"`{BOT_PREFIX}dare pg13`"},
@@ -112,7 +112,7 @@ DARE_HELP_PAGE = {
 }
 
 WYR_HELP_PAGE = {
-    "title": f"{BOT_PREFIX}wyr",
+    "title": f"`{BOT_PREFIX}wyr`",
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}wyr [rating]`"},
         {"name": "Example", "content": f"`{BOT_PREFIX}wyr pg13`"},
@@ -129,7 +129,7 @@ WYR_HELP_PAGE = {
 }
 
 NHIE_HELP_PAGE = {
-    "title": f"{BOT_PREFIX}nhie",
+    "title": f"`{BOT_PREFIX}nhie`",
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}nhie [rating]`"},
         {"name": "Example", "content": f"`{BOT_PREFIX}nhie pg13`"},
@@ -157,7 +157,7 @@ CONTRIBUTORS = {
 }
 
 NSFW_HELP_PAGE = {
-    "title": f"{BOT_PREFIX}nsfw",
+    "title": f"`{BOT_PREFIX}nsfw`",
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}nsfw <category> <type>`"},
         {"name": "Example", "content": f"`{BOT_PREFIX}nsfw blowjob gif`"},
@@ -183,7 +183,7 @@ NSFW_HELP_PAGE = {
 }
 
 POLL_HELP_PAGE = {
-    "title": f"{BOT_PREFIX}poll",
+    "title": f"`{BOT_PREFIX}poll`",
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}poll <channel> <poll> <options>`"},
         {
@@ -195,7 +195,7 @@ POLL_HELP_PAGE = {
 }
 
 LEADERBOARD_HELP_PAGE = {
-    "title": f"{BOT_PREFIX}leaderboard",
+    "title": f"`{BOT_PREFIX}leaderboard`",
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}leaderboard <game>`"},
         {"name": "Example", "content": f"`{BOT_PREFIX}leaderboard cups`"},
@@ -204,7 +204,7 @@ LEADERBOARD_HELP_PAGE = {
 }
 
 BAN_HELP_PAGE = {
-    "title": f"{BOT_PREFIX}ban",
+    "title": f"`{BOT_PREFIX}ban`",
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}ban <user> [reason]`"},
         {
@@ -218,7 +218,7 @@ BAN_HELP_PAGE = {
 }
 
 UNBAN_HELP_PAGE = {
-    "title": f"{BOT_PREFIX}unban",
+    "title": f"`{BOT_PREFIX}unban`",
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}unban <user>`"},
         {
@@ -229,7 +229,7 @@ UNBAN_HELP_PAGE = {
 }
 
 KICK_HELP_PAGE = {
-    "title": f"{BOT_PREFIX}kick",
+    "title": f"`{BOT_PREFIX}kick`",
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}kick <user> [reason]`"},
         {
