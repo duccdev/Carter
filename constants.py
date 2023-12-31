@@ -220,6 +220,13 @@ You have these commands that you may see in the message history (If you are prom
 {BOT_PREFIX}rps: Play rock paper scissors
 {BOT_PREFIX}poll: Start a poll
 {BOT_PREFIX}ping: Returns server ping
+{BOT_PREFIX}ban: Bans a member
+{BOT_PREFIX}unban: Unbans a member
+{BOT_PREFIX}rps-pvp: Play RPS against others
+{BOT_PREFIX}truth: "Truth or dare" truth question
+{BOT_PREFIX}dare: "Truth or dare" dare
+{BOT_PREFIX}wyr: Would you rather question
+{BOT_PREFIX}nhie: Never have I ever question
 
 <@NUMBER_HERE> is a "mention", where NUMBER_HERE is the user's ID. If you want to mention anyone, just send their <@ID>
 An example is <@719562834295390299>
