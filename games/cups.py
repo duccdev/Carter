@@ -1,6 +1,7 @@
 from typing import Callable
 from discord.ext.commands import Context
-import discord, tools, db, constants, config
+from db import DB
+import discord, tools, constants, config
 
 
 class CupButton(discord.ui.Button):
@@ -12,15 +13,14 @@ class CupButton(discord.ui.Button):
         correct_cup: int,
         cups: list[discord.ButtonStyle],
         ctx: Context,
-        db: db.DB,
-        kill_view: Callable,
+        stop_view: Callable,
     ) -> None:
         self.this_cup = this_cup
         self.correct_cup = correct_cup
         self.cups = cups
         self.ctx = ctx
-        self.db = db
-        self.kill_view = kill_view
+        self.db = DB()
+        self.stop_view = stop_view
 
         super().__init__(
             style=style,
@@ -79,7 +79,7 @@ class CupButton(discord.ui.Button):
                 view=view,
             )
 
-            self.kill_view()
+            self.stop_view()
 
             self.db.add_win(
                 "cups",
@@ -93,7 +93,7 @@ class CupButton(discord.ui.Button):
             view=view,
         )
 
-        self.kill_view()
+        self.stop_view()
 
 
 class Cups(discord.ui.View):
@@ -107,13 +107,12 @@ class Cups(discord.ui.View):
             discord.ButtonStyle.blurple,
         ],
         ctx: Context,
-        db: db.DB,
         msg: discord.Message,
     ) -> None:
         self.cups = cups
         self.correct_cup = tools.random.randint(0, len(self.cups) - 1)
         self.ctx = ctx
-        self.db = db
+        self.db = DB()
         self.msg = msg
 
         super().__init__(timeout=timeout)
@@ -125,14 +124,13 @@ class Cups(discord.ui.View):
                     this_cup=i,
                     correct_cup=self.correct_cup,
                     ctx=self.ctx,
-                    db=self.db,
                     cups=self.cups,
-                    kill_view=self.stop,
+                    stop_view=self.stop,
                 )
             )
 
     async def on_timeout(self) -> None:
-        view = discord.ui.View(timeout=1)
+        view = discord.ui.View()
 
         for i in range(len(self.cups)):
             view.add_item(

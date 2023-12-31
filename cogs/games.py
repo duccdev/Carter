@@ -1,7 +1,8 @@
 from discord.ext import commands
-from discord import Embed, Color, TextChannel
+from discord import Embed, Color, Member, TextChannel, User
 from games.cups import Cups
 from games.rps import RPSGame
+from games.rpspvp import RPSPVPGame
 import asyncio, tools, constants, db, logger
 
 
@@ -14,10 +15,7 @@ class Games(commands.Cog):
     async def leaderboard(self, ctx: commands.Context, game: str | None) -> None:
         await ctx.typing()
 
-        supported_games = [
-            "cups",
-            "rps",
-        ]
+        supported_games = ["cups", "rps", "rps-pvp"]
 
         if not game or game not in supported_games:
             await ctx.reply(
@@ -66,12 +64,30 @@ class Games(commands.Cog):
     @commands.command()
     async def cups(self, ctx: commands.Context) -> None:
         msg = await ctx.reply("Pick the cup:")
-        await msg.edit(view=Cups(msg=msg, ctx=ctx, db=self.db))
+        await msg.edit(view=Cups(msg=msg, ctx=ctx))
 
     @commands.command()
     async def rps(self, ctx: commands.Context) -> None:
         msg = await ctx.reply("Pick one:")
-        await msg.edit(view=RPSGame(msg=msg, ctx=ctx, db=self.db))
+        await msg.edit(view=RPSGame(msg=msg, ctx=ctx))
+
+    @commands.command("rps-pvp")
+    async def rpspvp(self, ctx: commands.Context, p2: Member | User | None) -> None:
+        if not p2:
+            await ctx.reply(f"Usage: `{constants.BOT_PREFIX}rps-pvp <other_member>`")
+            return
+
+        if p2 == ctx.author:
+            await ctx.reply(f"mf just play using {constants.BOT_PREFIX}rps then")
+            return
+
+        if p2 == self.bot.user:
+            msg = await ctx.reply("Pick one:")
+            await msg.edit(view=RPSGame(msg=msg, ctx=ctx))
+            return
+
+        msg = await ctx.reply(f"<@{ctx.author.id}> goes first")
+        await msg.edit(view=RPSPVPGame(msg=msg, p1_id=ctx.author.id, p2_id=p2.id))
 
     @commands.command()
     async def truth(self, ctx: commands.Context, rating: str | None) -> None:
@@ -96,7 +112,11 @@ class Games(commands.Cog):
         try:
             truth = await tools.get_truth(rating)
             self.db.add_msg(
-                f'<@{ctx.author.id}> ({ctx.author.name}): give me a "truth or dare" truth question\nCranberryBot: {truth.lower()[:-1]}'
+                ctx.author.id,
+                ctx.author.name,
+                'give me a "truth or dare" truth question',
+                truth.lower()[:-1],
+                [],
             )
             await ctx.reply(truth)
         except Exception as e:
@@ -126,7 +146,11 @@ class Games(commands.Cog):
         try:
             dare = await tools.get_dare(rating)
             self.db.add_msg(
-                f'<@{ctx.author.id}> ({ctx.author.name}): give me a "truth or dare" dare\nCranberryBot: {dare.lower()[:-1]}'
+                ctx.author.id,
+                ctx.author.name,
+                'give me a "truth or dare" dare',
+                dare.lower()[:-1],
+                [],
             )
             await ctx.reply(dare)
         except Exception as e:
@@ -156,7 +180,11 @@ class Games(commands.Cog):
         try:
             wyr = await tools.would_you_rather(rating)
             self.db.add_msg(
-                f"<@{ctx.author.id}> ({ctx.author.name}): give me a would you rather question\nCranberryBot: {wyr.lower()[:-1]}"
+                ctx.author.id,
+                ctx.author.name,
+                "give me a would you rather question",
+                wyr.lower()[:-1],
+                [],
             )
             await ctx.reply(wyr)
         except Exception as e:
@@ -186,7 +214,11 @@ class Games(commands.Cog):
         try:
             nhie = await tools.never_have_i_ever(rating)
             self.db.add_msg(
-                f"<@{ctx.author.id}> ({ctx.author.name}): give me a never have i ever question\nCranberryBot: {nhie.lower()[:-1]}"
+                ctx.author.id,
+                ctx.author.name,
+                "give me a never have i ever question",
+                nhie.lower()[:-1],
+                [],
             )
             await ctx.reply(nhie)
         except Exception as e:

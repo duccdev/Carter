@@ -34,6 +34,7 @@ HELP_PAGE = [
 - Roll the dice using `{BOT_PREFIX}dice`
 - Play a cup game using `{BOT_PREFIX}cups`
 - Play rock paper scissors using `{BOT_PREFIX}rps`
+- Play RPS against other members using `{BOT_PREFIX}rps-pvp <other_member>`
 - Get a truth using `{BOT_PREFIX}truth` (read `{BOT_PREFIX}truth help`)
 - Get a dare using `{BOT_PREFIX}dare` (read `{BOT_PREFIX}dare help`)
 - Get a would you rather using `{BOT_PREFIX}wyr` (read `{BOT_PREFIX}wyr help`)
@@ -153,7 +154,7 @@ POLL_HELP_PAGE = [
 LEADERBOARD_HELP_PAGE = [
     {"name": "Usage", "content": f"`{BOT_PREFIX}leaderboard <game>`"},
     {"name": "Example", "content": f"`{BOT_PREFIX}leaderboard cups`"},
-    {"name": "Supported games", "content": f"- `cups`\n- `rps`"},
+    {"name": "Supported games", "content": f"- `cups`\n- `rps`\n- `rps-pvp`"},
 ]
 
 NSFW_WRONG_CHANNEL = "ayo wtf you doin? take that shit to the nsfw channels!"
@@ -166,6 +167,8 @@ LEADERBOARD_NO_PLAYERS = (
 )
 
 NON_OWNER_INTERACTION = "MF THIS ISNT YOURS"
+WAIT_FOR_YOUR_TURN = "MF WAIT FOR YOUR TURN"
+YOUR_TURN_HAS_ALREADY_PASSED = "MF YOUR TURN HAS ALREADY PASSED"
 CUPS_TIMEOUT = "bro you really took THAT long to press a FUCKING BUTTON??"
 
 ROCK = 0

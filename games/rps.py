@@ -1,6 +1,7 @@
 from typing import Callable
 from discord.ext.commands import Context
-import discord, tools, db, constants, config
+from db import DB
+import discord, tools, constants, config
 
 
 class RPSButton(discord.ui.Button):
@@ -11,14 +12,13 @@ class RPSButton(discord.ui.Button):
         this_choice: int,
         ai_choice: int,
         ctx: Context,
-        db: db.DB,
-        kill_view: Callable,
+        stop_view: Callable,
     ) -> None:
         self.this_choice = this_choice
         self.ai_choice = ai_choice
         self.ctx = ctx
-        self.db = db
-        self.kill_view = kill_view
+        self.db = DB()
+        self.stop_view = stop_view
 
         if self.this_choice == constants.ROCK:
             super().__init__(style=style, emoji="🪨")
@@ -53,7 +53,7 @@ class RPSButton(discord.ui.Button):
                 ):
                     self.ai_choice = constants.SCISSORS
 
-        view = discord.ui.View(timeout=1)
+        view = discord.ui.View()
 
         view.add_item(discord.ui.Button(emoji="🪨", disabled=True))
         view.add_item(discord.ui.Button(emoji="🧻", disabled=True))
@@ -105,21 +105,20 @@ class RPSButton(discord.ui.Button):
                 view=view,
             )
 
-        self.kill_view()
+        self.stop_view()
 
 
 class RPSGame(discord.ui.View):
     def __init__(
         self,
         *,
-        timeout: float | None = 15,
+        timeout: float | None = 180,
         ctx: Context,
-        db: db.DB,
         msg: discord.Message,
     ) -> None:
         self.ai_choice = tools.random.randint(0, 2)
         self.ctx = ctx
-        self.db = db
+        self.db = DB()
         self.msg = msg
 
         super().__init__(timeout=timeout)
@@ -130,8 +129,7 @@ class RPSGame(discord.ui.View):
                     this_choice=i,
                     ai_choice=self.ai_choice,
                     ctx=self.ctx,
-                    db=self.db,
-                    kill_view=self.stop,
+                    stop_view=self.stop,
                 )
             )
 
