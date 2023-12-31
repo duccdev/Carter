@@ -266,7 +266,7 @@ class Developer(commands.Cog):
 
             msg += f"return value: `{output.returncode}`"
 
-            await ctx.reply(msg)
+        await ctx.reply(msg)
 
     @commands.command("dev-ai-reset")
     @commands.is_owner()

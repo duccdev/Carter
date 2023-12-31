@@ -14,8 +14,6 @@ class Moderation(commands.Cog):
         user: discord.User | discord.Member | None,
         *reason: str,
     ) -> None:
-        await ctx.typing()
-
         if not user:
             await ctx.reply(embed=tools.create_embed(constants.BAN_HELP_PAGE))
             return
@@ -73,8 +71,6 @@ class Moderation(commands.Cog):
         ctx: commands.Context,
         user: discord.User | None,
     ) -> None:
-        await ctx.typing()
-
         if not user:
             await ctx.reply(embed=tools.create_embed(constants.UNBAN_HELP_PAGE))
             return

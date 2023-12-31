@@ -21,7 +21,6 @@ class Other(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx: commands.Context) -> None:
-        await ctx.typing()
         await ctx.reply(f":ping_pong: `{tools.ping()}`")
 
     @commands.command()

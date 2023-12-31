@@ -24,7 +24,6 @@ class Fun(commands.Cog):
             await ctx.reply(f"`{error}`")
             return
 
-        await ctx.typing()
         await ctx.reply(file=discord.File(cat_bytes, f"cat{cat_ext}"))
 
     @commands.command()
@@ -44,7 +43,6 @@ class Fun(commands.Cog):
             await ctx.reply(f"`{error}`")
             return
 
-        await ctx.typing()
         await ctx.reply(file=discord.File(dog_bytes, f"dog{dog_ext}"))
 
     @commands.command()
@@ -88,8 +86,6 @@ class Fun(commands.Cog):
 
             meme_title = meme_title.replace("`", "'")
 
-        await ctx.typing()
-
         if error:
             await ctx.reply(f"`{error}`")
             return
@@ -101,8 +97,6 @@ class Fun(commands.Cog):
 
     @commands.command("krill-meme")
     async def krillmeme(self, ctx: commands.Context):
-        await ctx.typing()
-
         memes = os.listdir("krill-memes")
 
         try:
@@ -125,12 +119,10 @@ class Fun(commands.Cog):
 
     @commands.command("a-pussy")
     async def pussy(self, ctx: commands.Context):
-        await ctx.typing()
         await ctx.reply("https://tenor.com/view/cat-gif-25381727")
 
     @commands.command()
     async def ascension(self, ctx: commands.Context):
-        await ctx.typing()
         await ctx.reply(file=discord.File("static/ascension.mp3"))
 
 
