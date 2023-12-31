@@ -64,7 +64,7 @@ class Moderation(commands.Cog):
         )
         await ctx.guild.ban(user)
 
-        await ctx.reply(":white_check_mark: Done!")
+        await ctx.message.add_reaction("✅")
 
     @commands.command()
     @checks.owner_or_perms(ban_members=True)
@@ -96,7 +96,7 @@ class Moderation(commands.Cog):
 
         try:
             await ctx.guild.unban(user)
-            await ctx.reply(":white_check_mark: Done!")
+            await ctx.message.add_reaction("✅")
         except discord.NotFound:
             await ctx.reply(":x: User is already unbanned!")
 

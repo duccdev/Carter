@@ -66,9 +66,8 @@ class Other(commands.Cog):
 
     @commands.command("ai-reset")
     async def aireset(self, ctx: commands.Context):
-        await ctx.typing()
         self.db.clear_msg_history(ctx.author.id)
-        await ctx.reply("Done! :thumbsup:")
+        await ctx.message.add_reaction("✅")
 
     @commands.command()
     async def contributors(self, ctx: commands.Context):

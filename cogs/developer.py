@@ -48,7 +48,7 @@ class Developer(commands.Cog):
                     f"`{e.__class__.__name__}: {str(e)}`"
                 )
 
-        await ctx.reply(f"loaded the extension: `{cog_name}`")
+        await ctx.message.add_reaction("✅")
 
     @commands.command("dev-unload")
     @commands.is_owner()
@@ -64,7 +64,7 @@ class Developer(commands.Cog):
                     f"`{e.__class__.__name__}: {str(e)}`"
                 )
 
-        await ctx.reply(f"unloaded the extension: `{cog_name}`")
+        await ctx.message.add_reaction("✅")
 
     @commands.command("dev-reload")
     @commands.is_owner()
@@ -80,7 +80,7 @@ class Developer(commands.Cog):
                     f"`{e.__class__.__name__}: {str(e)}`"
                 )
 
-        await ctx.reply(f"reloaded the extension: `{cog_name}`")
+        await ctx.message.add_reaction("✅")
 
     @commands.command("dev-extensions")
     @commands.is_owner()
@@ -271,9 +271,8 @@ class Developer(commands.Cog):
     @commands.command("dev-ai-reset")
     @commands.is_owner()
     async def devaireset(self, ctx: commands.Context):
-        await ctx.typing()
         self.db.clear_global_msg_history()
-        await ctx.reply("done")
+        await ctx.message.add_reaction("✅")
 
     @commands.command("dev-update-memes")
     @commands.is_owner()
@@ -284,7 +283,10 @@ class Developer(commands.Cog):
             if os.system('bash -c "cd krill-memes && git pull origin main"') != 0:
                 error = True
 
-        await ctx.reply("failed" if error else "done")
+        if error:
+            await ctx.message.add_reaction("❌")
+        else:
+            await ctx.message.add_reaction("✅")
 
 
 async def setup(bot: commands.Bot) -> None:

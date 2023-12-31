@@ -21,7 +21,7 @@ class Fun(commands.Cog):
                 error = str(e)
 
         if error:
-            await ctx.reply(error)
+            await ctx.reply(f"`{error}`")
             return
 
         await ctx.typing()
@@ -41,7 +41,7 @@ class Fun(commands.Cog):
                 error = str(e)
 
         if error:
-            await ctx.reply(error)
+            await ctx.reply(f"`{error}`")
             return
 
         await ctx.typing()
@@ -60,7 +60,6 @@ class Fun(commands.Cog):
                 fact = f"`{e}`"
                 return
 
-        await ctx.typing()
         await ctx.reply(fact)
 
     @commands.command()
@@ -92,7 +91,7 @@ class Fun(commands.Cog):
         await ctx.typing()
 
         if error:
-            await ctx.reply(error)
+            await ctx.reply(f"`{error}`")
             return
 
         await ctx.reply(
