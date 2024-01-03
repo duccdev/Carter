@@ -10,7 +10,7 @@ class Games(commands.Cog):
         self.bot = bot
         self.db = db.DB()
 
-    @commands.command(alias=["lb"])
+    @commands.command(aliases=["lb"])
     async def leaderboard(self, ctx: commands.Context, game: str | None) -> None:
         supported_games = ["cups", "rps", "rps-pvp"]
 
