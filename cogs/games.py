@@ -10,7 +10,7 @@ class Games(commands.Cog):
         self.bot = bot
         self.db = db.DB()
 
-    @commands.command()
+    @commands.command(alias=["lb"])
     async def leaderboard(self, ctx: commands.Context, game: str | None) -> None:
         supported_games = ["cups", "rps", "rps-pvp"]
 
@@ -39,10 +39,10 @@ class Games(commands.Cog):
                 color=discord.Color.random(),
             )
 
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
             return
 
-        await ctx.send(constants.LEADERBOARD_NO_PLAYERS)
+        await ctx.reply(constants.LEADERBOARD_NO_PLAYERS)
 
     @commands.command()
     async def dice(self, ctx: commands.Context) -> None:
