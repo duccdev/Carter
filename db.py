@@ -24,7 +24,7 @@ class DB:
         with open(self.path) as fp:
             self.data = json.load(fp)
 
-    def add_win(self, leaderboard: str, player_id: int) -> None:
+    def addWin(self, leaderboard: str, player_id: int) -> None:
         self.load()
 
         if not self.data["leaderboards"].get(leaderboard):
@@ -37,7 +37,7 @@ class DB:
 
         self.save()
 
-    def get_leaderboard(self, leaderboard: str) -> dict[str, int]:
+    def getLeaderboard(self, leaderboard: str) -> dict[str, int]:
         self.load()
 
         if not self.data["leaderboards"].get(leaderboard):
@@ -51,16 +51,16 @@ class DB:
             )
         )
 
-    def set_msg_history(self, id: int, history: str):
+    def setMsgHistory(self, id: int, history: str):
         self.load()
         self.data["msg_history"][str(id)] = history
         self.save()
 
-    def get_msg_history(self, id: int) -> str:
+    def getMsgHistory(self, id: int) -> str:
         self.load()
         return self.data["msg_history"].get(str(id), "")
 
-    def add_msg(self, id: int, name: str, msg: str, res: str, images: list[str]):
+    def addMsg(self, id: int, name: str, msg: str, res: str, images: list[str]):
         self.load()
 
         images = [
@@ -77,29 +77,29 @@ class DB:
         self.data["msg_history"][str(id)] += f"\n{entry}"
         self.save()
 
-    def clear_msg_history(self, id: int):
+    def clearMsgHistory(self, id: int):
         self.load()
         self.data["msg_history"][str(id)] = ""
         self.save()
 
-    def clear_global_msg_history(self):
+    def clearGlobalMsgHistory(self):
         self.load()
         self.data["msg_history"] = {}
         self.save()
 
-    def create_poll(self, options: list[int]) -> str:
+    def createPoll(self, options: list[int]) -> str:
         self.load()
         id = tools.randomId()
         self.data["polls"][id] = {"options": options, "votes": {}}
         self.save()
         return id
 
-    def set_vote(self, poll_id: str, user_id: int, option: int):
+    def setVote(self, poll_id: str, user_id: int, option: int):
         self.load()
         self.data["polls"][poll_id]["votes"][str(user_id)] = option
         self.save()
 
-    def get_votes(self, poll_id: str) -> dict[str, int]:
+    def getVotes(self, poll_id: str) -> dict[str, int]:
         self.load()
         votes = {}
 
@@ -111,7 +111,7 @@ class DB:
 
         return votes
 
-    def remove_vote(self, poll_id: str, user_id: int):
+    def removeVote(self, poll_id: str, user_id: int):
         self.load()
 
         try:
@@ -121,7 +121,7 @@ class DB:
 
         self.save()
 
-    def get_warns(self, user_id: int):
+    def getWarns(self, user_id: int):
         self.load()
 
         user_warns = self.data["warns"].get(str(user_id), {})
@@ -132,22 +132,22 @@ class DB:
 
         return user_warns
 
-    def set_warns(self, user_id: int, warns: dict):
+    def setWarns(self, user_id: int, warns: dict):
         self.load()
         self.data["warns"][str(user_id)] = warns
         self.save()
 
     def remove_warn(self, user_id: int, warn_id: str) -> bool:
-        user_warns = self.get_warns(user_id)
+        user_warns = self.getWarns(user_id)
 
         if not user_warns.get(warn_id):
             return False
 
         del user_warns[warn_id]
-        self.set_warns(user_id, user_warns)
+        self.setWarns(user_id, user_warns)
         return True
 
-    def add_warn(self, user_id: int, reason: str) -> str:
+    def addWarn(self, user_id: int, reason: str) -> str:
         self.load()
 
         id = tools.randomId(8)

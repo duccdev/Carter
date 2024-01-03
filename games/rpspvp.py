@@ -81,7 +81,7 @@ class RPSP2Button(discord.ui.Button):
         elif (
             self.this_choice == constants.ROCK and self.p1_choice == constants.SCISSORS
         ):
-            self.db.add_win("rps-pvp", self.p2_id)
+            self.db.addWin("rps-pvp", self.p2_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p2_id}>'s rock breaks <@{self.p1_id}>'s scissor | <@{self.p2_id}> WINS!",
                 view=view,
@@ -89,13 +89,13 @@ class RPSP2Button(discord.ui.Button):
         elif (
             self.this_choice == constants.SCISSORS and self.p1_choice == constants.PAPER
         ):
-            self.db.add_win("rps-pvp", self.p2_id)
+            self.db.addWin("rps-pvp", self.p2_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p2_id}>'s scissors cuts <@{self.p1_id}>'s paper | <@{self.p2_id}> WINS!",
                 view=view,
             )
         elif self.this_choice == constants.PAPER and self.p1_choice == constants.ROCK:
-            self.db.add_win("rps-pvp", self.p2_id)
+            self.db.addWin("rps-pvp", self.p2_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p2_id}>'s paper covers <@{self.p1_id}>'s rock | <@{self.p2_id}> WINS!",
                 view=view,
@@ -103,7 +103,7 @@ class RPSP2Button(discord.ui.Button):
         elif (
             self.this_choice == constants.SCISSORS and self.p1_choice == constants.ROCK
         ):
-            self.db.add_win("rps-pvp", self.p1_id)
+            self.db.addWin("rps-pvp", self.p1_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p1_id}>'s rock breaks <@{self.p2_id}>'s scissors | <@{self.p1_id}> WINS!",
                 view=view,
@@ -111,13 +111,13 @@ class RPSP2Button(discord.ui.Button):
         elif (
             self.this_choice == constants.PAPER and self.p1_choice == constants.SCISSORS
         ):
-            self.db.add_win("rps-pvp", self.p1_id)
+            self.db.addWin("rps-pvp", self.p1_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p1_id}>'s scissors cut <@{self.p2_id}>'s paper | <@{self.p1_id}> WINS!",
                 view=view,
             )
         elif self.this_choice == constants.ROCK and self.p1_choice == constants.PAPER:
-            self.db.add_win("rps-pvp", self.p1_id)
+            self.db.addWin("rps-pvp", self.p1_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p1_id}>'s paper covers <@{self.p2_id}>'s rock | <@{self.p1_id}> WINS!",
                 view=view,

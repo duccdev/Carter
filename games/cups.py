@@ -81,7 +81,7 @@ class CupButton(discord.ui.Button):
 
             self.stop_view()
 
-            self.db.add_win(
+            self.db.addWin(
                 "cups",
                 interaction.user.id,
             )

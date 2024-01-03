@@ -1,6 +1,6 @@
 from io import BytesIO
 from discord.ext import commands
-import discord, logger, constants, tools, os
+import discord, logger, tools, os
 
 
 class Fun(commands.Cog):

@@ -173,8 +173,8 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: Cannot warn a user higher than me!")
             return
 
-        warn_id = self.db.add_warn(user.id, reason_str)
-        warns = len(self.db.get_warns(user.id))
+        warn_id = self.db.addWarn(user.id, reason_str)
+        warns = len(self.db.getWarns(user.id))
 
         await user.send(
             f"You have been warned in **{ctx.guild.name}**\nReason: **{reason_str}**"
@@ -226,7 +226,7 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: Cannot view warns of a user higher than me!")
             return
 
-        warns = self.db.get_warns(user.id)
+        warns = self.db.getWarns(user.id)
 
         embed = discord.Embed(color=discord.Color.random(), title=f"{len(warns)} warns")
 

@@ -271,7 +271,7 @@ class Developer(commands.Cog):
     @commands.command("dev-ai-reset")
     @commands.is_owner()
     async def devaireset(self, ctx: commands.Context):
-        self.db.clear_global_msg_history()
+        self.db.clearGlobalMsgHistory()
         await ctx.message.add_reaction("✅")
 
     @commands.command("dev-update-memes")

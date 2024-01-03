@@ -19,7 +19,7 @@ class Games(commands.Cog):
             return
 
         self.db.load()
-        leaderboard = self.db.get_leaderboard(game)
+        leaderboard = self.db.getLeaderboard(game)
 
         if len(leaderboard) > 0:
             players = ""
@@ -98,7 +98,7 @@ class Games(commands.Cog):
 
         try:
             truth = await tools.getTruth(rating)
-            self.db.add_msg(
+            self.db.addMsg(
                 ctx.author.id,
                 ctx.author.name,
                 'give me a "truth or dare" truth question',
@@ -126,7 +126,7 @@ class Games(commands.Cog):
 
         try:
             dare = await tools.getDare(rating)
-            self.db.add_msg(
+            self.db.addMsg(
                 ctx.author.id,
                 ctx.author.name,
                 'give me a "truth or dare" dare',
@@ -154,7 +154,7 @@ class Games(commands.Cog):
 
         try:
             wyr = await tools.wouldYouRather(rating)
-            self.db.add_msg(
+            self.db.addMsg(
                 ctx.author.id,
                 ctx.author.name,
                 "give me a would you rather question",
@@ -182,7 +182,7 @@ class Games(commands.Cog):
 
         try:
             nhie = await tools.neverHaveIEver(rating)
-            self.db.add_msg(
+            self.db.addMsg(
                 ctx.author.id,
                 ctx.author.name,
                 "give me a never have i ever question",
