@@ -19,7 +19,7 @@ class NSFW(commands.Cog):
                 return
 
             if category == "unset" or content_type == "unset":
-                embed = tools.create_embed(constants.NSFW_HELP_PAGE)
+                embed = tools.createEmbed(constants.NSFW_HELP_PAGE)
 
                 if self.bot.user:  # i have to do this so python wont annoy me
                     embed.set_thumbnail(url=self.bot.user.display_avatar)
@@ -29,7 +29,7 @@ class NSFW(commands.Cog):
                 return
 
             try:
-                nsfw_bytes, nsfw_ext = await tools.get_nsfw(category, content_type)
+                nsfw_bytes, nsfw_ext = await tools.getNsfw(category, content_type)
             except tools.NsfwNotFoundError as e:
                 await ctx.reply(constants.NSFW_NOT_FOUND)
                 return

@@ -2,7 +2,7 @@ import aiohttp
 import config
 
 
-async def would_you_rather(rating: str) -> str:
+async def wouldYouRather(rating: str) -> str:
     async with aiohttp.ClientSession() as session:
         async with session.get(
             f"{config.WOULD_YOU_RATHER_ROUTE}?rating={rating}",

@@ -13,9 +13,9 @@ class Other(commands.Cog):
     @commands.command()
     async def help(self, ctx: commands.Context, page: str | None) -> None:
         if page and page in constants.HELP_PAGES:
-            embed = tools.create_embed(constants.HELP_PAGES[page])
+            embed = tools.createEmbed(constants.HELP_PAGES[page])
         else:
-            embed = tools.create_embed(constants.HELP_PAGES["main"])
+            embed = tools.createEmbed(constants.HELP_PAGES["main"])
 
         await ctx.reply(embed=embed, view=HelpView(sender=ctx.author.id))
 
@@ -24,7 +24,7 @@ class Other(commands.Cog):
         await ctx.reply(f":ping_pong: `{tools.ping()}`")
 
     @commands.command()
-    @checks.owner_or_perms(
+    @checks.ownerOrPerms(
         manage_channels=True,
         manage_messages=True,
         send_messages=True,
@@ -36,7 +36,7 @@ class Other(commands.Cog):
         poll: str | None,
         options: str | None,
     ) -> None:
-        help_page = tools.create_embed(constants.POLL_HELP_PAGE)
+        help_page = tools.createEmbed(constants.POLL_HELP_PAGE)
 
         if not channel or not poll or not options:
             await ctx.reply(embed=help_page)
@@ -70,7 +70,7 @@ class Other(commands.Cog):
 
     @commands.command()
     async def contributors(self, ctx: commands.Context):
-        await ctx.reply(embed=tools.create_embed(constants.CONTRIBUTORS))
+        await ctx.reply(embed=tools.createEmbed(constants.CONTRIBUTORS))
 
     @commands.Cog.listener()
     async def on_message(self, msg: discord.Message):

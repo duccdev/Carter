@@ -9,7 +9,7 @@ class Moderation(commands.Cog):
         self.db = DB()
 
     @commands.command()
-    @checks.owner_or_perms(ban_members=True)
+    @checks.ownerOrPerms(ban_members=True)
     async def ban(
         self,
         ctx: commands.Context,
@@ -17,7 +17,7 @@ class Moderation(commands.Cog):
         *reason: str,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.create_embed(constants.WARN_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.WARN_HELP_PAGE))
             return
 
         if not ctx.guild:
@@ -55,14 +55,14 @@ class Moderation(commands.Cog):
         await ctx.message.add_reaction("✅")
 
     @commands.command()
-    @checks.owner_or_perms(ban_members=True)
+    @checks.ownerOrPerms(ban_members=True)
     async def unban(
         self,
         ctx: commands.Context,
         user: discord.User | None,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.create_embed(constants.UNBAN_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.UNBAN_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:
@@ -84,7 +84,7 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: User is already unbanned!")
 
     @commands.command()
-    @checks.owner_or_perms(kick_members=True)
+    @checks.ownerOrPerms(kick_members=True)
     async def kick(
         self,
         ctx: commands.Context,
@@ -92,7 +92,7 @@ class Moderation(commands.Cog):
         *reason: str,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.create_embed(constants.WARN_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.WARN_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:
@@ -130,7 +130,7 @@ class Moderation(commands.Cog):
         await ctx.message.add_reaction("✅")
 
     @commands.command()
-    @checks.owner_or_perms(moderate_members=True)
+    @checks.ownerOrPerms(moderate_members=True)
     async def warn(
         self,
         ctx: commands.Context,
@@ -138,7 +138,7 @@ class Moderation(commands.Cog):
         *reason: str,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.create_embed(constants.WARN_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.WARN_HELP_PAGE))
             return
 
         if not ctx.guild:
@@ -157,7 +157,7 @@ class Moderation(commands.Cog):
         reason_str = ("".join([f"{word} " for word in reason])).strip()
 
         if not reason_str:
-            await ctx.reply(embed=tools.create_embed(constants.WARN_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.WARN_HELP_PAGE))
             return
 
         bot_member = ctx.guild.get_member(self.bot.user.id)
@@ -190,14 +190,14 @@ class Moderation(commands.Cog):
         await ctx.reply(embed=embed)
 
     @commands.command()
-    @checks.owner_or_perms(moderate_members=True)
+    @checks.ownerOrPerms(moderate_members=True)
     async def warns(
         self,
         ctx: commands.Context,
         user: discord.User | discord.Member | None,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.create_embed(constants.WARNS_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.WARNS_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:
@@ -241,7 +241,7 @@ class Moderation(commands.Cog):
         await ctx.reply(embed=embed)
 
     @commands.command()
-    @checks.owner_or_perms(moderate_members=True)
+    @checks.ownerOrPerms(moderate_members=True)
     async def unwarn(
         self,
         ctx: commands.Context,
@@ -249,7 +249,7 @@ class Moderation(commands.Cog):
         warn_id: str | None,
     ) -> None:
         if not user or not warn_id:
-            await ctx.reply(embed=tools.create_embed(constants.UNWARN_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.UNWARN_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:
@@ -285,7 +285,7 @@ class Moderation(commands.Cog):
         await ctx.reply(":x: Invalid warn ID")
 
     @commands.command()
-    @checks.owner_or_perms(moderate_members=True)
+    @checks.ownerOrPerms(moderate_members=True)
     async def timeout(
         self,
         ctx: commands.Context,
@@ -294,7 +294,7 @@ class Moderation(commands.Cog):
         *reason: str,
     ) -> None:
         if not user or not duration or len(duration) > 3:
-            await ctx.reply(embed=tools.create_embed(constants.TIMEOUT_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.TIMEOUT_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:
@@ -323,7 +323,7 @@ class Moderation(commands.Cog):
             duration_amount = int(f"{list(duration)[0]}{list(duration)[1]}")
             duration_unit = list(duration)[2]
         else:
-            await ctx.reply(embed=tools.create_embed(constants.TIMEOUT_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.TIMEOUT_HELP_PAGE))
             return
 
         match duration_unit:
@@ -334,7 +334,7 @@ class Moderation(commands.Cog):
             case "d":
                 duration_timedelta = datetime.timedelta(days=duration_amount)
             case _:
-                await ctx.reply(embed=tools.create_embed(constants.TIMEOUT_HELP_PAGE))
+                await ctx.reply(embed=tools.createEmbed(constants.TIMEOUT_HELP_PAGE))
                 return
 
         if not bot_member.guild_permissions.kick_members:
@@ -356,14 +356,14 @@ class Moderation(commands.Cog):
         await ctx.message.add_reaction("✅")
 
     @commands.command()
-    @checks.owner_or_perms(moderate_members=True)
+    @checks.ownerOrPerms(moderate_members=True)
     async def untimeout(
         self,
         ctx: commands.Context,
         user: discord.User | discord.Member | None,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.create_embed(constants.UNTIMEOUT_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.UNTIMEOUT_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:

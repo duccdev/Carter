@@ -4,7 +4,7 @@ from io import BytesIO
 from os.path import basename, splitext
 
 
-async def get_dog() -> tuple[BytesIO, str]:
+async def getDog() -> tuple[BytesIO, str]:
     async with aiohttp.ClientSession() as session:
         async with session.get(
             config.DOGS_ROUTE,

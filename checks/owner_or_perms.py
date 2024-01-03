@@ -2,7 +2,7 @@ from discord.ext import commands
 import constants
 
 
-def owner_or_perms(**perms):
+def ownerOrPerms(**perms):
     original = commands.has_permissions(**perms).predicate
 
     async def extended_check(ctx):

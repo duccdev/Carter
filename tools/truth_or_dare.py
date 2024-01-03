@@ -2,7 +2,7 @@ import aiohttp
 import config
 
 
-async def get_truth(rating: str) -> str:
+async def getTruth(rating: str) -> str:
     async with aiohttp.ClientSession() as session:
         async with session.get(
             f"{config.TRUTH_ROUTE}?rating={rating}",
@@ -15,7 +15,7 @@ async def get_truth(rating: str) -> str:
             return body["question"]
 
 
-async def get_dare(rating: str) -> str:
+async def getDare(rating: str) -> str:
     async with aiohttp.ClientSession() as session:
         async with session.get(
             f"{config.DARE_ROUTE}?rating={rating}",

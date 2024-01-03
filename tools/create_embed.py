@@ -1,7 +1,7 @@
 from discord import Embed, Color
 
 
-def create_embed(embed_template: dict):
+def createEmbed(embed_template: dict):
     embed = Embed(title=embed_template.get("title", "Embed"), color=Color.random())
 
     if embed_template.get("description"):

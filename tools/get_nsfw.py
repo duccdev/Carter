@@ -8,7 +8,7 @@ class NsfwNotFoundError(Exception):
     pass
 
 
-async def get_nsfw(category: str, content_type: str) -> tuple[BytesIO, str]:
+async def getNsfw(category: str, content_type: str) -> tuple[BytesIO, str]:
     async with aiohttp.ClientSession() as session:
         async with session.get(config.nsfw_route(category, content_type)) as response:
             if response.status == 404 or response.status == 403:

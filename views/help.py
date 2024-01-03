@@ -39,7 +39,7 @@ class HelpMenu(discord.ui.Select):
             return
 
         await interaction.response.edit_message(
-            embed=tools.create_embed(
+            embed=tools.createEmbed(
                 constants.HELP_PAGES[self.values[0]],
             ),
         )

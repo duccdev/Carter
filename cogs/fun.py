@@ -15,7 +15,7 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             try:
-                cat_bytes, cat_ext = await tools.get_cat()
+                cat_bytes, cat_ext = await tools.getCat()
             except Exception as e:
                 logger.error(str(e))
                 error = str(e)
@@ -34,7 +34,7 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             try:
-                dog_bytes, dog_ext = await tools.get_dog()
+                dog_bytes, dog_ext = await tools.getDog()
             except Exception as e:
                 logger.error(str(e))
                 error = str(e)
@@ -51,7 +51,7 @@ class Fun(commands.Cog):
 
         async with ctx.typing():
             try:
-                fact = await tools.get_fact()
+                fact = await tools.getFact()
                 fact = fact.replace("`", "\\`")
             except Exception as e:
                 logger.error(str(e))
@@ -72,14 +72,14 @@ class Fun(commands.Cog):
 
             if type(ctx.channel) is discord.TextChannel and ctx.channel.is_nsfw():
                 try:
-                    meme_title, meme_bytes, meme_ext, meme_nsfw = await tools.get_meme()
+                    meme_title, meme_bytes, meme_ext, meme_nsfw = await tools.getMeme()
                 except Exception as e:
                     logger.error(str(e))
                     error = str(e)
 
             while meme_nsfw:
                 try:
-                    meme_title, meme_bytes, meme_ext, meme_nsfw = await tools.get_meme()
+                    meme_title, meme_bytes, meme_ext, meme_nsfw = await tools.getMeme()
                 except Exception as e:
                     logger.error(str(e))
                     error = str(e)

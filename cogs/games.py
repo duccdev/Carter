@@ -15,7 +15,7 @@ class Games(commands.Cog):
         supported_games = ["cups", "rps", "rps-pvp"]
 
         if not game or game not in supported_games:
-            await ctx.reply(embed=tools.create_embed(constants.LEADERBOARD_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.LEADERBOARD_HELP_PAGE))
             return
 
         self.db.load()
@@ -87,7 +87,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            await ctx.reply(embed=tools.create_embed(constants.TRUTH_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.TRUTH_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -97,7 +97,7 @@ class Games(commands.Cog):
             return
 
         try:
-            truth = await tools.get_truth(rating)
+            truth = await tools.getTruth(rating)
             self.db.add_msg(
                 ctx.author.id,
                 ctx.author.name,
@@ -115,7 +115,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            await ctx.reply(embed=tools.create_embed(constants.DARE_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.DARE_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -125,7 +125,7 @@ class Games(commands.Cog):
             return
 
         try:
-            dare = await tools.get_dare(rating)
+            dare = await tools.getDare(rating)
             self.db.add_msg(
                 ctx.author.id,
                 ctx.author.name,
@@ -143,7 +143,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            await ctx.reply(embed=tools.create_embed(constants.WYR_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.WYR_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -153,7 +153,7 @@ class Games(commands.Cog):
             return
 
         try:
-            wyr = await tools.would_you_rather(rating)
+            wyr = await tools.wouldYouRather(rating)
             self.db.add_msg(
                 ctx.author.id,
                 ctx.author.name,
@@ -171,7 +171,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            await ctx.reply(embed=tools.create_embed(constants.NHIE_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.NHIE_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -181,7 +181,7 @@ class Games(commands.Cog):
             return
 
         try:
-            nhie = await tools.never_have_i_ever(rating)
+            nhie = await tools.neverHaveIEver(rating)
             self.db.add_msg(
                 ctx.author.id,
                 ctx.author.name,

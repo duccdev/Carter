@@ -89,7 +89,7 @@ class DB:
 
     def create_poll(self, options: list[int]) -> str:
         self.load()
-        id = tools.random_id()
+        id = tools.randomId()
         self.data["polls"][id] = {"options": options, "votes": {}}
         self.save()
         return id
@@ -150,7 +150,7 @@ class DB:
     def add_warn(self, user_id: int, reason: str) -> str:
         self.load()
 
-        id = tools.random_id(8)
+        id = tools.randomId(8)
 
         if not self.data["warns"].get(str(user_id)):
             self.data["warns"][str(user_id)] = {}

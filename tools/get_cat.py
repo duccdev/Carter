@@ -4,7 +4,7 @@ from io import BytesIO
 from os.path import basename, splitext
 
 
-async def get_cat() -> tuple[BytesIO, str]:
+async def getCat() -> tuple[BytesIO, str]:
     async with aiohttp.ClientSession() as session:
         async with session.get(
             config.CATS_ROUTE,

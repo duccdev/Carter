@@ -1,7 +1,7 @@
 from subprocess import run
 
 
-def get_live_commit() -> tuple[str, str]:
+def getLiveCommit() -> tuple[str, str]:
     return (
         run(
             ["git", "log", "-n1", '--format="%h"'],

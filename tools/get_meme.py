@@ -4,7 +4,7 @@ from io import BytesIO
 from os.path import basename, splitext
 
 
-async def get_meme() -> tuple[str, BytesIO, str, bool]:
+async def getMeme() -> tuple[str, BytesIO, str, bool]:
     async with aiohttp.ClientSession() as session:
         async with session.get(config.MEMES_ROUTE) as response:
             body = await response.json()
