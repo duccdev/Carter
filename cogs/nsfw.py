@@ -19,7 +19,7 @@ class NSFW(commands.Cog):
                 return
 
             if category == "unset" or content_type == "unset":
-                embed = tools.create_embed(constants.HELP_PAGES["nsfw"])
+                embed = tools.create_embed(constants.NSFW_HELP_PAGE)
 
                 if self.bot.user:  # i have to do this so python wont annoy me
                     embed.set_thumbnail(url=self.bot.user.display_avatar)
@@ -38,7 +38,7 @@ class NSFW(commands.Cog):
                 await ctx.reply(f"`{e}`")
                 return
 
-            await ctx.reply(file=discord.File(nsfw_bytes, f"cat{nsfw_ext}"))
+            await ctx.reply(file=discord.File(nsfw_bytes, f"nsfw{nsfw_ext}"))
 
 
 async def setup(bot: commands.Bot) -> None:

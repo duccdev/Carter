@@ -1,11 +1,16 @@
 from typing import Any
-import json, os, tools
+import json, os, tools, time
 
 
 class DB:
     def __init__(self, path: str = "db.json") -> None:
         self.path = path
-        self.data: dict[str, Any] = {"leaderboards": {}, "msg_history": {}, "polls": {}}
+        self.data: dict[str, Any] = {
+            "leaderboards": {},
+            "msg_history": {},
+            "polls": {},
+            "warns": {},
+        }
 
         if not os.path.exists(self.path):
             with open(self.path, "w") as fp:
@@ -115,3 +120,46 @@ class DB:
             pass
 
         self.save()
+
+    def get_warns(self, user_id: int):
+        self.load()
+
+        user_warns = self.data["warns"].get(str(user_id), {})
+
+        for key in user_warns:
+            if time.time() > user_warns[key]["expires_in"]:
+                del user_warns[key]
+
+        return user_warns
+
+    def set_warns(self, user_id: int, warns: dict):
+        self.load()
+        self.data["warns"][str(user_id)] = warns
+        self.save()
+
+    def remove_warn(self, user_id: int, warn_id: str) -> bool:
+        user_warns = self.get_warns(user_id)
+
+        if not user_warns.get(warn_id):
+            return False
+
+        del user_warns[warn_id]
+        self.set_warns(user_id, user_warns)
+        return True
+
+    def add_warn(self, user_id: int, reason: str) -> str:
+        self.load()
+
+        id = tools.random_id(8)
+
+        if not self.data["warns"].get(str(user_id)):
+            self.data["warns"][str(user_id)] = {}
+
+        self.data["warns"][str(user_id)][id] = {
+            "expires_in": time.time() + (30 * 24 * 60 * 60),
+            "reason": reason,
+        }
+
+        self.save()
+
+        return id

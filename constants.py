@@ -51,9 +51,14 @@ HELP_PAGES = {
     "moderation": {
         "title": "🔨 Moderation",
         "description": f"""
-- Ban a member using `{BOT_PREFIX}ban` (check `{BOT_PREFIX}ban help` for usage)
-- Unban a member using `{BOT_PREFIX}unban` (check `{BOT_PREFIX}unban help`)
-- Kick a member using `{BOT_PREFIX}kick` (check `{BOT_PREFIX}kick help` for usage)
+- Ban a member using `{BOT_PREFIX}ban`
+- Unban a member using `{BOT_PREFIX}unban`
+- Kick a member using `{BOT_PREFIX}kick`
+- Warn a member using `{BOT_PREFIX}warn`
+- Read a member's warns using `{BOT_PREFIX}warns`
+- Unwarn a member using `{BOT_PREFIX}unwarn`
+- Time a member out using `{BOT_PREFIX}timeout`
+- Remove a member's timeout using `{BOT_PREFIX}untimeout`
         """,
         "footer": f"Quickly access this page using `{BOT_PREFIX}help moderation`",
     },
@@ -224,7 +229,7 @@ UNBAN_HELP_PAGE = {
         {"name": "Usage", "content": f"`{BOT_PREFIX}unban <user>`"},
         {
             "name": "Example",
-            "content": f"- `{BOT_PREFIX}unban @mewhenkrillissue`",
+            "content": f"`{BOT_PREFIX}unban @mewhenkrillissue`",
         },
     ],
 }
@@ -239,6 +244,79 @@ KICK_HELP_PAGE = {
 - `{BOT_PREFIX}kick @mewhenkrillissue trolling`
 - `{BOT_PREFIX}kick @mewhenkrillissue`
         """,
+        },
+    ],
+}
+
+WARN_HELP_PAGE = {
+    "title": f"`{BOT_PREFIX}warn`",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}warn <user> <reason>`"},
+        {
+            "name": "Example",
+            "content": f"`{BOT_PREFIX}warn @mewhenkrillissue sending big black men twerking in general`",
+        },
+    ],
+}
+
+WARNS_HELP_PAGE = {
+    "title": f"`{BOT_PREFIX}warns`",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}warn <user>`"},
+        {
+            "name": "Example",
+            "content": f"`{BOT_PREFIX}warns @mewhenkrillissue`",
+        },
+    ],
+}
+
+UNWARN_HELP_PAGE = {
+    "title": f"`{BOT_PREFIX}warns`",
+    "fields": [
+        {"name": "Usage", "content": f"`{BOT_PREFIX}warn <user> <warn_id>`"},
+        {
+            "name": "Example",
+            "content": f"`{BOT_PREFIX}unwarn @mewhenkrillissue NaFKsQvN`",
+        },
+    ],
+}
+
+TIMEOUT_HELP_PAGE = {
+    "title": f"`{BOT_PREFIX}timeout`",
+    "fields": [
+        {
+            "name": "Usage",
+            "content": f"`{BOT_PREFIX}timeout <user> <duration> [reason]`",
+        },
+        {
+            "name": "Examples",
+            "content": f"""
+- `{BOT_PREFIX}timeout @mewhenkrillissue 2d memes in general`
+- `{BOT_PREFIX}timeout @mewhenkrillissue 2d`
+            """,
+        },
+        {
+            "name": "Rules",
+            "content": f"""
+- Duration must be formatted like this: `<amount><unit>`
+- Units can be `d` for day, `h` for hour, `m` for minute
+- If using day, you cannot exceed 28 days
+- You cannot exceed more than 3 characters in duration
+            """,
+        },
+    ],
+}
+
+UNTIMEOUT_HELP_PAGE = {
+    "title": f"`{BOT_PREFIX}untimeout`",
+    "fields": [
+        {
+            "name": "Usage",
+            "content": f"`{BOT_PREFIX}untimeout <user>`",
+        },
+        {
+            "name": "Example",
+            "content": f"`{BOT_PREFIX}untimeout @mewhenkrillissue`",
         },
     ],
 }
