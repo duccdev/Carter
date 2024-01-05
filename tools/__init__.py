@@ -13,3 +13,4 @@ from .random_id import randomId
 from .never_have_i_ever import neverHaveIEver
 from .truth_or_dare import getTruth, getDare
 from .would_you_rather import wouldYouRather
+from .parse_duration import parseDuration

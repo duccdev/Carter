@@ -1,6 +1,6 @@
 from discord.ext import commands
 from db import DB
-import constants, tools, discord, checks, time, datetime, traceback
+import constants, tools, discord, checks, time, datetime
 
 
 class Moderation(commands.Cog):
@@ -293,7 +293,7 @@ class Moderation(commands.Cog):
         duration: str | None,
         *reason: str,
     ) -> None:
-        if not user or not duration or len(duration) > 3:
+        if not user or not duration:
             await ctx.reply(embed=tools.createEmbed(constants.TIMEOUT_HELP_PAGE))
             return
 
@@ -316,26 +316,15 @@ class Moderation(commands.Cog):
         if not bot_member:
             return
 
-        if len(duration) == 2:
-            duration_amount = int(list(duration)[0])
-            duration_unit = list(duration)[1]
-        elif len(duration) == 3:
-            duration_amount = int(f"{list(duration)[0]}{list(duration)[1]}")
-            duration_unit = list(duration)[2]
-        else:
-            await ctx.reply(embed=tools.createEmbed(constants.TIMEOUT_HELP_PAGE))
+        try:
+            duration_delta = tools.parseDuration(duration)
+        except ValueError as e:
+            await ctx.reply(f"`{e}`")
             return
 
-        match duration_unit:
-            case "m":
-                duration_timedelta = datetime.timedelta(minutes=duration_amount)
-            case "h":
-                duration_timedelta = datetime.timedelta(hours=duration_amount)
-            case "d":
-                duration_timedelta = datetime.timedelta(days=duration_amount)
-            case _:
-                await ctx.reply(embed=tools.createEmbed(constants.TIMEOUT_HELP_PAGE))
-                return
+        if duration_delta > datetime.timedelta(days=28):
+            await ctx.reply("Cannot exceed 28 days for timeout!")
+            return
 
         if not bot_member.guild_permissions.kick_members:
             await ctx.reply(":x: I don't have the permission to timeout!")
@@ -352,7 +341,7 @@ class Moderation(commands.Cog):
         await user.send(
             f"You have been timed out in **{ctx.guild.name}**\nReason: **{reason_str}**"
         )
-        await user.timeout(duration_timedelta, reason=reason_str)
+        await user.timeout(duration_delta, reason=reason_str)
         await ctx.message.add_reaction("✅")
 
     @commands.command()

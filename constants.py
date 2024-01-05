@@ -299,9 +299,8 @@ TIMEOUT_HELP_PAGE = {
             "name": "Rules",
             "content": f"""
 - Duration must be formatted like this: `<amount><unit>`
-- Units can be `d` for day, `h` for hour, `m` for minute
-- If using day, you cannot exceed 28 days
-- You cannot exceed more than 3 characters in duration
+- Units can be `d` for day, `h` for hour, `m` for minute, `s` for second
+- You cannot exceed 28 days of total time
             """,
         },
     ],
