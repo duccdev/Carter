@@ -106,7 +106,7 @@ class Fun(commands.Cog):
         )
 
     @commands.command("krill-meme")
-    async def krillmeme(self, ctx: commands.Context):
+    async def krillmeme(self, ctx: commands.Context, name: str | None):
         memes = os.listdir("krill-memes")
 
         try:
@@ -125,7 +125,22 @@ class Fun(commands.Cog):
             )
             return
 
-        await ctx.reply(file=discord.File(f"krill-memes/{tools.random.choice(memes)}"))
+        if not name:
+            await ctx.reply(
+                f"`{tools.random.choice(memes)}`",
+                file=discord.File(f"krill-memes/{tools.random.choice(memes)}"),
+            )
+            return
+
+        if name not in memes:
+            await ctx.reply("not found")
+            return
+
+        if ".." in name:
+            await ctx.reply("NOGGER WTF YOU DOING <a:skeletonfan:1193269094921801843>")
+            return
+
+        await ctx.reply(f"`{name}`", file=discord.File(f"krill-memes/{name}"))
 
     @commands.command("a-pussy")
     async def pussy(self, ctx: commands.Context):
