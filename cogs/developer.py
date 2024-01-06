@@ -279,13 +279,7 @@ class Developer(commands.Cog):
     @commands.command("dev-update-memes")
     @commands.is_owner()
     async def devupdatememes(self, ctx: commands.Context):
-        error = False
-
-        async with ctx.typing():
-            if os.system('bash -c "cd krill-memes && git pull origin main"') != 0:
-                error = True
-
-        if error:
+        if os.system('bash -c "cd krill-memes && git pull origin main"') != 0:
             await ctx.message.add_reaction("❌")
         else:
             await ctx.message.add_reaction("✅")

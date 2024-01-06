@@ -126,10 +126,8 @@ class Fun(commands.Cog):
             return
 
         if not name:
-            await ctx.reply(
-                f"`{tools.random.choice(memes)}`",
-                file=discord.File(f"krill-memes/{tools.random.choice(memes)}"),
-            )
+            name = tools.random.choice(memes)
+            await ctx.reply(f"`{name}`", file=discord.File(f"krill-memes/{name}"))
             return
 
         if name not in memes:
