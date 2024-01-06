@@ -45,15 +45,14 @@ async def chat_send(
     img_descriptions: list[str] = []
 
     try:
-        if imgs:
-            for img in imgs:
-                img_descriptions.append(
-                    (
-                        await gemini_pro_vision.generate_content_async(
-                            img, safety_settings=safety_settings
-                        )
-                    ).text
-                )
+        for img in imgs:
+            img_descriptions.append(
+                (
+                    await gemini_pro_vision.generate_content_async(
+                        img, safety_settings=safety_settings
+                    )
+                ).text
+            )
     except:
         pass
 
