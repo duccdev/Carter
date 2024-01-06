@@ -2,6 +2,7 @@ from discord.ext import commands
 from games.cups import Cups
 from games.rps import RPSGame
 from games.rpspvp import RPSPVPGame
+from games.tictactoe import TicTacToe
 import asyncio, tools, constants, db, logger, discord
 
 
@@ -18,7 +19,6 @@ class Games(commands.Cog):
             await ctx.reply(embed=tools.createEmbed(constants.LEADERBOARD_HELP_PAGE))
             return
 
-        self.db.load()
         leaderboard = self.db.getLeaderboard(game)
 
         if len(leaderboard) > 0:
@@ -81,6 +81,10 @@ class Games(commands.Cog):
 
         msg = await ctx.reply(f"<@{ctx.author.id}> goes first")
         await msg.edit(view=RPSPVPGame(msg=msg, p1_id=ctx.author.id, p2_id=p2.id))
+
+    @commands.command()
+    async def tictactoe(self, ctx: commands.Context) -> None:
+        await ctx.reply(view=TicTacToe(ctx=ctx))
 
     @commands.command()
     async def truth(self, ctx: commands.Context, rating: str | None) -> None:

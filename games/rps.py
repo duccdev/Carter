@@ -61,7 +61,7 @@ class RPSButton(discord.ui.Button):
 
         if self.this_choice == self.ai_choice:
             await interaction.response.edit_message(
-                content=constants.RPS_TIE, view=view
+                content=constants.GAME_TIE, view=view
             )
         elif (
             self.this_choice == constants.ROCK and self.ai_choice == constants.SCISSORS

@@ -259,10 +259,12 @@ class Developer(commands.Cog):
             output = run(args, capture_output=True, text=True)
 
             if output.stdout:
-                msg += f"stdout:\n```\n{output.stdout}\n```\n"
+                stdout = output.stdout.replace("```", "'''")
+                msg += f"stdout:\n```ansi\n{stdout}\n```\n"
 
             if output.stderr:
-                msg += f"stderr:\n```\n{output.stderr}\n```\n"
+                stderr = output.stderr.replace("```", "'''")
+                msg += f"stderr:\n```ansi\n{stderr}\n```\n"
 
             msg += f"return value: `{output.returncode}`"
 

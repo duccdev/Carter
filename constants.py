@@ -329,9 +329,11 @@ LEADERBOARD_NO_PLAYERS = (
     "yeah uh there are no players currently on the leaderboard :skull_crossbones:"
 )
 
+GAME_TIE = "oop its a tie"
 NON_OWNER_INTERACTION = "MF THIS ISNT YOURS"
 WAIT_FOR_YOUR_TURN = "MF WAIT FOR YOUR TURN"
 YOUR_TURN_HAS_ALREADY_PASSED = "MF YOUR TURN HAS ALREADY PASSED"
+
 CUPS_TIMEOUT = "bro you really took THAT long to press a FUCKING BUTTON??"
 
 ROCK = 0
@@ -339,9 +341,16 @@ PAPER = 1
 SCISSORS = 2
 
 RPS_TIMEOUT = "fucker stop overthinking what to choose"
-RPS_TIE = "oop its a tie"
 RPS_WIN = "soo YOU WON WOOOO"
 RPS_LOSE = "soo you lost lmaooooo"
+
+TTT_EMPTY = 0
+TTT_X = 1
+TTT_O = 2
+TTT_TIE = 3
+
+TTT_TIMEOUT = "game ended due to inactivity"
+TTT_ALREADY_PRESSED = "MF THIS SQUARE IS ALREADY TAKEN"
 
 GEMINI_PRO_CHARS_LIMIT = 262144
 

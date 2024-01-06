@@ -17,7 +17,7 @@ class Moderation(commands.Cog):
         *reason: str,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.createEmbed(constants.WARN_HELP_PAGE))
+            await ctx.reply(embed=tools.createEmbed(constants.BAN_HELP_PAGE))
             return
 
         if not ctx.guild:
