@@ -1,4 +1,3 @@
-from discord.ext import commands
 from db import DB
 import discord, constants
 
@@ -19,48 +18,63 @@ class TTTButton(discord.ui.Button):
     async def callback(self, interaction: discord.Interaction):
         assert self.view is not None
         view: TicTacToe = self.view
-        content: str | None = None
 
-        if interaction.user.id != view.ctx.author.id:
+        async def game_ended() -> bool:
+            content: str | None = None
+            winner = view.check_winner()
+
+            if winner:
+                match winner:
+                    case constants.TTT_X:
+                        content = f"<@{view.x_id}> wins!"
+                    case constants.TTT_O:
+                        content = f"<@{view.o_id}> wins!"
+                    case constants.TTT_TIE:
+                        content = "It's a tie!"
+
+                for child in view.children:
+                    child.disabled = True
+
+                view.stop()
+                await interaction.response.edit_message(content=content, view=view)
+
+            return winner is not None
+
+        if interaction.user.id != view.current_turn:
             await interaction.response.send_message(
-                constants.NON_OWNER_INTERACTION, ephemeral=True
+                constants.WAIT_FOR_YOUR_TURN, ephemeral=True
             )
             return
 
-        view.board[self.y][self.x] = constants.TTT_X
-        self.emoji = "❌"
-        self.disabled = True
-
-        winner = view.check_winner()
-
-        if winner:
-            match winner:
-                case constants.TTT_X:
-                    content = "X wins!"
-                case constants.TTT_O:
-                    content = "O wins!"
-
-            for child in view.children:
-                child.disabled = True
-
-            view.stop()
-            await interaction.response.edit_message(content=content, view=view)
-
+        if self.disabled:
+            await interaction.response.send_message(
+                constants.TTT_OCCUPIED, ephemeral=True
+            )
             return
 
-        await interaction.response.edit_message(view=view)
+        view.board[self.y][self.x] = (
+            constants.TTT_X if view.current_turn == view.x_id else constants.TTT_O
+        )
+        self.emoji = "❌" if view.current_turn == view.x_id else "⭕"
+        self.disabled = True
+        view.current_turn = view.x_id if view.current_turn == view.o_id else view.o_id
+
+        if await game_ended():
+            return
+
+        await interaction.response.edit_message(
+            content=f"It's <@{view.current_turn}>'s turn", view=view
+        )
 
 
 class TicTacToe(discord.ui.View):
     children: list[TTTButton]
 
-    def __init__(
-        self,
-        *,
-        timeout: float | None = 180,
-        ctx: commands.Context,
-    ) -> None:
-        self.ctx = ctx
+    def __init__(self, *, timeout: float | None = 180, x_id: int, o_id: int) -> None:
+        self.x_id = x_id
+        self.o_id = o_id
+        self.current_turn = x_id
+        self.turn = constants.TTT_X
         self.db = DB()
         self.board = [
             [constants.TTT_EMPTY, constants.TTT_EMPTY, constants.TTT_EMPTY],

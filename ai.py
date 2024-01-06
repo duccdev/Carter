@@ -1,5 +1,6 @@
 import tools.other, config, constants, PIL.Image, google.generativeai as genai
 from db import DB
+from json import dumps as json_stringify, loads as json_parse
 
 genai.configure(api_key=config.GENAI_API_KEY)
 
@@ -37,7 +38,7 @@ async def chat_send(
     id: int,
     name: str,
     imgs: list[PIL.Image.Image] = [],
-) -> dict[str, str | list[str]] | Exception:
+) -> dict[str, str | list[str]]:
     db.load()
 
     history = db.get_msg_history(id)
@@ -85,20 +86,17 @@ async def chat_send(
     db.set_msg_history(id, history)
     db.save()
 
-    try:
-        return {
-            "response": tools.other.insensitive_replace(
-                (
-                    await gemini_pro.start_chat().send_message_async(
-                        req, safety_settings=safety_settings
-                    )
-                ).text,
-                "cranberrybot:",
-                "",
-            )
-            .replace(f"<@{constants.BOT}>", "")
-            .replace("*", "\\*"),
-            "images": img_descriptions,
-        }
-    except Exception as e:
-        return e
+    return {
+        "response": tools.other.insensitive_replace(
+            (
+                await gemini_pro.start_chat().send_message_async(
+                    req, safety_settings=safety_settings
+                )
+            ).text,
+            "cranberrybot:",
+            "",
+        )
+        .replace(f"<@{constants.BOT}>", "")
+        .replace("*", "\\*"),
+        "images": img_descriptions,
+    }

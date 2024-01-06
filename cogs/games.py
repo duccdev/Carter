@@ -85,8 +85,21 @@ class Games(commands.Cog):
         await msg.edit(view=RPSPVPGame(msg=msg, p1_id=ctx.author.id, p2_id=p2.id))
 
     @commands.command()
-    async def tictactoe(self, ctx: commands.Context) -> None:
-        await ctx.reply(view=TicTacToe(ctx=ctx))
+    async def tictactoe(
+        self, ctx: commands.Context, opponent: discord.Member | discord.User | None
+    ) -> None:
+        if not opponent:
+            await ctx.reply(f"Usage: `{constants.BOT_PREFIX}tictactoe <other_member>`")
+            return
+
+        if opponent == ctx.author or opponent == self.bot.user:
+            await ctx.reply(f"NOGGER (turkish icecream) WHAT")
+            return
+
+        await ctx.reply(
+            f"It's <@{ctx.author.id}>'s turn",
+            view=TicTacToe(x_id=ctx.author.id, o_id=opponent.id),
+        )
 
     @commands.command()
     async def truth(self, ctx: commands.Context, rating: str | None) -> None:

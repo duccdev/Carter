@@ -359,7 +359,7 @@ TTT_O = 2
 TTT_TIE = 3
 
 TTT_TIMEOUT = "game ended due to inactivity"
-TTT_ALREADY_PRESSED = "MF THIS SQUARE IS ALREADY TAKEN"
+TTT_OCCUPIED = "MF THIS SQUARE IS ALREADY OCCUPIED"
 
 GEMINI_PRO_CHARS_LIMIT = 262144
 
@@ -382,6 +382,8 @@ You have these commands that you may see in the message history (If you are prom
 {BOT_PREFIX}dare: "Truth or dare" dare
 {BOT_PREFIX}wyr: Would you rather question
 {BOT_PREFIX}nhie: Never have I ever question
+{BOT_PREFIX}krill-meme: Sends a meme from the developer's meme collection
+{BOT_PREFIX}tictactoe: Play TicTacToe against other players
 
 <@NUMBER_HERE> is a "mention", where NUMBER_HERE is the user's ID. If you want to mention anyone, just send their <@ID>
 An example is <@719562834295390299>
