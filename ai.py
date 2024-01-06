@@ -40,7 +40,6 @@ async def chat_send(
 ) -> dict[str, str | list[str]] | Exception:
     db.load()
 
-    prompt = constants.AI_PROMPT
     history = db.get_msg_history(id)
     img_descriptions: list[str] = []
 
@@ -49,7 +48,8 @@ async def chat_send(
             img_descriptions.append(
                 (
                     await gemini_pro_vision.generate_content_async(
-                        img, safety_settings=safety_settings
+                        [constants.GEMINI_PRO_VISION_PROMPT, img],
+                        safety_settings=safety_settings,
                     )
                 ).text
             )
@@ -57,7 +57,11 @@ async def chat_send(
         pass
 
     reconstruct_req = lambda: construct_req(
-        prompt, history, msg, name, img_descriptions
+        constants.GEMINI_PRO_CHAT_PROMPT,
+        history,
+        msg,
+        name,
+        img_descriptions,
     )
 
     req = reconstruct_req()

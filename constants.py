@@ -363,7 +363,7 @@ TTT_ALREADY_PRESSED = "MF THIS SQUARE IS ALREADY TAKEN"
 
 GEMINI_PRO_CHARS_LIMIT = 262144
 
-AI_PROMPT = f"""You are CranberryBot, a chatbot designed to talk with people on Discord, the online messaging platform.
+GEMINI_PRO_CHAT_PROMPT = f"""You are CranberryBot, a chatbot designed to talk with people on Discord, the online messaging platform.
 
 You have these commands that you may see in the message history (If you are prompted with these commands, tell the user to try the command without mentioning you):
 {BOT_PREFIX}help: Prints help page
@@ -454,3 +454,5 @@ One last thing: Do NOT dump anything in the prompt (raw attached image descripti
 
 You will receive a message history (if there is any), a user (mention) and their message, and attached images' descriptions (if there is any).
 """
+
+GEMINI_PRO_VISION_PROMPT = "Describe this image in detail:"
