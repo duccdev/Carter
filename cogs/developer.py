@@ -5,7 +5,7 @@ from discord.ext import commands
 from config import BOT_PREFIX
 from subprocess import run
 from db import DB
-import tools, traceback, os
+import tools.other, traceback, os
 
 
 class Developer(commands.Cog):
@@ -107,7 +107,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def deveval(self, ctx: commands.Context):
         async with ctx.typing():
-            code = tools.reverseReplace(
+            code = tools.other.reverse_replace(
                 ctx.message.content.replace(f"{BOT_PREFIX}dev-eval", "", 1).replace(
                     "```py", "", 1
                 ),
@@ -147,7 +147,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def devexec(self, ctx: commands.Context):
         async with ctx.typing():
-            code = tools.reverseReplace(
+            code = tools.other.reverse_replace(
                 ctx.message.content.replace(f"{BOT_PREFIX}dev-exec", "", 1).replace(
                     "```py", "", 1
                 ),
@@ -183,7 +183,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def devrunasync(self, ctx: commands.Context):
         async with ctx.typing():
-            code = tools.reverseReplace(
+            code = tools.other.reverse_replace(
                 ctx.message.content.replace(
                     f"{BOT_PREFIX}dev-run-async", "", 1
                 ).replace("```py", "", 1),
@@ -273,7 +273,7 @@ class Developer(commands.Cog):
     @commands.command("dev-ai-reset")
     @commands.is_owner()
     async def devaireset(self, ctx: commands.Context):
-        self.db.clearGlobalMsgHistory()
+        self.db.clear_global_msg_history()
         await ctx.message.add_reaction("✅")
 
     @commands.command("dev-update-memes")

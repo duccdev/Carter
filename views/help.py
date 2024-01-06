@@ -1,4 +1,4 @@
-import discord, constants, tools
+import discord, constants, tools.other
 
 
 class HelpMenu(discord.ui.Select):
@@ -39,7 +39,7 @@ class HelpMenu(discord.ui.Select):
             return
 
         await interaction.response.edit_message(
-            embed=tools.createEmbed(
+            embed=tools.other.create_embed(
                 constants.HELP_PAGES[self.values[0]],
             ),
         )

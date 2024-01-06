@@ -3,7 +3,7 @@ from games.cups import Cups
 from games.rps import RPSGame
 from games.rpspvp import RPSPVPGame
 from games.tictactoe import TicTacToe
-import asyncio, tools, constants, db, logger, discord
+import asyncio, tools.other, tools.random, tools.games.truth_or_dare, tools.games.never_have_i_ever, tools.games.would_you_rather, constants, db, logger, discord
 
 
 class Games(commands.Cog):
@@ -16,10 +16,12 @@ class Games(commands.Cog):
         supported_games = ["cups", "rps", "rps-pvp"]
 
         if not game or game not in supported_games:
-            await ctx.reply(embed=tools.createEmbed(constants.LEADERBOARD_HELP_PAGE))
+            await ctx.reply(
+                embed=tools.other.create_embed(constants.LEADERBOARD_HELP_PAGE)
+            )
             return
 
-        leaderboard = self.db.getLeaderboard(game)
+        leaderboard = self.db.get_leaderboard(game)
 
         if len(leaderboard) > 0:
             players = ""
@@ -91,7 +93,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            await ctx.reply(embed=tools.createEmbed(constants.TRUTH_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.TRUTH_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -101,8 +103,8 @@ class Games(commands.Cog):
             return
 
         try:
-            truth = await tools.getTruth(rating)
-            self.db.addMsg(
+            truth = await tools.games.truth_or_dare.get_truth(rating)
+            self.db.add_msg(
                 ctx.author.id,
                 ctx.author.name,
                 'give me a "truth or dare" truth question',
@@ -119,7 +121,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            await ctx.reply(embed=tools.createEmbed(constants.DARE_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.DARE_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -129,8 +131,8 @@ class Games(commands.Cog):
             return
 
         try:
-            dare = await tools.getDare(rating)
-            self.db.addMsg(
+            dare = await tools.games.truth_or_dare.get_dare(rating)
+            self.db.add_msg(
                 ctx.author.id,
                 ctx.author.name,
                 'give me a "truth or dare" dare',
@@ -147,7 +149,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            await ctx.reply(embed=tools.createEmbed(constants.WYR_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.WYR_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -157,8 +159,8 @@ class Games(commands.Cog):
             return
 
         try:
-            wyr = await tools.wouldYouRather(rating)
-            self.db.addMsg(
+            wyr = await tools.games.would_you_rather.get_wyr(rating)
+            self.db.add_msg(
                 ctx.author.id,
                 ctx.author.name,
                 "give me a would you rather question",
@@ -175,7 +177,7 @@ class Games(commands.Cog):
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
         elif rating != "pg" and rating != "pg13" and rating != "r":
-            await ctx.reply(embed=tools.createEmbed(constants.NHIE_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.NHIE_HELP_PAGE))
             return
 
         if rating == "r" and (
@@ -185,8 +187,8 @@ class Games(commands.Cog):
             return
 
         try:
-            nhie = await tools.neverHaveIEver(rating)
-            self.db.addMsg(
+            nhie = await tools.games.never_have_i_ever.get_nhie(rating)
+            self.db.add_msg(
                 ctx.author.id,
                 ctx.author.name,
                 "give me a never have i ever question",

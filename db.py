@@ -1,11 +1,11 @@
 from typing import Any
-import json, os, tools, time
+import json, os, tools.random, time
 
 
 class DB:
     def __init__(self, path: str = "db.json") -> None:
         self.path = path
-        self.data: dict[str, Any] = {
+        self.data: dict[str, dict] = {
             "leaderboards": {},
             "msg_history": {},
             "polls": {},
@@ -24,7 +24,7 @@ class DB:
         with open(self.path) as fp:
             self.data = json.load(fp)
 
-    def addWin(self, leaderboard: str, player_id: int) -> None:
+    def add_win(self, leaderboard: str, player_id: int) -> None:
         self.load()
 
         if not self.data["leaderboards"].get(leaderboard):
@@ -37,7 +37,7 @@ class DB:
 
         self.save()
 
-    def getLeaderboard(self, leaderboard: str) -> dict[str, int]:
+    def get_leaderboard(self, leaderboard: str) -> dict[str, int]:
         self.load()
 
         if not self.data["leaderboards"].get(leaderboard):
@@ -51,16 +51,16 @@ class DB:
             )
         )
 
-    def setMsgHistory(self, id: int, history: str):
+    def set_msg_history(self, id: int, history: str):
         self.load()
         self.data["msg_history"][str(id)] = history
         self.save()
 
-    def getMsgHistory(self, id: int) -> str:
+    def get_msg_history(self, id: int) -> str:
         self.load()
         return self.data["msg_history"].get(str(id), "")
 
-    def addMsg(self, id: int, name: str, msg: str, res: str, images: list[str]):
+    def add_msg(self, id: int, name: str, msg: str, res: str, images: list[str]):
         self.load()
 
         images = [
@@ -77,29 +77,29 @@ class DB:
         self.data["msg_history"][str(id)] += f"\n{entry}"
         self.save()
 
-    def clearMsgHistory(self, id: int):
+    def clear_msg_history(self, id: int):
         self.load()
         self.data["msg_history"][str(id)] = ""
         self.save()
 
-    def clearGlobalMsgHistory(self):
+    def clear_global_msg_history(self):
         self.load()
         self.data["msg_history"] = {}
         self.save()
 
-    def createPoll(self, options: list[int]) -> str:
+    def create_poll(self, options: list[int]) -> str:
         self.load()
-        id = tools.randomId()
+        id = tools.random.id()
         self.data["polls"][id] = {"options": options, "votes": {}}
         self.save()
         return id
 
-    def setVote(self, poll_id: str, user_id: int, option: int):
+    def set_vote(self, poll_id: str, user_id: int, option: int):
         self.load()
         self.data["polls"][poll_id]["votes"][str(user_id)] = option
         self.save()
 
-    def getVotes(self, poll_id: str) -> dict[str, int]:
+    def get_votes(self, poll_id: str) -> dict[str, int]:
         self.load()
         votes = {}
 
@@ -111,7 +111,7 @@ class DB:
 
         return votes
 
-    def removeVote(self, poll_id: str, user_id: int):
+    def remove_vote(self, poll_id: str, user_id: int):
         self.load()
 
         try:
@@ -121,7 +121,7 @@ class DB:
 
         self.save()
 
-    def getWarns(self, user_id: int):
+    def get_warns(self, user_id: int):
         self.load()
 
         user_warns = self.data["warns"].get(str(user_id), {})
@@ -132,25 +132,25 @@ class DB:
 
         return user_warns
 
-    def setWarns(self, user_id: int, warns: dict):
+    def set_warns(self, user_id: int, warns: dict):
         self.load()
         self.data["warns"][str(user_id)] = warns
         self.save()
 
     def remove_warn(self, user_id: int, warn_id: str) -> bool:
-        user_warns = self.getWarns(user_id)
+        user_warns = self.get_warns(user_id)
 
         if not user_warns.get(warn_id):
             return False
 
         del user_warns[warn_id]
-        self.setWarns(user_id, user_warns)
+        self.set_warns(user_id, user_warns)
         return True
 
-    def addWarn(self, user_id: int, reason: str) -> str:
+    def add_warn(self, user_id: int, reason: str) -> str:
         self.load()
 
-        id = tools.randomId(8)
+        id = tools.random.id(8)
 
         if not self.data["warns"].get(str(user_id)):
             self.data["warns"][str(user_id)] = {}

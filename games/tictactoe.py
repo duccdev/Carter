@@ -1,4 +1,3 @@
-from typing import Callable
 from discord.ext import commands
 from db import DB
 import discord, constants

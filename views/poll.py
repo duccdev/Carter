@@ -17,7 +17,7 @@ class PollOption(discord.ui.Button):
         super().__init__(style=style, label=str(self.option))
 
     async def callback(self, interaction: discord.interactions.Interaction):
-        self.db.setVote(self.poll_id, interaction.user.id, self.option)
+        self.db.set_vote(self.poll_id, interaction.user.id, self.option)
 
         await interaction.response.send_message(
             "Your vote has been set!", ephemeral=True
@@ -37,7 +37,7 @@ class ViewVotesButton(discord.ui.Button):
         super().__init__(style=style, label="View votes", row=2)
 
     async def callback(self, interaction: discord.interactions.Interaction):
-        votes = self.db.getVotes(self.poll_id)
+        votes = self.db.get_votes(self.poll_id)
         embed = discord.Embed(color=discord.Color.random(), title="Votes")
 
         for k, v in votes.items():
@@ -59,7 +59,7 @@ class RemoveVoteButton(discord.ui.Button):
         super().__init__(style=style, label="Remove vote", row=2)
 
     async def callback(self, interaction: discord.interactions.Interaction):
-        self.db.removeVote(self.poll_id, interaction.user.id)
+        self.db.remove_vote(self.poll_id, interaction.user.id)
         await interaction.response.send_message("Done! :thumbsup:", ephemeral=True)
 
 
@@ -72,7 +72,7 @@ class Poll(discord.ui.View):
     ):
         self.db = DB()
         self.options = options
-        self.poll_id = self.db.createPoll(self.options)
+        self.poll_id = self.db.create_poll(self.options)
 
         super().__init__(timeout=timeout)
 

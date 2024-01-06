@@ -1,12 +1,21 @@
 from config import BOT_PREFIX
-import colors, tools
+import colors, tools.other
 
 KRILL = 719562834295390299
 BALU = 932331066637832273
 SQD = 1077982815070728223
 BOT = 1188275168536174713
 
-LIVE_COMMIT_SHORT, LIVE_COMMIT_LONG = tools.getLiveCommit()
+FACTS_ROUTE = "https://uselessfacts.jsph.pl/api/v2/facts/random"
+CATS_ROUTE = "https://api.thecatapi.com/v1/images/search"
+DOGS_ROUTE = "https://api.thedogapi.com/v1/images/search"
+MEMES_ROUTE = "https://meme-api.com/gimme"
+TRUTH_ROUTE = "https://api.truthordarebot.xyz/v1/truth"
+DARE_ROUTE = "https://api.truthordarebot.xyz/api/dare"
+WOULD_YOU_RATHER_ROUTE = "https://api.truthordarebot.xyz/api/wyr"
+NEVER_HAVE_I_EVER_ROUTE = "https://api.truthordarebot.xyz/api/nhie"
+
+LIVE_COMMIT_SHORT, LIVE_COMMIT_LONG = tools.other.live_commit()
 
 LOG_PREFIX = f"[{colors.RED}Cranberry{colors.END}Bot]"
 

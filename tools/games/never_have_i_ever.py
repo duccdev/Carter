@@ -1,11 +1,10 @@
-import aiohttp
-import config
+import constants, aiohttp
 
 
-async def wouldYouRather(rating: str) -> str:
+async def get_nhie(rating: str) -> str:
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            f"{config.WOULD_YOU_RATHER_ROUTE}?rating={rating}",
+            f"{constants.NEVER_HAVE_I_EVER_ROUTE}?rating={rating}",
         ) as response:
             body = await response.json()
 

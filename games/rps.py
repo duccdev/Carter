@@ -1,7 +1,7 @@
 from typing import Callable
 from discord.ext import commands
 from db import DB
-import discord, tools, constants, config
+import discord, tools.random, constants, config
 
 
 class RPSButton(discord.ui.Button):
@@ -66,7 +66,7 @@ class RPSButton(discord.ui.Button):
         elif (
             self.this_choice == constants.ROCK and self.ai_choice == constants.SCISSORS
         ):
-            self.db.addWin("rps", self.ctx.author.id)
+            self.db.add_win("rps", self.ctx.author.id)
             await interaction.response.edit_message(
                 content=f"your rock breaks my scissor {constants.RPS_WIN}",
                 view=view,
@@ -74,13 +74,13 @@ class RPSButton(discord.ui.Button):
         elif (
             self.this_choice == constants.SCISSORS and self.ai_choice == constants.PAPER
         ):
-            self.db.addWin("rps", self.ctx.author.id)
+            self.db.add_win("rps", self.ctx.author.id)
             await interaction.response.edit_message(
                 content=f"your scissors cut my paper {constants.RPS_WIN}",
                 view=view,
             )
         elif self.this_choice == constants.PAPER and self.ai_choice == constants.ROCK:
-            self.db.addWin("rps", self.ctx.author.id)
+            self.db.add_win("rps", self.ctx.author.id)
             await interaction.response.edit_message(
                 content=f"your paper covers my rock {constants.RPS_WIN}",
                 view=view,

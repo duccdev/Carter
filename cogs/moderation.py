@@ -1,6 +1,6 @@
 from discord.ext import commands
 from db import DB
-import constants, tools, discord, checks, time, datetime
+import constants, tools.other, discord, checks, time, datetime
 
 
 class Moderation(commands.Cog):
@@ -17,7 +17,7 @@ class Moderation(commands.Cog):
         *reason: str,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.createEmbed(constants.BAN_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.BAN_HELP_PAGE))
             return
 
         if not ctx.guild:
@@ -62,7 +62,7 @@ class Moderation(commands.Cog):
         user: discord.User | None,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.createEmbed(constants.UNBAN_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.UNBAN_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:
@@ -92,7 +92,7 @@ class Moderation(commands.Cog):
         *reason: str,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.createEmbed(constants.WARN_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.WARN_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:
@@ -138,7 +138,7 @@ class Moderation(commands.Cog):
         *reason: str,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.createEmbed(constants.WARN_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.WARN_HELP_PAGE))
             return
 
         if not ctx.guild:
@@ -157,7 +157,7 @@ class Moderation(commands.Cog):
         reason_str = ("".join([f"{word} " for word in reason])).strip()
 
         if not reason_str:
-            await ctx.reply(embed=tools.createEmbed(constants.WARN_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.WARN_HELP_PAGE))
             return
 
         bot_member = ctx.guild.get_member(self.bot.user.id)
@@ -173,8 +173,8 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: Cannot warn a user higher than me!")
             return
 
-        warn_id = self.db.addWarn(user.id, reason_str)
-        warns = len(self.db.getWarns(user.id))
+        warn_id = self.db.add_warn(user.id, reason_str)
+        warns = len(self.db.get_warns(user.id))
 
         await user.send(
             f"You have been warned in **{ctx.guild.name}**\nReason: **{reason_str}**"
@@ -197,7 +197,7 @@ class Moderation(commands.Cog):
         user: discord.User | discord.Member | None,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.createEmbed(constants.WARNS_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.WARNS_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:
@@ -226,7 +226,7 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: Cannot view warns of a user higher than me!")
             return
 
-        warns = self.db.getWarns(user.id)
+        warns = self.db.get_warns(user.id)
 
         embed = discord.Embed(color=discord.Color.random(), title=f"{len(warns)} warns")
 
@@ -249,7 +249,7 @@ class Moderation(commands.Cog):
         warn_id: str | None,
     ) -> None:
         if not user or not warn_id:
-            await ctx.reply(embed=tools.createEmbed(constants.UNWARN_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.UNWARN_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:
@@ -294,7 +294,7 @@ class Moderation(commands.Cog):
         *reason: str,
     ) -> None:
         if not user or not duration:
-            await ctx.reply(embed=tools.createEmbed(constants.TIMEOUT_HELP_PAGE))
+            await ctx.reply(embed=tools.other.create_embed(constants.TIMEOUT_HELP_PAGE))
             return
 
         if not ctx.guild or not self.bot.user:
@@ -317,7 +317,7 @@ class Moderation(commands.Cog):
             return
 
         try:
-            duration_delta = tools.parseDuration(duration)
+            duration_delta = tools.other.parse_duration(duration)
         except ValueError as e:
             await ctx.reply(f"`{e}`")
             return
@@ -352,7 +352,9 @@ class Moderation(commands.Cog):
         user: discord.User | discord.Member | None,
     ) -> None:
         if not user:
-            await ctx.reply(embed=tools.createEmbed(constants.UNTIMEOUT_HELP_PAGE))
+            await ctx.reply(
+                embed=tools.other.create_embed(constants.UNTIMEOUT_HELP_PAGE)
+            )
             return
 
         if not ctx.guild or not self.bot.user:

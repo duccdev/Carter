@@ -1,7 +1,7 @@
 from typing import Callable
 from discord.ext import commands
 from db import DB
-import discord, tools, constants, config
+import discord, tools.random, constants, config
 
 
 class CupButton(discord.ui.Button):
@@ -81,7 +81,7 @@ class CupButton(discord.ui.Button):
 
             self.stop_view()
 
-            self.db.addWin(
+            self.db.add_win(
                 "cups",
                 interaction.user.id,
             )

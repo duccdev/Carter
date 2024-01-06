@@ -1,4 +1,4 @@
-import tools, config, constants, PIL.Image, google.generativeai as genai
+import tools.other, config, constants, PIL.Image, google.generativeai as genai
 from db import DB
 
 genai.configure(api_key=config.GENAI_API_KEY)
@@ -32,7 +32,7 @@ def construct_req(
     return req
 
 
-async def send(
+async def chat_send(
     msg: str,
     id: int,
     name: str,
@@ -41,7 +41,7 @@ async def send(
     db.load()
 
     prompt = constants.AI_PROMPT
-    history = db.getMsgHistory(id)
+    history = db.get_msg_history(id)
     img_descriptions: list[str] = []
 
     try:
@@ -79,12 +79,12 @@ async def send(
 
         req = reconstruct_req()
 
-    db.setMsgHistory(id, history)
+    db.set_msg_history(id, history)
     db.save()
 
     try:
         return {
-            "response": tools.insensitiveReplace(
+            "response": tools.other.insensitive_replace(
                 (
                     await gemini_pro.start_chat().send_message_async(
                         req, safety_settings=safety_settings

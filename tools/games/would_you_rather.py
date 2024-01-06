@@ -1,11 +1,10 @@
-import aiohttp
-import config
+import aiohttp, constants
 
 
-async def neverHaveIEver(rating: str) -> str:
+async def get_wyr(rating: str) -> str:
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            f"{config.NEVER_HAVE_I_EVER_ROUTE}?rating={rating}",
+            f"{constants.WOULD_YOU_RATHER_ROUTE}?rating={rating}",
         ) as response:
             body = await response.json()
 

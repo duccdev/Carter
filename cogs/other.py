@@ -2,7 +2,7 @@ from discord.ext import commands
 from db import DB
 from views.poll import Poll
 from views.help import HelpView
-import constants, tools, PIL.Image, os, ai, logger, checks, discord
+import constants, tools.other, PIL.Image, os, ai, logger, checks, discord
 
 
 class Other(commands.Cog):
@@ -13,15 +13,15 @@ class Other(commands.Cog):
     @commands.command()
     async def help(self, ctx: commands.Context, page: str | None) -> None:
         if page and page in constants.HELP_PAGES:
-            embed = tools.createEmbed(constants.HELP_PAGES[page])
+            embed = tools.other.create_embed(constants.HELP_PAGES[page])
         else:
-            embed = tools.createEmbed(constants.HELP_PAGES["main"])
+            embed = tools.other.create_embed(constants.HELP_PAGES["main"])
 
         await ctx.reply(embed=embed, view=HelpView(sender=ctx.author.id))
 
     @commands.command()
     async def ping(self, ctx: commands.Context) -> None:
-        await ctx.reply(f":ping_pong: `{tools.ping()}`")
+        await ctx.reply(f":ping_pong: `{tools.other.ping()}`")
 
     @commands.command()
     @checks.ownerOrPerms(
@@ -36,7 +36,7 @@ class Other(commands.Cog):
         poll: str | None,
         options: str | None,
     ) -> None:
-        help_page = tools.createEmbed(constants.POLL_HELP_PAGE)
+        help_page = tools.other.create_embed(constants.POLL_HELP_PAGE)
 
         if not channel or not poll or not options:
             await ctx.reply(embed=help_page)
@@ -65,12 +65,12 @@ class Other(commands.Cog):
 
     @commands.command("ai-reset")
     async def aireset(self, ctx: commands.Context):
-        self.db.clearMsgHistory(ctx.author.id)
+        self.db.clear_msg_history(ctx.author.id)
         await ctx.message.add_reaction("✅")
 
     @commands.command()
     async def contributors(self, ctx: commands.Context):
-        await ctx.reply(embed=tools.createEmbed(constants.CONTRIBUTORS))
+        await ctx.reply(embed=tools.other.create_embed(constants.CONTRIBUTORS))
 
     @commands.Cog.listener()
     async def on_message(self, msg: discord.Message):
@@ -103,7 +103,12 @@ class Other(commands.Cog):
 
                             os.remove(imgpath)
 
-                res = await ai.send(msg.content, msg.author.id, msg.author.name, imgs)
+                res = await ai.chat_send(
+                    msg.content,
+                    msg.author.id,
+                    msg.author.name,
+                    imgs,
+                )
 
             if isinstance(res, Exception):
                 logger.error(str(res))
@@ -111,7 +116,7 @@ class Other(commands.Cog):
                 return
 
             await msg.reply(str(res["response"]))
-            self.db.addMsg(
+            self.db.add_msg(
                 msg.author.id,
                 msg.author.name,
                 msg.content,

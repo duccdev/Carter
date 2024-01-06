@@ -1,5 +1,5 @@
 from discord.ext import commands
-import discord, constants, logger, tools
+import discord, constants, logger, tools.other, tools.nsfw
 
 
 class NSFW(commands.Cog):
@@ -19,7 +19,7 @@ class NSFW(commands.Cog):
                 return
 
             if category == "unset" or content_type == "unset":
-                embed = tools.createEmbed(constants.NSFW_HELP_PAGE)
+                embed = tools.other.create_embed(constants.NSFW_HELP_PAGE)
 
                 if self.bot.user:  # i have to do this so python wont annoy me
                     embed.set_thumbnail(url=self.bot.user.display_avatar)
@@ -29,8 +29,8 @@ class NSFW(commands.Cog):
                 return
 
             try:
-                nsfw_bytes, nsfw_ext = await tools.getNsfw(category, content_type)
-            except tools.NsfwNotFoundError as e:
+                nsfw_bytes, nsfw_ext = await tools.nsfw.get_nsfw(category, content_type)
+            except tools.nsfw.NsfwNotFoundError as e:
                 await ctx.reply(constants.NSFW_NOT_FOUND)
                 return
             except Exception as e:
