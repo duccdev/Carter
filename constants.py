@@ -213,7 +213,10 @@ LEADERBOARD_HELP_PAGE = {
     "fields": [
         {"name": "Usage", "content": f"`{BOT_PREFIX}leaderboard <game>`"},
         {"name": "Example", "content": f"`{BOT_PREFIX}leaderboard cups`"},
-        {"name": "Supported games", "content": "- `cups`\n- `rps`\n- `rps-pvp`"},
+        {
+            "name": "Supported games",
+            "content": "- `cups`\n- `rps`\n- `rps-pvp`\n- `tictactoe`",
+        },
         {"name": "Aliases", "content": f"- `{BOT_PREFIX}lb`"},
     ],
 }

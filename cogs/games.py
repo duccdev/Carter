@@ -13,7 +13,7 @@ class Games(commands.Cog):
 
     @commands.command(aliases=["lb"])
     async def leaderboard(self, ctx: commands.Context, game: str | None) -> None:
-        supported_games = ["cups", "rps", "rps-pvp"]
+        supported_games = ["cups", "rps", "rps-pvp", "tictactoe"]
 
         if not game or game not in supported_games:
             await ctx.reply(

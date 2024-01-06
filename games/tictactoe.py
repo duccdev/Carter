@@ -27,8 +27,10 @@ class TTTButton(discord.ui.Button):
                 match winner:
                     case constants.TTT_X:
                         content = f"<@{view.x_id}> wins!"
+                        view.db.add_win("tictactoe", view.x_id)
                     case constants.TTT_O:
                         content = f"<@{view.o_id}> wins!"
+                        view.db.add_win("tictactoe", view.o_id)
                     case constants.TTT_TIE:
                         content = "It's a tie!"
 
