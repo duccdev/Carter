@@ -44,14 +44,11 @@ class RPSP2Button(discord.ui.Button):
         p1_id: int,
         p2_id: int,
         p1_choice: int,
-        stop_view: Callable,
     ) -> None:
         self.this_choice = this_choice
         self.p1_id = p1_id
         self.p2_id = p2_id
         self.p1_choice = p1_choice
-        self.stop_view = stop_view
-        self.db = DB()
 
         if self.this_choice == constants.ROCK:
             super().__init__(style=style, emoji="🪨")
@@ -61,6 +58,9 @@ class RPSP2Button(discord.ui.Button):
             super().__init__(style=style, emoji="✂️")
 
     async def callback(self, interaction: discord.Interaction) -> None:
+        assert self.view is not None
+        view: P2View = self.view
+
         if interaction.user.id != self.p2_id:
             await interaction.response.send_message(
                 constants.YOUR_TURN_HAS_ALREADY_PASSED, ephemeral=True
@@ -68,11 +68,11 @@ class RPSP2Button(discord.ui.Button):
 
             return
 
-        view = discord.ui.View()
+        new_view = discord.ui.View()
 
-        view.add_item(discord.ui.Button(emoji="🪨", disabled=True))
-        view.add_item(discord.ui.Button(emoji="🧻", disabled=True))
-        view.add_item(discord.ui.Button(emoji="✂️", disabled=True))
+        new_view.add_item(discord.ui.Button(emoji="🪨", disabled=True))
+        new_view.add_item(discord.ui.Button(emoji="🧻", disabled=True))
+        new_view.add_item(discord.ui.Button(emoji="✂️", disabled=True))
 
         if self.this_choice == self.p1_choice:
             await interaction.response.edit_message(
@@ -81,46 +81,46 @@ class RPSP2Button(discord.ui.Button):
         elif (
             self.this_choice == constants.ROCK and self.p1_choice == constants.SCISSORS
         ):
-            self.db.add_win("rps-pvp", self.p2_id)
+            view.db.add_win("rps-pvp", self.p2_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p2_id}>'s rock breaks <@{self.p1_id}>'s scissor | <@{self.p2_id}> WINS!",
-                view=view,
+                view=new_view,
             )
         elif (
             self.this_choice == constants.SCISSORS and self.p1_choice == constants.PAPER
         ):
-            self.db.add_win("rps-pvp", self.p2_id)
+            view.db.add_win("rps-pvp", self.p2_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p2_id}>'s scissors cuts <@{self.p1_id}>'s paper | <@{self.p2_id}> WINS!",
-                view=view,
+                view=new_view,
             )
         elif self.this_choice == constants.PAPER and self.p1_choice == constants.ROCK:
-            self.db.add_win("rps-pvp", self.p2_id)
+            view.db.add_win("rps-pvp", self.p2_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p2_id}>'s paper covers <@{self.p1_id}>'s rock | <@{self.p2_id}> WINS!",
-                view=view,
+                view=new_view,
             )
         elif (
             self.this_choice == constants.SCISSORS and self.p1_choice == constants.ROCK
         ):
-            self.db.add_win("rps-pvp", self.p1_id)
+            view.db.add_win("rps-pvp", self.p1_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p1_id}>'s rock breaks <@{self.p2_id}>'s scissors | <@{self.p1_id}> WINS!",
-                view=view,
+                view=new_view,
             )
         elif (
             self.this_choice == constants.PAPER and self.p1_choice == constants.SCISSORS
         ):
-            self.db.add_win("rps-pvp", self.p1_id)
+            view.db.add_win("rps-pvp", self.p1_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p1_id}>'s scissors cut <@{self.p2_id}>'s paper | <@{self.p1_id}> WINS!",
-                view=view,
+                view=new_view,
             )
         elif self.this_choice == constants.ROCK and self.p1_choice == constants.PAPER:
-            self.db.add_win("rps-pvp", self.p1_id)
+            view.db.add_win("rps-pvp", self.p1_id)
             await interaction.response.edit_message(
                 content=f"<@{self.p1_id}>'s paper covers <@{self.p2_id}>'s rock | <@{self.p1_id}> WINS!",
-                view=view,
+                view=new_view,
             )
 
 
@@ -138,6 +138,7 @@ class P2View(discord.ui.View):
         self.p1_id = p1_id
         self.p2_id = p2_id
         self.p1_choice = p1_choice
+        self.db = DB()
 
         super().__init__(timeout=timeout)
 
@@ -148,7 +149,6 @@ class P2View(discord.ui.View):
                     p1_id=self.p1_id,
                     p2_id=self.p2_id,
                     p1_choice=self.p1_choice,
-                    stop_view=self.stop,
                 )
             )
 

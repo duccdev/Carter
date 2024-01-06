@@ -12,13 +12,10 @@ class RPSButton(discord.ui.Button):
         this_choice: int,
         ai_choice: int,
         ctx: commands.Context,
-        stop_view: Callable,
     ) -> None:
         self.this_choice = this_choice
         self.ai_choice = ai_choice
         self.ctx = ctx
-        self.db = DB()
-        self.stop_view = stop_view
 
         if self.this_choice == constants.ROCK:
             super().__init__(style=style, emoji="🪨")
@@ -28,6 +25,9 @@ class RPSButton(discord.ui.Button):
             super().__init__(style=style, emoji="✂️")
 
     async def callback(self, interaction: discord.Interaction) -> None:
+        assert self.view is not None
+        view: RPSGame = self.view
+
         if self.ctx.author != interaction.user:
             await interaction.response.send_message(
                 constants.NON_OWNER_INTERACTION, ephemeral=True
@@ -53,34 +53,34 @@ class RPSButton(discord.ui.Button):
                 ):
                     self.ai_choice = constants.SCISSORS
 
-        view = discord.ui.View()
+        new_view = discord.ui.View()
 
-        view.add_item(discord.ui.Button(emoji="🪨", disabled=True))
-        view.add_item(discord.ui.Button(emoji="🧻", disabled=True))
-        view.add_item(discord.ui.Button(emoji="✂️", disabled=True))
+        new_view.add_item(discord.ui.Button(emoji="🪨", disabled=True))
+        new_view.add_item(discord.ui.Button(emoji="🧻", disabled=True))
+        new_view.add_item(discord.ui.Button(emoji="✂️", disabled=True))
 
         if self.this_choice == self.ai_choice:
             await interaction.response.edit_message(
-                content=constants.GAME_TIE, view=view
+                content=constants.GAME_TIE, view=new_view
             )
         elif (
             self.this_choice == constants.ROCK and self.ai_choice == constants.SCISSORS
         ):
-            self.db.add_win("rps", self.ctx.author.id)
+            view.db.add_win("rps", self.ctx.author.id)
             await interaction.response.edit_message(
                 content=f"your rock breaks my scissor {constants.RPS_WIN}",
-                view=view,
+                view=new_view,
             )
         elif (
             self.this_choice == constants.SCISSORS and self.ai_choice == constants.PAPER
         ):
-            self.db.add_win("rps", self.ctx.author.id)
+            view.db.add_win("rps", self.ctx.author.id)
             await interaction.response.edit_message(
                 content=f"your scissors cut my paper {constants.RPS_WIN}",
                 view=view,
             )
         elif self.this_choice == constants.PAPER and self.ai_choice == constants.ROCK:
-            self.db.add_win("rps", self.ctx.author.id)
+            view.db.add_win("rps", self.ctx.author.id)
             await interaction.response.edit_message(
                 content=f"your paper covers my rock {constants.RPS_WIN}",
                 view=view,
@@ -105,7 +105,7 @@ class RPSButton(discord.ui.Button):
                 view=view,
             )
 
-        self.stop_view()
+        view.stop()
 
 
 class RPSGame(discord.ui.View):
@@ -129,7 +129,6 @@ class RPSGame(discord.ui.View):
                     this_choice=i,
                     ai_choice=self.ai_choice,
                     ctx=self.ctx,
-                    stop_view=self.stop,
                 )
             )
 
