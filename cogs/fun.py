@@ -67,32 +67,31 @@ class Fun(commands.Cog):
         meme_ext = ""
         error = ""
 
-        async with ctx.typing():
-            meme_nsfw = True
+        meme_nsfw = True
 
-            if type(ctx.channel) is discord.TextChannel and ctx.channel.is_nsfw():
-                try:
-                    (
-                        meme_title,
-                        meme_bytes,
-                        meme_ext,
-                        meme_nsfw,
-                    ) = await tools.fun.apis.get_meme()
-                except Exception as e:
-                    logger.error(str(e))
-                    error = str(e)
+        if type(ctx.channel) is discord.TextChannel and ctx.channel.is_nsfw():
+            try:
+                (
+                    meme_title,
+                    meme_bytes,
+                    meme_ext,
+                    meme_nsfw,
+                ) = await tools.fun.apis.get_meme()
+            except Exception as e:
+                logger.error(str(e))
+                error = str(e)
 
-            while meme_nsfw:
-                try:
-                    (
-                        meme_title,
-                        meme_bytes,
-                        meme_ext,
-                        meme_nsfw,
-                    ) = await tools.fun.apis.get_meme()
-                except Exception as e:
-                    logger.error(str(e))
-                    error = str(e)
+        while meme_nsfw:
+            try:
+                (
+                    meme_title,
+                    meme_bytes,
+                    meme_ext,
+                    meme_nsfw,
+                ) = await tools.fun.apis.get_meme()
+            except Exception as e:
+                logger.error(str(e))
+                error = str(e)
 
             meme_title = meme_title.replace("`", "'")
 
