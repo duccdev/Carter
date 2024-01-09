@@ -89,7 +89,7 @@ async def chat_send(
     return {
         "response": tools.other.insensitive_replace(
             (
-                await gemini_pro.start_chat().send_message_async(
+                await gemini_pro.generate_content_async(
                     req, safety_settings=safety_settings
                 )
             ).text,
