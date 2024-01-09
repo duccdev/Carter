@@ -87,10 +87,10 @@ class DB:
         self.data["msg_history"] = {}
         self.save()
 
-    def create_poll(self, options: list[int]) -> str:
+    def create_poll(self, options: list[int], msg: str) -> str:
         self.load()
         id = tools.random.id()
-        self.data["polls"][id] = {"options": options, "votes": {}}
+        self.data["polls"][id] = {"msg": msg, "options": options, "votes": {}}
         self.save()
         return id
 

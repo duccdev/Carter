@@ -69,10 +69,12 @@ class Poll(discord.ui.View):
         *,
         timeout: float | None = None,
         options: list[int],
+        msg: str,
     ):
         self.db = DB()
         self.options = options
-        self.poll_id = self.db.create_poll(self.options)
+        self.msg = msg
+        self.poll_id = self.db.create_poll(self.options, self.msg)
 
         super().__init__(timeout=timeout)
 

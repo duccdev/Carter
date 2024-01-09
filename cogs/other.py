@@ -60,7 +60,7 @@ class Other(commands.Cog):
 
         await channel.send(
             embed=embed,
-            view=Poll(options=list(range(1, options_int + 1))),
+            view=Poll(options=list(range(1, options_int + 1)), msg=poll),
         )
 
     @commands.command("ai-reset")
