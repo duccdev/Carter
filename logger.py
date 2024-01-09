@@ -21,7 +21,23 @@ critical = lambda msg: print(
 
 class LoggingHandler(Handler):
     def emit(self, record: LogRecord) -> None:
-        if record.levelno == INFO:
+        if record.levelno == DEBUG:
+            debug(
+                f"{colors.LIGHT_PURPLE}{record.name}{colors.END}: {record.getMessage()}"
+            )
+        elif record.levelno == INFO:
             info(
+                f"{colors.LIGHT_PURPLE}{record.name}{colors.END}: {record.getMessage()}"
+            )
+        elif record.levelno == WARN:
+            warn(
+                f"{colors.LIGHT_PURPLE}{record.name}{colors.END}: {record.getMessage()}"
+            )
+        elif record.levelno == ERROR:
+            error(
+                f"{colors.LIGHT_PURPLE}{record.name}{colors.END}: {record.getMessage()}"
+            )
+        elif record.levelno == CRITICAL:
+            critical(
                 f"{colors.LIGHT_PURPLE}{record.name}{colors.END}: {record.getMessage()}"
             )
