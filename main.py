@@ -1,7 +1,7 @@
 from discord.ext import commands
 from discord import Intents, Game
 from os import getenv
-import logger, config
+import logger, config, logging
 
 devmode = True if getenv("CRANBERRY_ENV", "prod") == "dev" else False
 
@@ -35,6 +35,6 @@ async def on_ready() -> None:
 
 
 if devmode:
-    cranberry.run(config.TOKEN, log_handler=logger.LoggingHandler())
+    cranberry.run(config.TOKEN, log_handler=logger.LoggingHandler(level=logging.DEBUG))
 else:
     cranberry.run(config.TOKEN, log_handler=None)
