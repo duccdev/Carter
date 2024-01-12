@@ -189,7 +189,6 @@ NSFW_HELP_PAGE = {
 - `threesome_fff` (`gif`)
 - `threesome_ffm` (`gif`)
 - `threesome_mmf` (`gif`)
-- `yaoi` (`gif`)
 - `yuri` (`gif`)
         """,
         },
