@@ -65,7 +65,7 @@ class Other(commands.Cog):
 
     @commands.command("ai-reset")
     async def aireset(self, ctx: commands.Context):
-        self.db.clear_msg_history(ctx.author.id)
+        self.db.clear_msg_history(ctx.channel.id)
         await ctx.message.add_reaction("✅")
 
     @commands.command()
@@ -105,7 +105,7 @@ class Other(commands.Cog):
 
                 res = await ai.chat_send(
                     msg.content,
-                    msg.author.id,
+                    msg.channel.id,
                     msg.author.name,
                     imgs,
                 )
@@ -117,7 +117,7 @@ class Other(commands.Cog):
 
             await msg.reply(str(res["response"]))
             self.db.add_msg(
-                msg.author.id,
+                msg.channel.id,
                 msg.author.name,
                 msg.content,
                 str(res["response"]),

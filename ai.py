@@ -24,7 +24,7 @@ def construct_req(
     name: str,
     img_descriptions: list[str] = [],
 ) -> str:
-    req = f"{prompt}\n{history}\n{name}: {msg}"
+    req = f"{prompt}\n{name}: {msg}\n\nMessage history:\n\n{history}"
 
     if img_descriptions:
         for i in range(len(img_descriptions)):
@@ -35,13 +35,13 @@ def construct_req(
 
 async def chat_send(
     msg: str,
-    id: int,
+    channel_id: int,
     name: str,
     imgs: list[PIL.Image.Image] = [],
 ) -> dict[str, str | list[str]]:
     db.load()
 
-    history = db.get_msg_history(id)
+    history = db.get_msg_history(channel_id)
     img_descriptions: list[str] = []
 
     try:
@@ -83,7 +83,7 @@ async def chat_send(
 
         req = reconstruct_req()
 
-    db.set_msg_history(id, history)
+    db.set_msg_history(channel_id, history)
     db.save()
 
     return {
