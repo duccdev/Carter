@@ -273,7 +273,7 @@ WARN_HELP_PAGE = {
 WARNS_HELP_PAGE = {
     "title": f"`{BOT_PREFIX}warns`",
     "fields": [
-        {"name": "Usage", "content": f"`{BOT_PREFIX}warn <user>`"},
+        {"name": "Usage", "content": f"`{BOT_PREFIX}warns <user>`"},
         {
             "name": "Example",
             "content": f"`{BOT_PREFIX}warns @mewhenkrillissue`",
@@ -284,7 +284,7 @@ WARNS_HELP_PAGE = {
 UNWARN_HELP_PAGE = {
     "title": f"`{BOT_PREFIX}warns`",
     "fields": [
-        {"name": "Usage", "content": f"`{BOT_PREFIX}warn <user> <warn_id>`"},
+        {"name": "Usage", "content": f"`{BOT_PREFIX}unwarn <user> <warn_id>`"},
         {
             "name": "Example",
             "content": f"`{BOT_PREFIX}unwarn @mewhenkrillissue NaFKsQvN`",
