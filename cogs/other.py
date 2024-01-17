@@ -106,7 +106,8 @@ class Other(commands.Cog):
                 res = await ai.chat_send(
                     msg.content,
                     msg.channel.id,
-                    msg.author.name,
+                    msg.author.display_name,
+                    msg.author.id,
                     imgs,
                 )
 

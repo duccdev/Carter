@@ -21,10 +21,11 @@ def construct_req(
     prompt: str,
     history: str,
     msg: str,
-    name: str,
+    author_name: str,
+    author_id: int,
     img_descriptions: list[str] = [],
 ) -> str:
-    req = f"{prompt}\n{name}: {msg}\n\nMessage history:\n\n{history}"
+    req = f"{prompt}\n{author_name} (<@{author_id}>): {msg}\n\nMessage history:\n\n{history}"
 
     if img_descriptions:
         for i in range(len(img_descriptions)):
@@ -36,7 +37,8 @@ def construct_req(
 async def chat_send(
     msg: str,
     channel_id: int,
-    name: str,
+    author_name: str,
+    author_id: int,
     imgs: list[PIL.Image.Image] = [],
 ) -> dict[str, str | list[str]]:
     db.load()
@@ -61,7 +63,8 @@ async def chat_send(
         constants.GEMINI_PRO_CHAT_PROMPT,
         history,
         msg,
-        name,
+        author_name,
+        author_id,
         img_descriptions,
     )
 
