@@ -460,3 +460,10 @@ Message:
 """
 
 GEMINI_PRO_VISION_PROMPT = "Describe this image in detail:"
+
+AI_SAFETY_SETTINGS = {
+    "HARM_CATEGORY_SEXUALLY_EXPLICIT": "block_none",
+    "HARM_CATEGORY_HATE_SPEECH": "block_none",
+    "HARM_CATEGORY_HARASSMENT": "block_none",
+    "HARM_CATEGORY_DANGEROUS_CONTENT": "block_none",
+}

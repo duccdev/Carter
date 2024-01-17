@@ -1,15 +1,7 @@
 import tools.other, config, constants, PIL.Image, google.generativeai as genai
 from db import DB
-from json import dumps as json_stringify, loads as json_parse
 
 genai.configure(api_key=config.GENAI_API_KEY)
-
-safety_settings = {
-    "HARM_CATEGORY_SEXUALLY_EXPLICIT": "block_none",
-    "HARM_CATEGORY_HATE_SPEECH": "block_none",
-    "HARM_CATEGORY_HARASSMENT": "block_none",
-    "HARM_CATEGORY_DANGEROUS_CONTENT": "block_none",
-}
 
 gemini_pro = genai.GenerativeModel("gemini-pro")
 gemini_pro_vision = genai.GenerativeModel("gemini-pro-vision")
@@ -52,7 +44,7 @@ async def chat_send(
                 (
                     await gemini_pro_vision.generate_content_async(
                         [constants.GEMINI_PRO_VISION_PROMPT, img],
-                        safety_settings=safety_settings,
+                        safety_settings=constants.AI_SAFETY_SETTINGS,
                     )
                 ).text
             )
@@ -93,7 +85,8 @@ async def chat_send(
         "response": tools.other.insensitive_replace(
             (
                 await gemini_pro.generate_content_async(
-                    req, safety_settings=safety_settings
+                    req,
+                    safety_settings=constants.AI_SAFETY_SETTINGS,
                 )
             ).text,
             "cranberrybot:",
