@@ -1,3 +1,4 @@
+import sys
 import colors, traceback
 from datetime import datetime
 from logging import Handler, LogRecord, DEBUG, INFO, WARNING, ERROR, CRITICAL
@@ -11,13 +12,16 @@ info = lambda msg: print(
     f"{LOG_PREFIX} {colors.BOLD}{datetime.now().strftime('%H:%M:%S')}{colors.END} {colors.BLUE}{colors.BOLD}INFO    {colors.END} {msg}"
 )
 warn = lambda msg: print(
-    f"{LOG_PREFIX} {colors.BOLD}{datetime.now().strftime('%H:%M:%S')}{colors.END} {colors.YELLOW}{colors.BOLD}WARN    {colors.END} {msg}"
+    f"{LOG_PREFIX} {colors.BOLD}{datetime.now().strftime('%H:%M:%S')}{colors.END} {colors.YELLOW}{colors.BOLD}WARN    {colors.END} {msg}",
+    file=sys.stderr,
 )
 error = lambda msg: print(
-    f"{LOG_PREFIX} {colors.BOLD}{datetime.now().strftime('%H:%M:%S')}{colors.END} {colors.RED}{colors.BOLD}ERROR   {colors.END} {msg}"
+    f"{LOG_PREFIX} {colors.BOLD}{datetime.now().strftime('%H:%M:%S')}{colors.END} {colors.RED}{colors.BOLD}ERROR   {colors.END} {msg}",
+    file=sys.stderr,
 )
 critical = lambda msg: print(
-    f"{LOG_PREFIX} {colors.BOLD}{datetime.now().strftime('%H:%M:%S')}{colors.END} {colors.BLUE}{colors.BOLD}CRITICAL{colors.END} {msg}"
+    f"{LOG_PREFIX} {colors.BOLD}{datetime.now().strftime('%H:%M:%S')}{colors.END} {colors.RED}{colors.BOLD}CRITICAL{colors.END} {msg}",
+    file=sys.stderr,
 )
 
 
