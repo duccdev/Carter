@@ -1,5 +1,4 @@
-import sys
-import colors, traceback
+import sys, colors, traceback
 from datetime import datetime
 from logging import Handler, LogRecord, DEBUG, INFO, WARNING, ERROR, CRITICAL
 
