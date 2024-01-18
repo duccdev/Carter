@@ -1,23 +1,9 @@
 from discord.ext import commands
 from discord import Intents, Game
-from os import getenv
-from dotenv import load_dotenv
 import logger, config, logging
 
-load_dotenv()
 
-if (
-    not getenv("TOKEN")
-    or not getenv("CAT_API")
-    or not getenv("DOG_API")
-    or not getenv("GENAI")
-    or not getenv("PGSQL")
-    or not getenv("CARTER_ENV")
-):
-    logger.error("Invalid .env, please consult .env.example and the readme")
-    exit(1)
-
-devmode = True if getenv("CARTER_ENV", "prod") == "dev" else False
+devmode = True if config.CARTER_ENV == "dev" else False
 
 if devmode:
     logger.info("Running in development mode")
@@ -48,9 +34,6 @@ async def on_ready() -> None:
 
 
 if devmode:
-    carter.run(
-        getenv("TOKEN", ""),
-        log_handler=logger.LoggingHandler(level=logging.DEBUG),
-    )
+    carter.run(config.TOKEN, log_handler=logger.LoggingHandler(level=logging.DEBUG))
 else:
-    carter.run(getenv("TOKEN", ""), log_handler=None)
+    carter.run(config.TOKEN, log_handler=None)
