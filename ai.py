@@ -1,7 +1,7 @@
 import tools.other, config, constants, PIL.Image, google.generativeai as genai
 from db import DB
 
-genai.configure(api_key=config.GENAI_API_KEY)
+genai.configure(api_key=config.GENAI)
 
 gemini_pro = genai.GenerativeModel("gemini-pro")
 gemini_pro_vision = genai.GenerativeModel("gemini-pro-vision")
@@ -91,8 +91,6 @@ async def chat_send(
             ).text,
             "cranberrybot:",
             "",
-        )
-        .replace(f"<@{constants.BOT}>", "")
-        .replace("*", "\\*"),
+        ),
         "images": img_descriptions,
     }
