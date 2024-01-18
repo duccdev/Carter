@@ -27,7 +27,7 @@ carter.setup_hook = setup_hook
 @carter.event
 async def on_ready() -> None:
     if devmode:
-        await carter.change_presence(activity=Game("with code"))
+        await carter.change_presence(activity=Game("with my code"))
 
     logger.info("Ready!")
 
