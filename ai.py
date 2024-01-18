@@ -1,93 +1,99 @@
-import tools.other, config, constants, PIL.Image, google.generativeai as genai
-from db import DB
+import time, yaml, traceback, discord, config, constants, google.generativeai as genai
 
 genai.configure(api_key=config.GENAI)
 
 gemini_pro = genai.GenerativeModel("gemini-pro")
 gemini_pro_vision = genai.GenerativeModel("gemini-pro-vision")
 
-db = DB()
 
-
-def construct_req(
-    prompt: str,
-    history: str,
-    msg: str,
-    author_name: str,
-    author_id: int,
-    img_descriptions: list[str] = [],
-) -> str:
-    req = f"{prompt}\n{author_name} (<@{author_id}>): {msg}\n\nMessage history:\n\n{history}"
-
-    if img_descriptions:
-        for i in range(len(img_descriptions)):
-            req += f"\nAttached image #{i} description: {img_descriptions[i]}"
-
-    return req
-
-
-async def chat_send(
-    msg: str,
-    channel_id: int,
-    author_name: str,
-    author_id: int,
-    imgs: list[PIL.Image.Image] = [],
-) -> dict[str, str | list[str]]:
-    db.load()
-
-    history = db.get_msg_history(channel_id)
-    img_descriptions: list[str] = []
-
-    try:
-        for img in imgs:
-            img_descriptions.append(
-                (
-                    await gemini_pro_vision.generate_content_async(
-                        [constants.GEMINI_PRO_VISION_PROMPT, img],
-                        safety_settings=constants.AI_SAFETY_SETTINGS,
-                    )
-                ).text
-            )
-    except:
-        pass
-
-    reconstruct_req = lambda: construct_req(
-        constants.GEMINI_PRO_CHAT_PROMPT,
-        history,
-        msg,
-        author_name,
-        author_id,
-        img_descriptions,
+async def msgyaml_histyml(
+    msg: discord.Message, bot_user: discord.ClientUser
+) -> tuple[str, str]:
+    msgyaml = yaml.dump(
+        {
+            "sender": {
+                "id": msg.author.id,
+                "mention": f"<@{msg.author.id}>",
+                "display_name": msg.author.display_name,
+                "username": msg.author.name,
+            },
+            "channel_name": (
+                msg.channel.name or msg.author.display_name
+                if not isinstance(msg.channel, discord.DMChannel)
+                else msg.author.display_name
+            ),
+            "content": msg.content,
+            "sent_at": msg.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+        }
     )
 
-    req = reconstruct_req()
+    history = []
 
-    while len(req) > constants.GEMINI_PRO_CHARS_LIMIT:
-        history_lines = history.splitlines()
+    async for history_msg in msg.channel.history(limit=constants.CHANNEL_SEARCH_LIMIT):
+        if history_msg.content.startswith(f"{config.BOT_PREFIX}ai-reset"):
+            break
 
-        if len(history_lines) > 10:
-            history_lines.pop()
-            history = "".join(history_lines)
-            req = reconstruct_req()
-            continue
-
-        if len(msg) > (len(req) - constants.GEMINI_PRO_CHARS_LIMIT):
-            msg = msg[: (len(req) - constants.GEMINI_PRO_CHARS_LIMIT)]
-        else:
-            msg = msg[: int(len(msg) / 2)]
-
-        req = reconstruct_req()
-
-    db.set_msg_history(channel_id, history)
-    db.save()
-
-    return {
-        "response": (
-            await gemini_pro.generate_content_async(
-                req,
-                safety_settings=constants.AI_SAFETY_SETTINGS,
-                temperature=0.6,
+        if bot_user in history_msg.mentions or history_msg.author.id == bot_user.id:
+            history.append(
+                {
+                    "sender": {
+                        "id": history_msg.author.id,
+                        "mention": f"<@{history_msg.author.id}>",
+                        "display_name": history_msg.author.display_name,
+                        "username": history_msg.author.name,
+                    },
+                    "channel_name": (
+                        history_msg.channel.name or history_msg.author.display_name
+                        if not isinstance(history_msg.channel, discord.DMChannel)
+                        else history_msg.author.display_name
+                    ),
+                    "content": history_msg.content,
+                    "sent_at": history_msg.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+                }
             )
-        ).text,
-        "images": img_descriptions,
-    }
+
+    histyml = yaml.dump(history)
+
+    return msgyaml, histyml
+
+
+async def count(msg: discord.Message, bot_user: discord.ClientUser) -> tuple[int, int]:
+    msgyaml, histyml = await msgyaml_histyml(msg, bot_user)
+
+    prompt = (
+        constants.GEMINI_PRO_PROMPT
+        + "Current time: "
+        + str(time.time())
+        + "\n"
+        + "Message:\n"
+        + msgyaml
+        + "\nMessage history:\n"
+        + histyml
+    )
+
+    return len(prompt), (await gemini_pro.count_tokens_async(prompt)).total_tokens
+
+
+async def send(msg: discord.Message, bot_user: discord.ClientUser) -> str:
+    try:
+        msgyaml, histyml = await msgyaml_histyml(msg, bot_user)
+
+        return (
+            await gemini_pro.generate_content_async(
+                (
+                    constants.GEMINI_PRO_PROMPT
+                    + "Current time: "
+                    + str(time.time())
+                    + "\n"
+                    + "Message:\n"
+                    + msgyaml
+                    + "\nMessage history:\n"
+                    + histyml
+                ),
+                safety_settings=constants.AI_SAFETY_SETTINGS,
+            )
+        ).text
+    except ValueError:
+        return "`Message blocked by AI provider`"
+    except:
+        return f"```py\n{traceback.format_exc()}```"

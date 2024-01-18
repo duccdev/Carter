@@ -2,7 +2,7 @@ from discord.ext import commands
 from db import DB
 from views.poll import Poll
 from views.help import HelpView
-import constants, tools.other, PIL.Image, os, ai, logger, checks, discord
+import constants, tools.other, os, ai, logger, checks, discord
 
 
 class Other(commands.Cog):
@@ -82,48 +82,12 @@ class Other(commands.Cog):
 
         if self.bot.user in msg.mentions:
             async with msg.channel.typing():
-                imgs: list[PIL.Image.Image] = []
-
-                if msg.attachments:
-                    for attachment in msg.attachments:
-                        if (
-                            attachment.content_type
-                            and attachment.content_type.startswith("image/")
-                            and attachment.content_type != "image/gif"
-                        ):
-                            imgpath = f"/tmp/{attachment.filename}"
-
-                            with open(imgpath, "wb") as fp:
-                                await attachment.save(fp)
-
-                            img = PIL.Image.open(imgpath)
-                            img.load()
-
-                            imgs.append(img)
-
-                            os.remove(imgpath)
-
-                res = await ai.chat_send(
-                    msg.content,
-                    msg.channel.id,
-                    msg.author.display_name,
-                    msg.author.id,
-                    imgs,
+                res = await ai.send(
+                    msg,
+                    self.bot.user,
                 )
 
-            if isinstance(res, Exception):
-                logger.error(str(res))
-                await msg.reply(f"```\n{str(res)}```")
-                return
-
-            await msg.reply(str(res["response"]))
-            self.db.add_msg(
-                msg.channel.id,
-                msg.author.name,
-                msg.content,
-                str(res["response"]),
-                list(res["images"]),
-            )
+            await msg.reply(res)
 
 
 async def setup(bot: commands.Bot) -> None:
