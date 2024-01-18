@@ -2,3 +2,5 @@ discord
 emoji
 google-generativeai
 pillow
+prisma
+python-dotenv
