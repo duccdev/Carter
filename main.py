@@ -18,6 +18,7 @@ async def setup_hook() -> None:
     await carter.load_extension("cogs.games")
     await carter.load_extension("cogs.developer")
     await carter.load_extension("cogs.moderation")
+    await carter.load_extension("cogs.ai")
 
 
 carter.setup_hook = setup_hook
@@ -26,9 +27,7 @@ carter.setup_hook = setup_hook
 @carter.event
 async def on_ready() -> None:
     if devmode:
-        await carter.change_presence(activity=Game("with myself (Devmode)"))
-    else:
-        await carter.change_presence(activity=Game("with myself"))
+        await carter.change_presence(activity=Game("with code"))
 
     logger.info("Ready!")
 

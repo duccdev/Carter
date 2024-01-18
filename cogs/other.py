@@ -2,7 +2,7 @@ from discord.ext import commands
 from db import DB
 from views.poll import Poll
 from views.help import HelpView
-import constants, tools.other, os, ai, logger, checks, discord
+import constants, tools.other, os, tools.ai as ai, logger, checks, discord
 
 
 class Other(commands.Cog):
@@ -63,30 +63,9 @@ class Other(commands.Cog):
             view=Poll(options=list(range(1, options_int + 1)), msg=poll),
         )
 
-    @commands.command("ai-reset")
-    async def aireset(self, ctx: commands.Context):
-        await ctx.message.add_reaction("✅")
-
     @commands.command()
     async def contributors(self, ctx: commands.Context):
         await ctx.reply(embed=tools.other.create_embed(constants.CONTRIBUTORS))
-
-    @commands.Cog.listener()
-    async def on_message(self, msg: discord.Message):
-        if not self.bot.user:
-            return
-
-        if msg.author.id == self.bot.user.id:
-            return
-
-        if self.bot.user in msg.mentions:
-            async with msg.channel.typing():
-                res = await ai.send(
-                    msg,
-                    self.bot.user,
-                )
-
-            await msg.reply(res)
 
 
 async def setup(bot: commands.Bot) -> None:
