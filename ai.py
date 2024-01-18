@@ -82,15 +82,12 @@ async def chat_send(
     db.save()
 
     return {
-        "response": tools.other.insensitive_replace(
-            (
-                await gemini_pro.generate_content_async(
-                    req,
-                    safety_settings=constants.AI_SAFETY_SETTINGS,
-                )
-            ).text,
-            "cranberrybot:",
-            "",
-        ),
+        "response": (
+            await gemini_pro.generate_content_async(
+                req,
+                safety_settings=constants.AI_SAFETY_SETTINGS,
+                temperature=0.6,
+            )
+        ).text,
         "images": img_descriptions,
     }
