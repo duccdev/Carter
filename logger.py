@@ -2,7 +2,7 @@ import colors, traceback
 from datetime import datetime
 from logging import Handler, LogRecord, DEBUG, INFO, WARNING, ERROR, CRITICAL
 
-LOG_PREFIX = f"[{colors.LIGHT_CYAN}Lumi{colors.END}]"
+LOG_PREFIX = f"[{colors.LIGHT_GREEN}Carter{colors.END}]"
 
 debug = lambda msg: print(
     f"{LOG_PREFIX} {colors.BOLD}{datetime.now().strftime('%H:%M:%S')}{colors.END} {colors.BLUE}{colors.BOLD}DEBUG   {colors.END} {msg}"
@@ -46,4 +46,3 @@ class LoggingHandler(Handler):
 
         if record.exc_info:
             print(f"{colors.RED}{traceback.format_exc()}{colors.END}")
-
