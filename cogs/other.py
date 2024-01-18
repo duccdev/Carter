@@ -65,7 +65,6 @@ class Other(commands.Cog):
 
     @commands.command("ai-reset")
     async def aireset(self, ctx: commands.Context):
-        self.db.clear_msg_history(ctx.channel.id)
         await ctx.message.add_reaction("✅")
 
     @commands.command()
