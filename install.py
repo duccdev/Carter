@@ -28,7 +28,7 @@ if os.system('bash -c "cd krill-memes && git pull"') != 0:
 
 logger.info("installing systemd service...")
 
-with open("CranberryBot.service") as fp:
+with open("Carter.service") as fp:
     service = fp.read()
 
 service = service.replace("USER_GOES_HERE", user).replace(
@@ -36,19 +36,19 @@ service = service.replace("USER_GOES_HERE", user).replace(
 )
 
 try:
-    with open("/tmp/CranberryBot.service", "w") as fp:
+    with open("/tmp/Carter.service", "w") as fp:
         fp.write(service)
 except Exception as e:
     logger.error(str(e))
     exit(1)
 
-if os.system("sudo mv /tmp/CranberryBot.service /lib/systemd/system") != 0:
+if os.system("sudo mv /tmp/Carter.service /lib/systemd/system") != 0:
     logger.error("failed!")
     exit(1)
 
 logger.info("enabling and starting service...")
 
-if os.system("sudo systemctl enable --now CranberryBot") != 0:
+if os.system("sudo systemctl enable --now Carter") != 0:
     logger.error("failed!")
     exit(1)
 
