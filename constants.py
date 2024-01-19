@@ -25,10 +25,18 @@ HELP_PAGES = {
 - 🙂 Fun
 - 🎲 Games
 - 🔨 Moderation
-- 😏 NSFW
+- 🤖 AI
 - ⚙️ Other
         """,
         "footer": f"Quickly access this page using `{BOT_PREFIX}help main`",
+    },
+    "ai": {
+        "title": "🤖 AI",
+        "description": f"""
+- Chat with the bot by pinging/replying to it
+- Reset your AI conversation using `{BOT_PREFIX}ai-reset`
+        """,
+        "footer": f"Quickly access this page using `{BOT_PREFIX}help ai`",
     },
     "fun": {
         "title": "🙂 Fun",
@@ -76,10 +84,8 @@ HELP_PAGES = {
 - Show this help page using `{BOT_PREFIX}help`
 - Start a server poll using `{BOT_PREFIX}poll` if permitted
 - Check bot ping using `{BOT_PREFIX}ping`
-- Chat with the bot by pinging/replying to it
-- Reset your AI conversation using `{BOT_PREFIX}ai-reset`
 - Know the contributors using `{BOT_PREFIX}contributors`
-- Live Commit: **[{LIVE_COMMIT_SHORT}](https://github.com/krillissue/CranberryBot/commit/{LIVE_COMMIT_LONG})**
+- Live Commit: **[{LIVE_COMMIT_SHORT}](https://github.com/krillissue/Carter/commit/{LIVE_COMMIT_LONG})**
         """,
         "footer": f"Quickly access this page using `{BOT_PREFIX}help other`",
     },
@@ -161,18 +167,6 @@ CONTRIBUTORS = {
             "content": f"- <@{KRILL}> (Founder)\n- <@{SQD}> (AI dev, helper)",
         },
         {"name": "Special thanks", "content": f"- <@{BALU}> for hosting this bot"},
-    ],
-}
-
-POLL_HELP_PAGE = {
-    "title": f"`{BOT_PREFIX}poll`",
-    "fields": [
-        {"name": "Usage", "content": f"`{BOT_PREFIX}poll <channel> <poll> <options>`"},
-        {
-            "name": "Example",
-            "content": f'`{BOT_PREFIX}poll #polls "should i set a minecraft server up for this server? (1: yes, 2: no)" 2`',
-        },
-        {"name": "Rules", "content": "- Options must be between 1 and 10"},
     ],
 }
 

@@ -1,5 +1,4 @@
 from discord.ext import commands
-from views.poll import Poll
 from views.help import HelpView
 import constants, tools.other, checks, discord
 
@@ -19,47 +18,7 @@ class Other(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx: commands.Context) -> None:
-        await ctx.reply(f":ping_pong: `{tools.other.ping()}`")
-
-    @commands.command()
-    @checks.ownerOrPerms(
-        manage_channels=True,
-        manage_messages=True,
-        send_messages=True,
-    )
-    async def poll(
-        self,
-        ctx: commands.Context,
-        channel: discord.TextChannel | None,
-        poll: str | None,
-        options: str | None,
-    ) -> None:
-        help_page = tools.other.create_embed(constants.POLL_HELP_PAGE)
-
-        if not channel or not poll or not options:
-            await ctx.reply(embed=help_page)
-            return
-
-        try:
-            options_int = int(options)
-        except:
-            await ctx.reply(embed=help_page)
-            return
-
-        if options_int > 10 or options_int < 1:
-            await ctx.reply(embed=help_page)
-            return
-
-        embed = discord.Embed(
-            title=f"Poll by {ctx.message.author.display_name}",
-            description=poll,
-            color=discord.Color.random(),
-        )
-
-        await channel.send(
-            embed=embed,
-            view=Poll(options=list(range(1, options_int + 1)), msg=poll),
-        )
+        await ctx.reply(f":ping_pong: `{self.bot.latency}`")
 
     @commands.command()
     async def contributors(self, ctx: commands.Context):

@@ -1,5 +1,6 @@
 import datetime, discord
 from prisma import Prisma
+from prisma.models import Vote
 
 db = Prisma()
 
@@ -81,3 +82,27 @@ async def add_win(
             "wins": 1,
         },
     )
+
+
+async def create_poll():
+    return await db.poll.create(data={})
+
+
+async def get_poll(id: int):
+    return await db.poll.find_unique_or_raise(where={"id": id})
+
+
+async def set_vote(poll_id: int, member: discord.User | discord.Member, option: int):
+    poll = await get_poll(poll_id)
+
+    await db.vote.create(
+        {
+            "poll_id": poll.id,
+            "user_id": member.id,
+            "option": option,
+        }
+    )
+
+
+async def remove_vote(poll_id: int, member: discord.User | discord.Member):
+    await db.vote.delete(where={"id": poll_id, "user_id": member.id})
