@@ -104,41 +104,6 @@ class Fun(commands.Cog):
             file=discord.File(meme_bytes, f"meme{meme_ext}"),
         )
 
-    @commands.command("krill-meme")
-    async def krillmeme(self, ctx: commands.Context, name: str | None):
-        memes = os.listdir("krill-memes")
-
-        try:
-            memes.remove(".git")
-        except:
-            pass
-
-        try:
-            memes.remove(".gitignore")
-        except:
-            pass
-
-        if not memes:
-            await ctx.reply(
-                "the fucker <@719562834295390299> forgot to update my krill memes collection"
-            )
-            return
-
-        if not name:
-            name = tools.random.choice(memes)
-            await ctx.reply(f"`{name}`", file=discord.File(f"krill-memes/{name}"))
-            return
-
-        if name not in memes:
-            await ctx.reply("not found")
-            return
-
-        if ".." in name:
-            await ctx.reply("NOGGER WTF YOU DOING <a:skeletonfan:1193269094921801843>")
-            return
-
-        await ctx.reply(f"`{name}`", file=discord.File(f"krill-memes/{name}"))
-
     @commands.command("a-pussy")
     async def pussy(self, ctx: commands.Context):
         await ctx.reply("https://tenor.com/view/cat-gif-25381727")

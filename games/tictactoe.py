@@ -1,5 +1,4 @@
-from db import DB
-import discord, constants
+import discord, constants, tools.db
 
 
 class TTTButton(discord.ui.Button):
@@ -26,11 +25,15 @@ class TTTButton(discord.ui.Button):
             if winner:
                 match winner:
                     case constants.TTT_X:
-                        content = f"<@{view.x_id}> wins!"
-                        view.db.add_win("tictactoe", view.x_id)
+                        content = f"<@{view.player_x.id}> wins!"
+                        await tools.db.add_win(
+                            "tictactoe", interaction.guild, view.player_x
+                        )
                     case constants.TTT_O:
-                        content = f"<@{view.o_id}> wins!"
-                        view.db.add_win("tictactoe", view.o_id)
+                        content = f"<@{view.player_o.id}> wins!"
+                        await tools.db.add_win(
+                            "tictactoe", interaction.guild, view.player_o
+                        )
                     case constants.TTT_TIE:
                         content = "It's a tie!"
 
@@ -55,11 +58,13 @@ class TTTButton(discord.ui.Button):
             return
 
         view.board[self.y][self.x] = (
-            constants.TTT_X if view.current_turn == view.x_id else constants.TTT_O
+            constants.TTT_X if view.current_turn == view.player_x else constants.TTT_O
         )
-        self.emoji = "❌" if view.current_turn == view.x_id else "⭕"
+        self.emoji = "❌" if view.current_turn == view.player_x else "⭕"
         self.disabled = True
-        view.current_turn = view.x_id if view.current_turn == view.o_id else view.o_id
+        view.current_turn = (
+            view.player_x if view.current_turn == view.player_o else view.player_o
+        )
 
         if await game_ended():
             return
@@ -72,12 +77,17 @@ class TTTButton(discord.ui.Button):
 class TicTacToe(discord.ui.View):
     children: list[TTTButton]
 
-    def __init__(self, *, timeout: float | None = 180, x_id: int, o_id: int) -> None:
-        self.x_id = x_id
-        self.o_id = o_id
-        self.current_turn = x_id
+    def __init__(
+        self,
+        *,
+        timeout: float | None = 180,
+        player_x: discord.Member,
+        player_o: discord.Member,
+    ) -> None:
+        self.player_x = player_x
+        self.player_o = player_o
+        self.current_turn = player_x
         self.turn = constants.TTT_X
-        self.db = DB()
         self.board = [
             [constants.TTT_EMPTY, constants.TTT_EMPTY, constants.TTT_EMPTY],
             [constants.TTT_EMPTY, constants.TTT_EMPTY, constants.TTT_EMPTY],

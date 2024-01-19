@@ -1,14 +1,12 @@
 from discord.ext import commands
-from db import DB
 from views.poll import Poll
 from views.help import HelpView
-import constants, tools.other, os, tools.ai as ai, logger, checks, discord
+import constants, tools.other, checks, discord
 
 
 class Other(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        self.db = DB()
 
     @commands.command()
     async def help(self, ctx: commands.Context, page: str | None) -> None:

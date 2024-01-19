@@ -1,35 +1,91 @@
+from typing import Literal
 from discord.ext import commands
-from db import DB
-import constants, tools.other, discord, checks, time, datetime
+from datetime import datetime, timedelta
+import constants, tools.other, tools.db, discord, checks
 
 
 class Moderation(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        self.db = DB()
+
+    async def run_checks(
+        self, ctx: commands.Context, member: discord.Member | None
+    ) -> Literal["SHOW_HELP"] | Literal["INTERNAL_ERROR"] | Literal[
+        "HANDLED"
+    ] | Literal["SUCCESS"]:
+        if not ctx.guild:
+            await ctx.reply(constants.GUILD_REQUIRED)
+
+        if not member:
+            return "SHOW_HELP"
+
+        if not ctx.guild or not self.bot.user:
+            return "INTERNAL_ERROR"
+
+        if member == self.bot.user or member == ctx.author:
+            await ctx.reply(":x: Cannot warn yourself or bot!")
+            return "HANDLED"
+
+        member = ctx.guild.get_member(member.id)
+
+        if not member:
+            await ctx.reply(":x: User is not a member of this server!")
+            return "HANDLED"
+
+        bot_member = ctx.guild.get_member(self.bot.user.id)
+
+        if not bot_member:
+            return "INTERNAL_ERROR"
+
+        if not bot_member.guild_permissions.moderate_members:
+            await ctx.reply(":x: I don't have the permission to view warns!")
+            return "HANDLED"
+
+        if member.top_role.position > bot_member.top_role.position:
+            await ctx.reply(":x: Cannot view warns of a member higher than me!")
+            return "HANDLED"
+
+        return "SUCCESS"
 
     @commands.command()
     @checks.ownerOrPerms(ban_members=True)
     async def ban(
         self,
         ctx: commands.Context,
-        user: discord.User | discord.Member | None,
+        member: discord.Member | None,
         *reason: str,
     ) -> None:
-        if not user:
-            await ctx.reply(embed=tools.other.create_embed(constants.BAN_HELP_PAGE))
-            return
+        match await self.run_checks(ctx, member):
+            case "SHOW_HELP":
+                await ctx.reply(
+                    embed=tools.other.create_embed(constants.WARN_HELP_PAGE)
+                )
+                return
+            case "INTERNAL_ERROR":
+                await ctx.reply(constants.BOT_ERROR)
+                return
+            case "HANDLED":
+                return
 
         if not ctx.guild:
+            await ctx.reply(constants.GUILD_REQUIRED)
             return
 
-        if user == self.bot.user or user == ctx.author or user.id == constants.KRILL:
-            await ctx.reply("NEGAWATT")
+        if not member:
+            await ctx.reply(embed=tools.other.create_embed(constants.WARN_HELP_PAGE))
             return
 
-        user = ctx.guild.get_member(user.id)
+        if not self.bot.user:
+            return
 
-        if not user or not self.bot.user:
+        bot_member = ctx.guild.get_member(self.bot.user.id)
+
+        if not bot_member:
+            return
+
+        member = ctx.guild.get_member(member.id)
+
+        if not member:
             await ctx.reply(":x: User is not a member of this server!")
             return
 
@@ -43,14 +99,14 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: I don't have the permission to ban!")
             return
 
-        if user.top_role.position > bot_member.top_role.position:
-            await ctx.reply(":x: Cannot ban a user higher than me!")
+        if member.top_role.position > bot_member.top_role.position:
+            await ctx.reply(":x: Cannot ban a member higher than me!")
             return
 
-        await user.send(
+        await member.send(
             f"You have been banned from **{ctx.guild.name}**\nReason: **{reason_str.strip() or 'Unprovided'}**"
         )
-        await ctx.guild.ban(user, reason=reason_str)
+        await ctx.guild.ban(member, reason=reason_str)
 
         await ctx.message.add_reaction("✅")
 
@@ -59,13 +115,29 @@ class Moderation(commands.Cog):
     async def unban(
         self,
         ctx: commands.Context,
-        user: discord.User | None,
+        member: None,
     ) -> None:
-        if not user:
-            await ctx.reply(embed=tools.other.create_embed(constants.UNBAN_HELP_PAGE))
+        match await self.run_checks(ctx, member):
+            case "SHOW_HELP":
+                await ctx.reply(
+                    embed=tools.other.create_embed(constants.WARN_HELP_PAGE)
+                )
+                return
+            case "INTERNAL_ERROR":
+                await ctx.reply(constants.BOT_ERROR)
+                return
+            case "HANDLED":
+                return
+
+        if not ctx.guild:
+            await ctx.reply(constants.GUILD_REQUIRED)
             return
 
-        if not ctx.guild or not self.bot.user:
+        if not member:
+            await ctx.reply(embed=tools.other.create_embed(constants.WARN_HELP_PAGE))
+            return
+
+        if not self.bot.user:
             return
 
         bot_member = ctx.guild.get_member(self.bot.user.id)
@@ -78,7 +150,7 @@ class Moderation(commands.Cog):
             return
 
         try:
-            await ctx.guild.unban(user)
+            await ctx.guild.unban(member)
             await ctx.message.add_reaction("✅")
         except discord.NotFound:
             await ctx.reply(":x: User is already unbanned!")
@@ -88,24 +160,35 @@ class Moderation(commands.Cog):
     async def kick(
         self,
         ctx: commands.Context,
-        user: discord.User | discord.Member | None,
+        member: discord.Member | None,
         *reason: str,
     ) -> None:
-        if not user:
+        match await self.run_checks(ctx, member):
+            case "SHOW_HELP":
+                await ctx.reply(
+                    embed=tools.other.create_embed(constants.WARN_HELP_PAGE)
+                )
+                return
+            case "INTERNAL_ERROR":
+                await ctx.reply(constants.BOT_ERROR)
+                return
+            case "HANDLED":
+                return
+
+        if not ctx.guild:
+            await ctx.reply(constants.GUILD_REQUIRED)
+            return
+
+        if not member:
             await ctx.reply(embed=tools.other.create_embed(constants.WARN_HELP_PAGE))
             return
 
-        if not ctx.guild or not self.bot.user:
+        if not self.bot.user:
             return
 
-        if user == self.bot.user or user == ctx.author or user.id == constants.KRILL:
-            await ctx.reply("NEGAWATT")
-            return
+        bot_member = ctx.guild.get_member(self.bot.user.id)
 
-        user = ctx.guild.get_member(user.id)
-
-        if not user:
-            await ctx.reply(":x: User is not a member of this server!")
+        if not bot_member:
             return
 
         reason_str = ("".join([f"{word} " for word in reason])).strip()
@@ -118,14 +201,14 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: I don't have the permission to kick!")
             return
 
-        if user.top_role.position > bot_member.top_role.position:
-            await ctx.reply(":x: Cannot kick a user higher than me!")
+        if member.top_role.position > bot_member.top_role.position:
+            await ctx.reply(":x: Cannot kick a member higher than me!")
             return
 
-        await user.send(
+        await member.send(
             f"You have been kicked from **{ctx.guild.name}**\nReason: **{reason_str.strip() or 'Unprovided'}**"
         )
-        await ctx.guild.kick(user, reason=reason_str)
+        await ctx.guild.kick(member, reason=reason_str)
 
         await ctx.message.add_reaction("✅")
 
@@ -134,27 +217,38 @@ class Moderation(commands.Cog):
     async def warn(
         self,
         ctx: commands.Context,
-        user: discord.User | discord.Member | None,
+        member: discord.Member | None,
         *reason: str,
     ) -> None:
-        if not user:
+        match await self.run_checks(ctx, member):
+            case "SHOW_HELP":
+                await ctx.reply(
+                    embed=tools.other.create_embed(constants.WARN_HELP_PAGE)
+                )
+                return
+            case "INTERNAL_ERROR":
+                await ctx.reply(constants.BOT_ERROR)
+                return
+            case "HANDLED":
+                return
+
+        if not ctx.guild:
+            await ctx.reply(constants.GUILD_REQUIRED)
+            return
+
+        if not member:
             await ctx.reply(embed=tools.other.create_embed(constants.WARN_HELP_PAGE))
             return
 
-        if not ctx.guild:
+        if not self.bot.user:
             return
 
-        if user == self.bot.user or user == ctx.author or user.id == constants.KRILL:
-            await ctx.reply("NEGAWATT")
+        bot_member = ctx.guild.get_member(self.bot.user.id)
+
+        if not bot_member:
             return
 
-        user = ctx.guild.get_member(user.id)
-
-        if not user or not self.bot.user:
-            await ctx.reply(":x: User is not a member of this server!")
-            return
-
-        reason_str = ("".join([f"{word} " for word in reason])).strip()
+        reason_str = " ".join([word for word in reason])
 
         if not reason_str:
             await ctx.reply(embed=tools.other.create_embed(constants.WARN_HELP_PAGE))
@@ -169,100 +263,91 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: I don't have the permission to warn!")
             return
 
-        if user.top_role.position > bot_member.top_role.position:
-            await ctx.reply(":x: Cannot warn a user higher than me!")
+        if member.top_role.position > bot_member.top_role.position:
+            await ctx.reply(":x: Cannot warn a member higher than me!")
             return
 
-        warn_id = self.db.add_warn(user.id, reason_str)
-        warns = len(self.db.get_warns(user.id))
+        await tools.db.add_warn(ctx.guild, member, reason_str)
 
-        await user.send(
+        await member.send(
             f"You have been warned in **{ctx.guild.name}**\nReason: **{reason_str}**"
         )
 
-        embed = discord.Embed(color=discord.Color.random(), title="Warn")
-
-        embed.add_field(name="ID", value=warn_id, inline=False)
-        embed.add_field(name="Reason", value=reason_str, inline=False)
-        embed.add_field(name="Expires in", value="**30 days**", inline=False)
-        embed.add_field(name="All warns", value=str(warns), inline=False)
-
-        await ctx.reply(embed=embed)
+        await ctx.message.add_reaction("✅")
 
     @commands.command()
     @checks.ownerOrPerms(moderate_members=True)
     async def warns(
         self,
         ctx: commands.Context,
-        user: discord.User | discord.Member | None,
+        member: discord.Member | None,
     ) -> None:
-        if not user:
-            await ctx.reply(embed=tools.other.create_embed(constants.WARNS_HELP_PAGE))
+        match await self.run_checks(ctx, member):
+            case "SHOW_HELP":
+                await ctx.reply(
+                    embed=tools.other.create_embed(constants.WARNS_HELP_PAGE)
+                )
+                return
+            case "INTERNAL_ERROR":
+                await ctx.reply(constants.BOT_ERROR)
+                return
+            case "HANDLED":
+                return
+
+        if not member:
             return
 
-        if not ctx.guild or not self.bot.user:
-            return
+        warns = await tools.db.get_warns(member)
 
-        if user == self.bot.user or user == ctx.author or user.id == constants.KRILL:
-            await ctx.reply("NEGAWATT")
-            return
+        embed = discord.Embed(
+            color=discord.Color.random(),
+            title=f"{len(warns)} warn{'s' if len(warns) != 1 else ''}",
+        )
 
-        user = ctx.guild.get_member(user.id)
+        inlines = 0
+        for warn in warns:
+            if inlines == 2:
+                inlines = 0
 
-        if not user:
-            await ctx.reply(":x: User is not a member of this server!")
-            return
+                embed.add_field(name=f"**{warn.id}**", value=warn.reason, inline=False)
+                continue
 
-        bot_member = ctx.guild.get_member(self.bot.user.id)
-
-        if not bot_member:
-            return
-
-        if not bot_member.guild_permissions.moderate_members:
-            await ctx.reply(":x: I don't have the permission to view warns!")
-            return
-
-        if user.top_role.position > bot_member.top_role.position:
-            await ctx.reply(":x: Cannot view warns of a user higher than me!")
-            return
-
-        warns = self.db.get_warns(user.id)
-
-        embed = discord.Embed(color=discord.Color.random(), title=f"{len(warns)} warns")
-
-        for key in warns:
-            embed.add_field(name="ID", value=key)
-            embed.add_field(name="Reason", value=warns[key]["reason"])
+            inlines += 1
             embed.add_field(
-                name="Expires in",
-                value=f"**{int((warns[key]['expires_in'] - time.time()) // 86400)} days**",
+                name=f"**{warn.id}** (**{(warn.expires_at - datetime.now()).days or 1} days** left)",
+                value=warn.reason,
+                inline=True,
             )
-
-        await ctx.reply(embed=embed)
 
     @commands.command()
     @checks.ownerOrPerms(moderate_members=True)
     async def unwarn(
         self,
         ctx: commands.Context,
-        user: discord.User | discord.Member | None,
+        member: discord.Member | None,
         warn_id: str | None,
     ) -> None:
-        if not user or not warn_id:
+        match await self.run_checks(ctx, member):
+            case "SHOW_HELP":
+                await ctx.reply(
+                    embed=tools.other.create_embed(constants.UNWARN_HELP_PAGE)
+                )
+                return
+            case "INTERNAL_ERROR":
+                await ctx.reply(constants.BOT_ERROR)
+                return
+            case "HANDLED":
+                return
+
+        if not ctx.guild:
+            await ctx.reply(constants.GUILD_REQUIRED)
+            return
+
+        if not warn_id or not member:
             await ctx.reply(embed=tools.other.create_embed(constants.UNWARN_HELP_PAGE))
             return
 
-        if not ctx.guild or not self.bot.user:
-            return
-
-        if user == self.bot.user or user == ctx.author or user.id == constants.KRILL:
-            await ctx.reply("NEGAWATT")
-            return
-
-        user = ctx.guild.get_member(user.id)
-
-        if not user:
-            await ctx.reply(":x: User is not a member of this server!")
+        if not self.bot.user:
             return
 
         bot_member = ctx.guild.get_member(self.bot.user.id)
@@ -274,11 +359,17 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: I don't have the permission to unwarn!")
             return
 
-        if user.top_role.position > bot_member.top_role.position:
-            await ctx.reply(":x: Cannot unwarn a user higher than me!")
+        if member.top_role.position > bot_member.top_role.position:
+            await ctx.reply(":x: Cannot unwarn a member higher than me!")
             return
 
-        if self.db.remove_warn(user.id, warn_id):
+        try:
+            warn_id_int = int(warn_id)
+        except:
+            await ctx.reply(embed=tools.other.create_embed(constants.WARNS_HELP_PAGE))
+            return
+
+        if await tools.db.remove_warn(warn_id_int, member):
             await ctx.message.add_reaction("✅")
             return
 
@@ -289,31 +380,32 @@ class Moderation(commands.Cog):
     async def timeout(
         self,
         ctx: commands.Context,
-        user: discord.User | discord.Member | None,
+        member: discord.Member | None,
         duration: str | None,
         *reason: str,
     ) -> None:
-        if not user or not duration:
-            await ctx.reply(embed=tools.other.create_embed(constants.TIMEOUT_HELP_PAGE))
+        match await self.run_checks(ctx, member):
+            case "SHOW_HELP":
+                await ctx.reply(
+                    embed=tools.other.create_embed(constants.TIMEOUT_HELP_PAGE)
+                )
+                return
+            case "INTERNAL_ERROR":
+                await ctx.reply(constants.BOT_ERROR)
+                return
+            case "HANDLED":
+                return
+
+        if not ctx.guild:
+            await ctx.reply(constants.GUILD_REQUIRED)
             return
 
-        if not ctx.guild or not self.bot.user:
+        if not self.bot.user:
             return
 
-        if user == self.bot.user or user == ctx.author or user.id == constants.KRILL:
-            await ctx.reply("NEGAWATT")
-            return
-
-        user = ctx.guild.get_member(user.id)
-
-        if not user:
-            await ctx.reply(":x: User is not a member of this server!")
-            return
-
-        reason_str = ("".join([f"{word} " for word in reason])).strip() or "Unprovided"
         bot_member = ctx.guild.get_member(self.bot.user.id)
 
-        if not bot_member:
+        if not duration or not member or not bot_member:
             return
 
         try:
@@ -322,7 +414,7 @@ class Moderation(commands.Cog):
             await ctx.reply(f"`{e}`")
             return
 
-        if duration_delta > datetime.timedelta(days=28):
+        if duration_delta > timedelta(days=28):
             await ctx.reply("Cannot exceed 28 days for timeout!")
             return
 
@@ -330,18 +422,20 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: I don't have the permission to timeout!")
             return
 
-        if user.top_role.position > bot_member.top_role.position:
-            await ctx.reply(":x: Cannot timeout a user higher than me!")
+        if member.top_role.position > bot_member.top_role.position:
+            await ctx.reply(":x: Cannot timeout a member higher than me!")
             return
 
-        if user.is_timed_out():
-            await ctx.reply(":x: Cannot timeout a user that's already timed out!")
+        if member.is_timed_out():
+            await ctx.reply(":x: Cannot timeout a member that's already timed out!")
             return
 
-        await user.send(
-            f"You have been timed out in **{ctx.guild.name}**\nReason: **{reason_str}**"
+        reason_str = " ".join([word for word in reason])
+
+        await member.send(
+            f"You have been timed out in **{ctx.guild.name}**\nReason: **{reason_str or 'Unprovided'}**"
         )
-        await user.timeout(duration_delta, reason=reason_str)
+        await member.timeout(duration_delta, reason=(reason_str or "Unprovided"))
         await ctx.message.add_reaction("✅")
 
     @commands.command()
@@ -349,45 +443,45 @@ class Moderation(commands.Cog):
     async def untimeout(
         self,
         ctx: commands.Context,
-        user: discord.User | discord.Member | None,
+        member: discord.Member | None,
     ) -> None:
-        if not user:
-            await ctx.reply(
-                embed=tools.other.create_embed(constants.UNTIMEOUT_HELP_PAGE)
-            )
+        match await self.run_checks(ctx, member):
+            case "SHOW_HELP":
+                await ctx.reply(
+                    embed=tools.other.create_embed(constants.TIMEOUT_HELP_PAGE)
+                )
+                return
+            case "INTERNAL_ERROR":
+                await ctx.reply(constants.BOT_ERROR)
+                return
+            case "HANDLED":
+                return
+
+        if not ctx.guild:
+            await ctx.reply(constants.GUILD_REQUIRED)
             return
 
-        if not ctx.guild or not self.bot.user:
-            return
-
-        if user == self.bot.user or user == ctx.author or user.id == constants.KRILL:
-            await ctx.reply("NEGAWATT")
-            return
-
-        user = ctx.guild.get_member(user.id)
-
-        if not user:
-            await ctx.reply(":x: User is not a member of this server!")
+        if not self.bot.user:
             return
 
         bot_member = ctx.guild.get_member(self.bot.user.id)
 
-        if not bot_member:
+        if not member or not bot_member:
             return
 
         if not bot_member.guild_permissions.kick_members:
             await ctx.reply(":x: I don't have the permission to timeout!")
             return
 
-        if user.top_role.position > bot_member.top_role.position:
-            await ctx.reply(":x: Cannot timeout a user higher than me!")
+        if member.top_role.position > bot_member.top_role.position:
+            await ctx.reply(":x: Cannot timeout a member higher than me!")
             return
 
-        if not user.is_timed_out():
-            await ctx.reply(":x: Cannot untimeout a user that's not timed out!")
+        if not member.is_timed_out():
+            await ctx.reply(":x: Cannot untimeout a member that's not timed out!")
             return
 
-        await user.edit(timed_out_until=None)
+        await member.edit(timed_out_until=None)
         await ctx.message.add_reaction("✅")
 
 

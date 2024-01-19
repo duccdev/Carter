@@ -1,18 +1,35 @@
+import traceback
 from discord.ext import commands
 from games.cups import Cups
 from games.rps import RPSGame
 from games.rpspvp import RPSPVPGame
 from games.tictactoe import TicTacToe
-import asyncio, tools.other, tools.random, tools.games.truth_or_dare, tools.games.never_have_i_ever, tools.games.would_you_rather, constants, db, logger, discord
+import asyncio, tools.other, tools.random, tools.games.truth_or_dare, tools.games.never_have_i_ever, tools.games.would_you_rather, tools.db, constants, logger, discord
 
 
 class Games(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        self.db = db.DB()
+
+    async def check_rating(self, ctx: commands.Context, rating: str | None) -> str:
+        if not rating:
+            rating = tools.random.choice(["pg", "pg13"])
+        elif rating not in ["pg", "pg13", "r"]:
+            return "HELP_PAGE"
+        elif rating == "r" and (
+            isinstance(ctx.channel, discord.TextChannel) and not ctx.channel.is_nsfw()
+        ):
+            await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
+            return "HANDLED"
+
+        return rating
 
     @commands.command(aliases=["lb"])
     async def leaderboard(self, ctx: commands.Context, game: str | None) -> None:
+        if not ctx.guild:
+            await ctx.reply(constants.GUILD_REQUIRED)
+            return
+
         supported_games = ["cups", "rps", "rps-pvp", "tictactoe"]
 
         if not game or game not in supported_games:
@@ -21,14 +38,14 @@ class Games(commands.Cog):
             )
             return
 
-        leaderboard = self.db.get_leaderboard(game)
+        leaderboard = (await tools.db.get_leaderboard(ctx.guild, game)).players or []
 
         if len(leaderboard) > 0:
             players = ""
             count = 0
 
             for player in leaderboard:
-                players += f"{count + 1}: <@{player}> with {leaderboard[player]} wins\n"
+                players += f"{count + 1}: <@{player.id}> with {player.wins} wins\n"
 
                 count += 1
 
@@ -73,7 +90,7 @@ class Games(commands.Cog):
             return
 
         if p2 == ctx.author:
-            await ctx.reply(f"mf just play using {constants.BOT_PREFIX}rps then")
+            await ctx.reply(f"You can't PvP yourself!")
             return
 
         if p2 == self.bot.user:
@@ -93,7 +110,7 @@ class Games(commands.Cog):
             return
 
         if opponent == ctx.author or opponent == self.bot.user:
-            await ctx.reply(f"NOGGER (turkish icecream) WHAT")
+            await ctx.reply(f"You can't PvP me or yourself!")
             return
 
         await ctx.reply(
@@ -105,7 +122,7 @@ class Games(commands.Cog):
     async def truth(self, ctx: commands.Context, rating: str | None) -> None:
         if not rating:
             rating = tools.random.choice(["pg", "pg13"])
-        elif rating != "pg" and rating != "pg13" and rating != "r":
+        elif rating not in ["pg", "pg13", "r"]:
             await ctx.reply(embed=tools.other.create_embed(constants.TRUTH_HELP_PAGE))
             return
 
@@ -116,102 +133,69 @@ class Games(commands.Cog):
             return
 
         try:
-            truth = await tools.games.truth_or_dare.get_truth(rating)
-            self.db.add_msg(
-                ctx.author.id,
-                ctx.author.name,
-                'give me a "truth or dare" truth question',
-                truth.lower()[:-1],
-                [],
+            await ctx.reply(await tools.games.truth_or_dare.get_truth(rating))
+        except:
+            logger.error(traceback.format_exc())
+            await ctx.reply(
+                f":x: Internal bot error! Please report to <@{constants.KRILL}>."
             )
-            await ctx.reply(truth)
-        except Exception as e:
-            logger.error(str(e))
-            await ctx.reply(f"`{e}`")
 
     @commands.command()
     async def dare(self, ctx: commands.Context, rating: str | None) -> None:
-        if not rating:
-            rating = tools.random.choice(["pg", "pg13"])
-        elif rating != "pg" and rating != "pg13" and rating != "r":
+        rating = await self.check_rating(ctx, rating)
+
+        if rating == "HANDLED":
+            return
+
+        if rating == "HELP_PAGE":
             await ctx.reply(embed=tools.other.create_embed(constants.DARE_HELP_PAGE))
             return
 
-        if rating == "r" and (
-            isinstance(ctx.channel, discord.TextChannel) and not ctx.channel.is_nsfw()
-        ):
-            await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
-            return
-
         try:
-            dare = await tools.games.truth_or_dare.get_dare(rating)
-            self.db.add_msg(
-                ctx.author.id,
-                ctx.author.name,
-                'give me a "truth or dare" dare',
-                dare.lower()[:-1],
-                [],
+            await ctx.reply(await tools.games.truth_or_dare.get_dare(rating))
+        except:
+            logger.error(traceback.format_exc())
+            await ctx.reply(
+                f":x: Internal bot error! Please report to <@{constants.KRILL}>."
             )
-            await ctx.reply(dare)
-        except Exception as e:
-            logger.error(str(e))
-            await ctx.reply(f"`{e}`")
 
     @commands.command()
     async def wyr(self, ctx: commands.Context, rating: str | None) -> None:
-        if not rating:
-            rating = tools.random.choice(["pg", "pg13"])
-        elif rating != "pg" and rating != "pg13" and rating != "r":
+        rating = await self.check_rating(ctx, rating)
+
+        if rating == "HANDLED":
+            return
+
+        if rating == "HELP_PAGE":
             await ctx.reply(embed=tools.other.create_embed(constants.WYR_HELP_PAGE))
             return
 
-        if rating == "r" and (
-            isinstance(ctx.channel, discord.TextChannel) and not ctx.channel.is_nsfw()
-        ):
-            await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
-            return
-
         try:
-            wyr = await tools.games.would_you_rather.get_wyr(rating)
-            self.db.add_msg(
-                ctx.author.id,
-                ctx.author.name,
-                "give me a would you rather question",
-                wyr.lower()[:-1],
-                [],
+            await ctx.reply(await tools.games.would_you_rather.get_wyr(rating))
+        except:
+            logger.error(traceback.format_exc())
+            await ctx.reply(
+                f":x: Internal bot error! Please report to <@{constants.KRILL}>."
             )
-            await ctx.reply(wyr)
-        except Exception as e:
-            logger.error(str(e))
-            await ctx.reply(f"`{e}`")
 
     @commands.command()
     async def nhie(self, ctx: commands.Context, rating: str | None) -> None:
-        if not rating:
-            rating = tools.random.choice(["pg", "pg13"])
-        elif rating != "pg" and rating != "pg13" and rating != "r":
+        rating = await self.check_rating(ctx, rating)
+
+        if rating == "HANDLED":
+            return
+
+        if rating == "HELP_PAGE":
             await ctx.reply(embed=tools.other.create_embed(constants.NHIE_HELP_PAGE))
             return
 
-        if rating == "r" and (
-            isinstance(ctx.channel, discord.TextChannel) and not ctx.channel.is_nsfw()
-        ):
-            await ctx.reply("ayo?! (hint: use R rating in an NSFW channel)")
-            return
-
         try:
-            nhie = await tools.games.never_have_i_ever.get_nhie(rating)
-            self.db.add_msg(
-                ctx.author.id,
-                ctx.author.name,
-                "give me a never have i ever question",
-                nhie.lower()[:-1],
-                [],
+            await ctx.reply(await tools.games.never_have_i_ever.get_nhie(rating))
+        except:
+            logger.error(traceback.format_exc())
+            await ctx.reply(
+                f":x: Internal bot error! Please report to <@{constants.KRILL}>."
             )
-            await ctx.reply(nhie)
-        except Exception as e:
-            logger.error(str(e))
-            await ctx.reply(f"`{e}`")
 
 
 async def setup(bot: commands.Bot):

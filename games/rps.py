@@ -1,7 +1,5 @@
-from typing import Callable
 from discord.ext import commands
-from db import DB
-import discord, tools.random, constants, config
+import discord, tools.random, tools.db, constants, config
 
 
 class RPSButton(discord.ui.Button):
@@ -35,24 +33,6 @@ class RPSButton(discord.ui.Button):
 
             return
 
-        if config.IMPOSSIBLE_GAMES:
-            if self.this_choice != self.ai_choice:
-                if (
-                    self.this_choice == constants.ROCK
-                    and self.ai_choice == constants.SCISSORS
-                ):
-                    self.ai_choice = constants.PAPER
-                elif (
-                    self.this_choice == constants.SCISSORS
-                    and self.ai_choice == constants.PAPER
-                ):
-                    self.ai_choice = constants.ROCK
-                elif (
-                    self.this_choice == constants.PAPER
-                    and self.ai_choice == constants.ROCK
-                ):
-                    self.ai_choice = constants.SCISSORS
-
         new_view = discord.ui.View()
 
         new_view.add_item(discord.ui.Button(emoji="🪨", disabled=True))
@@ -66,7 +46,7 @@ class RPSButton(discord.ui.Button):
         elif (
             self.this_choice == constants.ROCK and self.ai_choice == constants.SCISSORS
         ):
-            view.db.add_win("rps", self.ctx.author.id)
+            await tools.db.add_win("rps", interaction.guild, interaction.user)
             await interaction.response.edit_message(
                 content=f"your rock breaks my scissor {constants.RPS_WIN}",
                 view=new_view,
@@ -74,13 +54,13 @@ class RPSButton(discord.ui.Button):
         elif (
             self.this_choice == constants.SCISSORS and self.ai_choice == constants.PAPER
         ):
-            view.db.add_win("rps", self.ctx.author.id)
+            await tools.db.add_win("rps", interaction.guild, interaction.user)
             await interaction.response.edit_message(
                 content=f"your scissors cut my paper {constants.RPS_WIN}",
                 view=view,
             )
         elif self.this_choice == constants.PAPER and self.ai_choice == constants.ROCK:
-            view.db.add_win("rps", self.ctx.author.id)
+            await tools.db.add_win("rps", interaction.guild, interaction.user)
             await interaction.response.edit_message(
                 content=f"your paper covers my rock {constants.RPS_WIN}",
                 view=view,
@@ -118,7 +98,6 @@ class RPSGame(discord.ui.View):
     ) -> None:
         self.ai_choice = tools.random.randint(0, 2)
         self.ctx = ctx
-        self.db = DB()
         self.msg = msg
 
         super().__init__(timeout=timeout)

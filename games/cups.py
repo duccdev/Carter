@@ -1,7 +1,5 @@
-from typing import Callable
 from discord.ext import commands
-from db import DB
-import discord, tools.random, constants, config
+import discord, tools.random, tools.db, constants, config
 
 
 class CupButton(discord.ui.Button):
@@ -36,10 +34,6 @@ class CupButton(discord.ui.Button):
             )
 
             return
-
-        if config.IMPOSSIBLE_GAMES:
-            while self.this_cup == self.correct_cup:
-                self.correct_cup = tools.random.randint(0, len(self.cups) - 1)
 
         for i in range(len(self.cups)):
             if self.correct_cup == i:
@@ -80,9 +74,10 @@ class CupButton(discord.ui.Button):
 
             view.stop()
 
-            view.db.add_win(
+            await tools.db.add_win(
                 "cups",
-                interaction.user.id,
+                interaction.guild,
+                interaction.user,
             )
 
             return
@@ -111,7 +106,6 @@ class Cups(discord.ui.View):
         self.cups = cups
         self.correct_cup = tools.random.randint(0, len(self.cups) - 1)
         self.ctx = ctx
-        self.db = DB()
         self.msg = msg
 
         super().__init__(timeout=timeout)

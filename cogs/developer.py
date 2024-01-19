@@ -6,15 +6,7 @@ from config import BOT_PREFIX
 from subprocess import run
 from os import system
 from traceback import format_exc
-import re
-
-
-def reverse_replace(string: str, old: str, new: str, count: int) -> str:
-    return new.join(string.rsplit(old, count))
-
-
-def insensitive_replace(text: str, old: str, new: str) -> str:
-    return re.compile(re.escape(old), re.IGNORECASE).sub(new, text)
+import tools.other
 
 
 class Developer(commands.Cog):
@@ -115,7 +107,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def deveval(self, ctx: commands.Context):
         async with ctx.typing():
-            code = reverse_replace(
+            code = tools.other.reverse_replace(
                 ctx.message.content.replace(f"{BOT_PREFIX}dev-eval", "", 1).replace(
                     "```py", "", 1
                 ),
@@ -155,7 +147,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def devexec(self, ctx: commands.Context):
         async with ctx.typing():
-            code = reverse_replace(
+            code = tools.other.reverse_replace(
                 ctx.message.content.replace(f"{BOT_PREFIX}dev-exec", "", 1).replace(
                     "```py", "", 1
                 ),
@@ -191,7 +183,7 @@ class Developer(commands.Cog):
     @commands.is_owner()
     async def devrunasync(self, ctx: commands.Context):
         async with ctx.typing():
-            code = reverse_replace(
+            code = tools.other.reverse_replace(
                 ctx.message.content.replace(
                     f"{BOT_PREFIX}dev-run-async", "", 1
                 ).replace("```py", "", 1),
@@ -277,19 +269,6 @@ class Developer(commands.Cog):
             msg += f"return value: `{output.returncode}`"
 
         await ctx.reply(msg)
-
-    @commands.command("dev-ai-reset")
-    @commands.is_owner()
-    async def devaireset(self, ctx: commands.Context):
-        await ctx.message.add_reaction("✅")
-
-    @commands.command("dev-update-memes")
-    @commands.is_owner()
-    async def devupdatememes(self, ctx: commands.Context):
-        if system('bash -c "cd krill-memes && git pull origin main"') != 0:
-            await ctx.message.add_reaction("❌")
-        else:
-            await ctx.message.add_reaction("✅")
 
 
 async def setup(bot: commands.Bot) -> None:

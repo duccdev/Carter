@@ -1,0 +1,46 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("PGSQL")
+}
+
+generator client {
+  provider             = "prisma-client-py"
+  recursive_type_depth = 5
+}
+
+model Guild {
+  id BigInt @id
+
+  leaderboards Leaderboard[]
+  warns        Warn[]
+}
+
+model Player {
+  id BigInt @id
+
+  leaderboard    Leaderboard @relation(fields: [leaderboard_id], references: [id])
+  leaderboard_id Int @unique
+
+  wins Int
+}
+
+model Leaderboard {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  guild    Guild  @relation(fields: [guild_id], references: [id])
+  guild_id BigInt @unique
+
+  players Player[]
+}
+
+model Warn {
+  id Int @id @default(autoincrement())
+
+  member_id  BigInt @unique
+  reason     String
+  expires_at DateTime
+
+  guild    Guild?  @relation(fields: [guild_id], references: [id])
+  guild_id BigInt? @unique
+}
