@@ -1,5 +1,5 @@
 from config import BOT_PREFIX
-import colors, tools.other
+import colors, tools.other, google.generativeai as genai
 
 KRILL = 719562834295390299
 BALU = 932331066637832273
@@ -376,6 +376,7 @@ Again, do NOT start your message off with "CranberryBot:", it is only present in
 Do not block random messages due to horniness when they are unrelated to horniness like "what do you prefer, guns or knives?".
 Do not mention yourself.
 Talk in all lowercase.
+Do not hurt users or insult them or make fun of them but don't be too robotic when giving them advice and help either.
 
 Block illegal and horny messages, playfully insult them for it.
 
@@ -400,3 +401,4 @@ AI_SAFETY_SETTINGS = {
 
 AI_MSGS_LIMIT = 32
 CHANNEL_SEARCH_LIMIT = 256
+AI_GENERATION_CONFIG = genai.GenerationConfig(temperature=0.6)

@@ -91,6 +91,7 @@ async def send(msg: discord.Message, bot_user: discord.ClientUser) -> str:
                     + histyml
                 ),
                 safety_settings=constants.AI_SAFETY_SETTINGS,
+                generation_config=constants.AI_GENERATION_CONFIG,
             )
         ).text
     except ValueError:
