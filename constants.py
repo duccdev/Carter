@@ -4,6 +4,7 @@ import colors, tools.other, google.generativeai as genai
 KRILL = 719562834295390299
 BALU = 932331066637832273
 SQD = 1077982815070728223
+AELPXY = 884099213615587338
 
 FACTS_ROUTE = "https://uselessfacts.jsph.pl/api/v2/facts/random"
 CATS_ROUTE = "https://api.thecatapi.com/v1/images/search"
@@ -166,7 +167,7 @@ CONTRIBUTORS = {
             "name": "Developers",
             "content": f"- <@{KRILL}> (Founder)\n- <@{SQD}> (AI dev, helper)",
         },
-        {"name": "Special thanks", "content": f"- <@{BALU}> for hosting this bot"},
+        {"name": "Special thanks", "content": f"- <@{BALU}> for hosting this bot\n<@{AELPXY}> for the idea"},
     ],
 }
 
