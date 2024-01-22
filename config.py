@@ -14,4 +14,4 @@ if not TOKEN or not CAT_API or not GENAI or not PGSQL or not CARTER_ENV:
     logger.error("Invalid .env, please consult .env.example and the readme")
     exit(1)
 
-BOT_PREFIX = "c."
+BOT_PREFIX = "c." if CARTER_ENV == "prod" else "cd."
