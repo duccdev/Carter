@@ -20,12 +20,6 @@ if (
     logger.error("failed!")
     exit(1)
 
-logger.info("installing krill's memes collection...")
-
-if os.system('bash -c "cd krill-memes && git pull"') != 0:
-    logger.error("failed!")
-    exit(1)
-
 logger.info("installing systemd service...")
 
 with open("Carter.service") as fp:
