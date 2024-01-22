@@ -62,7 +62,7 @@ class TTTButton(discord.ui.Button):
             if view.current_turn == view.player_x.id
             else constants.TTT_O
         )
-        self.emoji = "❌" if view.current_turn == view.player_x else "⭕"
+        self.emoji = "❌" if view.current_turn == view.player_x.id else "⭕"
         self.disabled = True
         view.current_turn = (
             view.player_x.id
@@ -91,7 +91,6 @@ class TicTacToe(discord.ui.View):
         self.player_x = player_x
         self.player_o = player_o
         self.current_turn = player_x.id
-        self.turn = constants.TTT_X
         self.board = [
             [constants.TTT_EMPTY, constants.TTT_EMPTY, constants.TTT_EMPTY],
             [constants.TTT_EMPTY, constants.TTT_EMPTY, constants.TTT_EMPTY],
