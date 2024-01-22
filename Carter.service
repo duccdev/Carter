@@ -1,5 +1,5 @@
 [Unit]
-Description=CranberryBot
+Description=Carter
 After=network.target
 
 [Service]
