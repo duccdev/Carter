@@ -83,7 +83,9 @@ class Games(commands.Cog):
 
     @commands.command("rps-pvp")
     async def rpspvp(
-        self, ctx: commands.Context, p2: discord.Member | discord.User | None
+        self,
+        ctx: commands.Context,
+        p2: discord.Member | discord.User | None,
     ) -> None:
         if not p2:
             await ctx.reply(f"Usage: `{constants.BOT_PREFIX}rps-pvp <other_member>`")
@@ -98,12 +100,20 @@ class Games(commands.Cog):
             await msg.edit(view=RPSGame(msg=msg, ctx=ctx))
             return
 
+        if not isinstance(p2, discord.Member) or not isinstance(
+            ctx.author, discord.Member
+        ):
+            await ctx.reply(constants.GUILD_REQUIRED)
+            return
+
         msg = await ctx.reply(f"<@{ctx.author.id}> goes first")
-        await msg.edit(view=RPSPVPGame(msg=msg, p1_id=ctx.author.id, p2_id=p2.id))
+        await msg.edit(view=RPSPVPGame(msg=msg, p1=ctx.author, p2=p2))
 
     @commands.command()
     async def tictactoe(
-        self, ctx: commands.Context, opponent: discord.Member | discord.User | None
+        self,
+        ctx: commands.Context,
+        opponent: discord.Member | discord.User | None,
     ) -> None:
         if not opponent:
             await ctx.reply(f"Usage: `{constants.BOT_PREFIX}tictactoe <other_member>`")
@@ -113,9 +123,15 @@ class Games(commands.Cog):
             await ctx.reply(f"You can't PvP me or yourself!")
             return
 
+        if not isinstance(opponent, discord.Member) or not isinstance(
+            ctx.author, discord.Member
+        ):
+            await ctx.reply(constants.GUILD_REQUIRED)
+            return
+
         await ctx.reply(
             f"It's <@{ctx.author.id}>'s turn",
-            view=TicTacToe(x_id=ctx.author.id, o_id=opponent.id),
+            view=TicTacToe(player_x=ctx.author, player_o=opponent),
         )
 
     @commands.command()

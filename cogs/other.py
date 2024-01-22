@@ -1,6 +1,6 @@
 from discord.ext import commands
 from views.help import HelpView
-import constants, tools.other, checks, discord
+import constants, tools.other
 
 
 class Other(commands.Cog):
