@@ -18,7 +18,7 @@ class Other(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx: commands.Context) -> None:
-        await ctx.reply(f":ping_pong: `{round(self.bot.latency * 1000)}`")
+        await ctx.reply(f":ping_pong: `{round(self.bot.latency * 1000)}ms`")
 
     @commands.command()
     async def contributors(self, ctx: commands.Context):
