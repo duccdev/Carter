@@ -58,7 +58,9 @@ class TTTButton(discord.ui.Button):
             return
 
         view.board[self.y][self.x] = (
-            constants.TTT_X if view.current_turn == view.player_x else constants.TTT_O
+            constants.TTT_X
+            if view.current_turn == view.player_x.id
+            else constants.TTT_O
         )
         self.emoji = "❌" if view.current_turn == view.player_x else "⭕"
         self.disabled = True
