@@ -167,7 +167,10 @@ CONTRIBUTORS = {
             "name": "Developers",
             "content": f"- <@{KRILL}> (Founder)\n- <@{SQD}> (AI dev, helper)",
         },
-        {"name": "Special thanks", "content": f"- <@{BALU}> for hosting this bot\n<@{AELPXY}> for the idea"},
+        {
+            "name": "Special thanks",
+            "content": f"- <@{AELPXY}> for hosting this bot\n<@{AELPXY}> for the idea",
+        },
     ],
 }
 
