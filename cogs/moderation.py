@@ -45,7 +45,7 @@ class Moderation(commands.Cog):
             return "HANDLED"
 
         if member.top_role.position > bot_member.top_role.position:
-            await ctx.reply(":x: Cannot view warns of a member higher than me!")
+            await ctx.reply(":x: Cannot moderate a member higher than me!")
             return "HANDLED"
 
         return "SUCCESS"
