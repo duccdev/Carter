@@ -10,9 +10,12 @@ class Moderation(commands.Cog):
 
     async def run_checks(
         self, ctx: commands.Context, member: discord.Member | None
-    ) -> Literal["SHOW_HELP"] | Literal["INTERNAL_ERROR"] | Literal[
-        "HANDLED"
-    ] | Literal["SUCCESS"]:
+    ) -> (
+        Literal["SHOW_HELP"]
+        | Literal["INTERNAL_ERROR"]
+        | Literal["HANDLED"]
+        | Literal["SUCCESS"]
+    ):
         if not ctx.guild:
             await ctx.reply(constants.GUILD_REQUIRED)
 
@@ -38,7 +41,7 @@ class Moderation(commands.Cog):
             return "INTERNAL_ERROR"
 
         if not bot_member.guild_permissions.moderate_members:
-            await ctx.reply(":x: I don't have the permission to view warns!")
+            await ctx.reply(":x: I don't have the permission to warn or timeout!")
             return "HANDLED"
 
         if member.top_role.position > bot_member.top_role.position:
