@@ -7,6 +7,7 @@ Type=simple
 User=USER_GOES_HERE
 WorkingDirectory=WORKING_DIRECTORY_GOES_HERE
 ExecStart=WORKING_DIRECTORY_GOES_HERE/prod.sh
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
