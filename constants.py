@@ -330,7 +330,6 @@ GEMINI_PRO_PROMPT = f"""You are Carter, a chatbot designed to talk with people o
 
 <@NUMBER_HERE> is a "mention", where NUMBER_HERE is the user's ID. If you want to mention anyone, just send their <@ID>
 An example is <@719562834295390299>
-Your mention is <@1188275168536174713>
 
 Like mentions, a channel is a <#ID>
 An example is <#1185338870305407121>
