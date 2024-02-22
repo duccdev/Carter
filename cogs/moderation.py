@@ -366,13 +366,7 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: Cannot unwarn a member higher than me!")
             return
 
-        try:
-            warn_id_int = int(warn_id)
-        except:
-            await ctx.reply(embed=tools.other.create_embed(constants.WARNS_HELP_PAGE))
-            return
-
-        if await tools.db.remove_warn(warn_id_int, member):
+        if await tools.db.remove_warn(warn_id):
             await ctx.message.add_reaction("✅")
             return
 

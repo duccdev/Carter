@@ -5,13 +5,22 @@ from prisma.models import Vote
 db = Prisma()
 
 
+async def db_connect():
+    if not db.is_connected():
+        await db.connect()
+
+
 async def get_guild(guild: discord.Guild):
+    await db_connect()
+
     return (await db.guild.find_unique(where={"id": guild.id})) or (
         await db.guild.create(data={"id": guild.id})
     )
 
 
 async def add_warn(guild: discord.Guild, member: discord.Member, reason: str):
+    await db_connect()
+
     db_guild = await get_guild(guild)
 
     await db.warn.create(
@@ -25,6 +34,8 @@ async def add_warn(guild: discord.Guild, member: discord.Member, reason: str):
 
 
 async def expire_warns():
+    await db_connect()
+
     for warn in await db.warn.find_many():
         if datetime.datetime.utcnow() >= warn.expires_at:
             await db.warn.delete(
@@ -34,25 +45,32 @@ async def expire_warns():
             )
 
 
-async def remove_warn(id: int, member: discord.Member) -> bool:
-    warn = await db.warn.find_unique(where={"id": id, "member_id": member.id})
+async def remove_warn(id: str) -> bool:
+    await db_connect()
+
+    warn = await db.warn.find_unique(where={"id": id})
 
     if not warn:
         return False
 
-    await db.warn.delete(where={"id": id, "member_id": member.id})
+    await db.warn.delete(where={"id": id})
 
     return True
 
 
 async def get_warns(member: discord.Member):
+    await db_connect()
+
     return await db.warn.find_many(where={"member_id": member.id})
 
 
 async def get_leaderboard(guild: discord.Guild, name: str):
-    return (
-        await db.leaderboard.find_unique(where={"guild_id": guild.id, "name": name})
-    ) or (await db.leaderboard.create(data={"guild_id": guild.id, "name": name}))
+    await db_connect()
+    await get_guild(guild)
+
+    return (await db.leaderboard.find_unique(where={"guild_id": guild.id})) or (
+        await db.leaderboard.create(data={"guild_id": guild.id, "name": name})
+    )
 
 
 async def add_win(
@@ -60,6 +78,8 @@ async def add_win(
     guild: discord.Guild | None,
     member: discord.User | discord.Member,
 ):
+    await db_connect()
+
     if not guild or isinstance(member, discord.User):
         return
 
@@ -85,14 +105,20 @@ async def add_win(
 
 
 async def create_poll():
+    await db_connect()
+
     return await db.poll.create(data={})
 
 
-async def get_poll(id: int):
+async def get_poll(id: str):
+    await db_connect()
+
     return await db.poll.find_unique_or_raise(where={"id": id})
 
 
-async def set_vote(poll_id: int, member: discord.User | discord.Member, option: int):
+async def set_vote(poll_id: str, member: discord.User | discord.Member, option: int):
+    await db_connect()
+
     poll = await get_poll(poll_id)
 
     await db.vote.create(
@@ -104,5 +130,7 @@ async def set_vote(poll_id: int, member: discord.User | discord.Member, option: 
     )
 
 
-async def remove_vote(poll_id: int, member: discord.User | discord.Member):
-    await db.vote.delete(where={"id": poll_id, "user_id": member.id})
+async def remove_vote(poll_id: str):
+    await db_connect()
+
+    await db.vote.delete(where={"poll_id": poll_id})

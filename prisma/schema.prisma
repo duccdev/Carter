@@ -14,7 +14,6 @@ model Guild {
   leaderboards Leaderboard[]
   warns        Warn[]
 
-  @@unique([id])
   @@index([id])
   @@map("guilds")
 }
@@ -23,17 +22,16 @@ model Player {
   id BigInt @id
 
   leaderboard    Leaderboard @relation(fields: [leaderboard_id], references: [id])
-  leaderboard_id Int         @unique
+  leaderboard_id String      @unique
 
   wins Int
 
-  @@unique([id, leaderboard_id])
   @@index([id, leaderboard_id])
   @@map("players")
 }
 
 model Leaderboard {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(cuid())
   name String
 
   guild    Guild  @relation(fields: [guild_id], references: [id])
@@ -41,46 +39,42 @@ model Leaderboard {
 
   players Player[]
 
-  @@unique([id, guild_id])
   @@index([id, guild_id])
   @@map("leaderboards")
 }
 
 model Warn {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
-  member_id  BigInt
+  member_id  BigInt   @unique
   reason     String
   expires_at DateTime
 
   guild    Guild  @relation(fields: [guild_id], references: [id])
-  guild_id BigInt
+  guild_id BigInt @unique
 
-  @@unique([id, member_id, guild_id])
   @@index([id, guild_id])
   @@map("warns")
 }
 
 model Poll {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
   votes Vote[]
 
-  @@unique([id])
   @@index([id])
   @@map("polls")
 }
 
 model Vote {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
-  poll    Poll @relation(fields: [poll_id], references: [id])
-  poll_id Int
+  poll    Poll   @relation(fields: [poll_id], references: [id])
+  poll_id String @unique
 
-  user_id BigInt
+  user_id BigInt @unique
   option  Int
 
-  @@unique([id, poll_id, user_id])
   @@index([id, poll_id, user_id])
   @@map("votes")
 }
