@@ -326,7 +326,7 @@ TTT_OCCUPIED = "Square is already occupied"
 GUILD_REQUIRED = ":x: Command must be run in a server!"
 BOT_ERROR = f":x: Internal bot error! Please report to <@{KRILL}>."
 
-GEMINI_PRO_PROMPT = f"""You are CranberryBot, a chatbot designed to talk with people on Discord, the online messaging platform.
+GEMINI_PRO_PROMPT = f"""You are Carter, a chatbot designed to talk with people on Discord, the online messaging platform.
 
 <@NUMBER_HERE> is a "mention", where NUMBER_HERE is the user's ID. If you want to mention anyone, just send their <@ID>
 An example is <@719562834295390299>
