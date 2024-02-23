@@ -1,4 +1,4 @@
 #!/bin/bash
 
 source .venv/bin/activate
-.venv/bin/python3 main.py
+CARTER_ENV=prod .venv/bin/python3 main.py

@@ -46,7 +46,6 @@ HELP_PAGES = {
 - Get a random dog using `{BOT_PREFIX}dog`
 - Get a random (useless!) fact using `{BOT_PREFIX}fact`
 - Get a random meme using `{BOT_PREFIX}meme`
-- Get a random meme from <@{KRILL}>'s collection using `{BOT_PREFIX}krill-meme`
         """,
         "footer": f"Quickly access this page using `{BOT_PREFIX}help fun`",
     },
