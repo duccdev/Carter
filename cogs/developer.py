@@ -105,12 +105,12 @@ class Developer(commands.Cog):
 
     @commands.command("dev-run")
     @commands.is_owner()
-    async def devrunasync(self, ctx: commands.Context):
+    async def devrun(self, ctx: commands.Context):
         async with ctx.typing():
             code = tools.other.reverse_replace(
-                ctx.message.content.replace(
-                    f"{BOT_PREFIX}dev-run-async", "", 1
-                ).replace("```py", "", 1),
+                ctx.message.content.replace(f"{BOT_PREFIX}dev-run", "", 1).replace(
+                    "```py", "", 1
+                ),
                 "```",
                 "",
                 1,
