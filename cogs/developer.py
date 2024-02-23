@@ -170,7 +170,7 @@ class Developer(commands.Cog):
             return
 
         await ctx.send("restarting...")
-        system("sudo systemctl restart pookiebear")
+        system("sudo systemctl restart Carter")
 
     @commands.command("dev-system")
     @commands.is_owner()
