@@ -103,83 +103,7 @@ class Developer(commands.Cog):
 
         await ctx.reply(msg)
 
-    @commands.command("dev-eval")
-    @commands.is_owner()
-    async def deveval(self, ctx: commands.Context):
-        async with ctx.typing():
-            code = tools.other.reverse_replace(
-                ctx.message.content.replace(f"{BOT_PREFIX}dev-eval", "", 1).replace(
-                    "```py", "", 1
-                ),
-                "```",
-                "",
-                1,
-            ).strip()
-
-            if not code:
-                await ctx.reply(f"usage: `{BOT_PREFIX}dev-eval <py-codeblock>`")
-                return
-
-            stringIO = StringIO()
-            ret: Any
-
-            try:
-                with redirect_stdout(stringIO):
-                    ret = eval(code)
-            except Exception:
-                tb = format_exc().strip().replace("`", "'")
-                await ctx.reply(f"traceback:\n```py\n{tb}\n```")
-                return
-
-            ret = str(ret).strip().replace("`", "'")
-            stdout = stringIO.getvalue().strip().replace("`", "'")
-
-            msg = ""
-
-            if stdout:
-                msg += f"stdout:\n```\n{stdout}\n```"
-
-            msg += f"return:\n```py\n{ret}\n```"
-
-            await ctx.reply(msg)
-
-    @commands.command("dev-exec")
-    @commands.is_owner()
-    async def devexec(self, ctx: commands.Context):
-        async with ctx.typing():
-            code = tools.other.reverse_replace(
-                ctx.message.content.replace(f"{BOT_PREFIX}dev-exec", "", 1).replace(
-                    "```py", "", 1
-                ),
-                "```",
-                "",
-                1,
-            ).strip()
-
-            stringIO = StringIO()
-            ret: Any
-
-            try:
-                with redirect_stdout(stringIO):
-                    ret = exec(code)
-            except Exception:
-                tb = format_exc().strip().replace("`", "'")
-                await ctx.reply(f"traceback:\n```py\n{tb}\n```")
-                return
-
-            ret = str(ret).strip().replace("`", "'")
-            stdout = stringIO.getvalue().strip().replace("`", "'")
-
-            msg = ""
-
-            if stdout:
-                msg += f"stdout:\n```\n{stdout}\n```"
-
-            msg += f"return:\n```py\n{ret}\n```"
-
-            await ctx.reply(msg)
-
-    @commands.command("dev-run-async")
+    @commands.command("dev-run")
     @commands.is_owner()
     async def devrunasync(self, ctx: commands.Context):
         async with ctx.typing():
@@ -246,7 +170,7 @@ class Developer(commands.Cog):
             return
 
         await ctx.send("restarting...")
-        system("sudo systemctl restart Carter")
+        system("sudo systemctl restart pookiebear")
 
     @commands.command("dev-system")
     @commands.is_owner()
