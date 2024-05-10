@@ -75,7 +75,7 @@ class RPSP2Button(discord.ui.Button):
 
         if self.this_choice == self.p1_choice:
             await interaction.response.edit_message(
-                content=constants.GAME_TIE, view=view
+                content=constants.GAME_TIE, view=new_view
             )
         elif (
             self.this_choice == constants.ROCK and self.p1_choice == constants.SCISSORS
