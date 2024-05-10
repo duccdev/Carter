@@ -122,6 +122,8 @@ class RPSP2Button(discord.ui.Button):
                 view=new_view,
             )
 
+        await interaction.response.send_message("aight :thumbsup:", ephemeral=True)
+
 
 class P2View(discord.ui.View):
     def __init__(
