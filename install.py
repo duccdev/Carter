@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/env python3
 import os, logger, getpass
 
 user = getpass.getuser()
@@ -13,7 +13,7 @@ logger.info("installing dependencies...")
 
 if (
     os.system(
-        'bash -c "source .venv/bin/activate && .venv/bin/pip3 install -U -r requirements.txt"'
+        'bash -c "source .venv/bin/activate && .venv/bin/pip3 install -U -r requirements.txt && prisma db push && prisma generate"'
     )
     != 0
 ):
