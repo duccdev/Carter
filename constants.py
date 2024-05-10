@@ -55,6 +55,7 @@ HELP_PAGES = {
 - Play a cup game using `{BOT_PREFIX}cups`
 - Play rock paper scissors using `{BOT_PREFIX}rps`
 - Play RPS against other members using `{BOT_PREFIX}rps-pvp <other_member>`
+- Play TicTacToe against other members using `{BOT_PREFIX}tictactoe <other_member>`
 - Get a truth using `{BOT_PREFIX}truth` (read `{BOT_PREFIX}truth help`)
 - Get a dare using `{BOT_PREFIX}dare` (read `{BOT_PREFIX}dare help`)
 - Get a would you rather using `{BOT_PREFIX}wyr` (read `{BOT_PREFIX}wyr help`)
