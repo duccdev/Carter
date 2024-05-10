@@ -297,7 +297,7 @@ LEADERBOARD_NO_PLAYERS = "No players on leaderboards :/"
 GAME_TIE = "It's a tie :/"
 NON_OWNER_INTERACTION = "This is not your interaction!"
 WAIT_FOR_YOUR_TURN = "Wait for your turn!"
-YOUR_TURN_HAS_ALREADY_PASSED = "You haver already taken your turn!"
+YOUR_TURN_HAS_ALREADY_PASSED = "You have already taken your turn!"
 
 CUPS_TIMEOUT = "You're overthinking it :/"
 

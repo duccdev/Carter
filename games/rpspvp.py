@@ -178,7 +178,7 @@ class RPSPVPGame(discord.ui.View):
     async def init_p2(self, p1_choice: int) -> None:
         self.stop()
         await self.msg.edit(
-            content=f"Now it's <@{self.p2}>'s turn",
+            content=f"Now it's <@{self.p2.id}>'s turn",
             view=P2View(
                 timeout=self.timeout,
                 msg=self.msg,
