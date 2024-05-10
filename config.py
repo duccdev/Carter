@@ -7,10 +7,10 @@ load_dotenv()
 TOKEN = getenv("TOKEN", "")
 CAT_API = getenv("CAT_API", "")
 GENAI = getenv("GENAI", "")
-PGSQL = getenv("PGSQL", "")
+SQLITE = getenv("SQLITE", "")
 CARTER_ENV = getenv("CARTER_ENV", "prod")
 
-if not TOKEN or not CAT_API or not GENAI or not PGSQL or not CARTER_ENV:
+if not TOKEN or not CAT_API or not GENAI or not SQLITE or not CARTER_ENV:
     logger.error("Invalid .env, please consult .env.example and the readme")
     exit(1)
 

@@ -51,7 +51,7 @@ class Moderation(commands.Cog):
         return "SUCCESS"
 
     @commands.command()
-    @checks.ownerOrPerms(ban_members=True)
+    @checks.owner_or_perms(ban_members=True)
     async def ban(
         self,
         ctx: commands.Context,
@@ -114,7 +114,7 @@ class Moderation(commands.Cog):
         await ctx.message.add_reaction("✅")
 
     @commands.command()
-    @checks.ownerOrPerms(ban_members=True)
+    @checks.owner_or_perms(ban_members=True)
     async def unban(
         self,
         ctx: commands.Context,
@@ -159,7 +159,7 @@ class Moderation(commands.Cog):
             await ctx.reply(":x: User is already unbanned!")
 
     @commands.command()
-    @checks.ownerOrPerms(kick_members=True)
+    @checks.owner_or_perms(kick_members=True)
     async def kick(
         self,
         ctx: commands.Context,
@@ -216,7 +216,7 @@ class Moderation(commands.Cog):
         await ctx.message.add_reaction("✅")
 
     @commands.command()
-    @checks.ownerOrPerms(moderate_members=True)
+    @checks.owner_or_perms(moderate_members=True)
     async def warn(
         self,
         ctx: commands.Context,
@@ -279,7 +279,7 @@ class Moderation(commands.Cog):
         await ctx.message.add_reaction("✅")
 
     @commands.command()
-    @checks.ownerOrPerms(moderate_members=True)
+    @checks.owner_or_perms(moderate_members=True)
     async def warns(
         self,
         ctx: commands.Context,
@@ -323,7 +323,7 @@ class Moderation(commands.Cog):
             )
 
     @commands.command()
-    @checks.ownerOrPerms(moderate_members=True)
+    @checks.owner_or_perms(moderate_members=True)
     async def unwarn(
         self,
         ctx: commands.Context,
@@ -373,7 +373,7 @@ class Moderation(commands.Cog):
         await ctx.reply(":x: Invalid warn ID")
 
     @commands.command()
-    @checks.ownerOrPerms(moderate_members=True)
+    @checks.owner_or_perms(moderate_members=True)
     async def timeout(
         self,
         ctx: commands.Context,
@@ -436,7 +436,7 @@ class Moderation(commands.Cog):
         await ctx.message.add_reaction("✅")
 
     @commands.command()
-    @checks.ownerOrPerms(moderate_members=True)
+    @checks.owner_or_perms(moderate_members=True)
     async def untimeout(
         self,
         ctx: commands.Context,

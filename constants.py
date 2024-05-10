@@ -1,10 +1,8 @@
 from config import BOT_PREFIX
 import colors, tools.other, google.generativeai as genai
 
-KRILL = 719562834295390299
-BALU = 932331066637832273
+DUCC = 842457844724400142
 SQD = 1077982815070728223
-AELPXY = 884099213615587338
 
 FACTS_ROUTE = "https://uselessfacts.jsph.pl/api/v2/facts/random"
 CATS_ROUTE = "https://api.thecatapi.com/v1/images/search"
@@ -85,7 +83,7 @@ HELP_PAGES = {
 - Start a server poll using `{BOT_PREFIX}poll` if permitted
 - Check bot ping using `{BOT_PREFIX}ping`
 - Know the contributors using `{BOT_PREFIX}contributors`
-- Live Commit: **[{LIVE_COMMIT_SHORT}](https://github.com/krillissue/Carter/commit/{LIVE_COMMIT_LONG})**
+- Live Commit: **[{LIVE_COMMIT_SHORT}](https://github.com/duccybaka/Carter/commit/{LIVE_COMMIT_LONG})**
         """,
         "footer": f"Quickly access this page using `{BOT_PREFIX}help other`",
     },
@@ -164,11 +162,7 @@ CONTRIBUTORS = {
     "fields": [
         {
             "name": "Developers",
-            "content": f"- <@{KRILL}> (Founder)\n- <@{SQD}> (AI dev, helper)",
-        },
-        {
-            "name": "Special thanks",
-            "content": f"- <@{AELPXY}> for hosting this bot\n<@{AELPXY}> for the idea",
+            "content": f"- <@{DUCC}> (Founder)\n- <@{SQD}> (AI dev, helper)",
         },
     ],
 }
@@ -193,8 +187,8 @@ BAN_HELP_PAGE = {
         {
             "name": "Examples",
             "content": f"""
-- `{BOT_PREFIX}ban @mewhenkrillissue trolling`
-- `{BOT_PREFIX}ban @mewhenkrillissue`
+- `{BOT_PREFIX}ban @amogustroll69 trolling`
+- `{BOT_PREFIX}ban @amogustroll69`
         """,
         },
     ],
@@ -206,7 +200,7 @@ UNBAN_HELP_PAGE = {
         {"name": "Usage", "content": f"`{BOT_PREFIX}unban <user>`"},
         {
             "name": "Example",
-            "content": f"`{BOT_PREFIX}unban @mewhenkrillissue`",
+            "content": f"`{BOT_PREFIX}unban @amogustroll69`",
         },
     ],
 }
@@ -218,8 +212,8 @@ KICK_HELP_PAGE = {
         {
             "name": "Examples",
             "content": f"""
-- `{BOT_PREFIX}kick @mewhenkrillissue trolling`
-- `{BOT_PREFIX}kick @mewhenkrillissue`
+- `{BOT_PREFIX}kick @amogustroll69 trolling`
+- `{BOT_PREFIX}kick @amogustroll69`
         """,
         },
     ],
@@ -231,7 +225,7 @@ WARN_HELP_PAGE = {
         {"name": "Usage", "content": f"`{BOT_PREFIX}warn <user> <reason>`"},
         {
             "name": "Example",
-            "content": f"`{BOT_PREFIX}warn @mewhenkrillissue sending nsfw in general`",
+            "content": f"`{BOT_PREFIX}warn @amogustroll69 sending nsfw in general`",
         },
     ],
 }
@@ -242,7 +236,7 @@ WARNS_HELP_PAGE = {
         {"name": "Usage", "content": f"`{BOT_PREFIX}warns <user>`"},
         {
             "name": "Example",
-            "content": f"`{BOT_PREFIX}warns @mewhenkrillissue`",
+            "content": f"`{BOT_PREFIX}warns @amogustroll69`",
         },
     ],
 }
@@ -253,7 +247,7 @@ UNWARN_HELP_PAGE = {
         {"name": "Usage", "content": f"`{BOT_PREFIX}unwarn <user> <warn_id>`"},
         {
             "name": "Example",
-            "content": f"`{BOT_PREFIX}unwarn @mewhenkrillissue NaFKsQvN`",
+            "content": f"`{BOT_PREFIX}unwarn @amogustroll69 NaFKsQvN`",
         },
     ],
 }
@@ -268,8 +262,8 @@ TIMEOUT_HELP_PAGE = {
         {
             "name": "Examples",
             "content": f"""
-- `{BOT_PREFIX}timeout @mewhenkrillissue 2d memes in general`
-- `{BOT_PREFIX}timeout @mewhenkrillissue 2d`
+- `{BOT_PREFIX}timeout @amogustroll69 2d memes in general`
+- `{BOT_PREFIX}timeout @amogustroll69 2d`
             """,
         },
         {
@@ -292,7 +286,7 @@ UNTIMEOUT_HELP_PAGE = {
         },
         {
             "name": "Example",
-            "content": f"`{BOT_PREFIX}untimeout @mewhenkrillissue`",
+            "content": f"`{BOT_PREFIX}untimeout @amogustroll69`",
         },
     ],
 }
@@ -323,7 +317,7 @@ TTT_TIMEOUT = "Game ended due to inactivity"
 TTT_OCCUPIED = "Square is already occupied"
 
 GUILD_REQUIRED = ":x: Command must be run in a server!"
-BOT_ERROR = f":x: Internal bot error! Please report to <@{KRILL}>."
+BOT_ERROR = f":x: Internal bot error! Please report to <@{DUCC}>."
 
 GEMINI_PRO_PROMPT = f"""You are Carter, a chatbot designed to talk with people on Discord, the online messaging platform.
 
@@ -405,4 +399,4 @@ AI_SAFETY_SETTINGS = {
 
 AI_MSGS_LIMIT = 32
 CHANNEL_SEARCH_LIMIT = 256
-AI_GENERATION_CONFIG = genai.GenerationConfig(temperature=0.6)
+AI_GENERATION_CONFIG = genai.GenerationConfig(temperature=0.5)
