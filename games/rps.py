@@ -26,7 +26,7 @@ class RPSButton(discord.ui.Button):
         assert self.view is not None
         view: RPSGame = self.view
 
-        if self.ctx.author != interaction.user:
+        if self.ctx.author.id != interaction.user.id:
             await interaction.response.send_message(
                 constants.NON_OWNER_INTERACTION, ephemeral=True
             )

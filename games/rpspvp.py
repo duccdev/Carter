@@ -23,7 +23,7 @@ class RPSP1Button(discord.ui.Button):
             super().__init__(style=style, emoji="✂️")
 
     async def callback(self, interaction: discord.Interaction) -> None:
-        if interaction.user.id != self.p1:
+        if interaction.user.id != self.p1.id:
             await interaction.response.send_message(
                 constants.WAIT_FOR_YOUR_TURN, ephemeral=True
             )
@@ -60,7 +60,7 @@ class RPSP2Button(discord.ui.Button):
         assert self.view is not None
         view: P2View = self.view
 
-        if interaction.user.id != self.p2:
+        if interaction.user.id != self.p2.id:
             await interaction.response.send_message(
                 constants.YOUR_TURN_HAS_ALREADY_PASSED, ephemeral=True
             )
