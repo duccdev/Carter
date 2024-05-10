@@ -7,7 +7,7 @@ async def get_cat() -> tuple[BytesIO, str]:
     async with aiohttp.ClientSession() as session:
         async with session.get(
             constants.CATS_ROUTE,
-            headers={"x-api-key": config.CAT_API_KEY},
+            headers={"x-api-key": config.CAT_API},
         ) as response:
             body = await response.json()
 
@@ -27,7 +27,7 @@ async def get_dog() -> tuple[BytesIO, str]:
     async with aiohttp.ClientSession() as session:
         async with session.get(
             constants.DOGS_ROUTE,
-            headers={"x-api-key": config.DOG_API_KEY},
+            headers={"x-api-key": config.DOG_API},
         ) as response:
             body = await response.json()
 
