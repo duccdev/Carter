@@ -38,6 +38,9 @@ class AI(commands.Cog):
             return
 
         if self.bot.user in msg.mentions or isinstance(msg.channel, discord.DMChannel):
+            if msg.content.startswith("<@"):
+                msg.content = msg.content.replace(f"<@{self.bot.user.id}>", "", 1)
+
             async with msg.channel.typing():
                 content = await tools.ai.send(msg, self.bot.user)
 

@@ -1,4 +1,4 @@
-import time, yaml, traceback, discord, config, constants, google.generativeai as genai
+import yaml, traceback, discord, config, constants, google.generativeai as genai
 
 genai.configure(api_key=config.GENAI)
 
@@ -62,9 +62,6 @@ async def count(msg: discord.Message, bot_user: discord.ClientUser) -> tuple[int
 
     prompt = (
         constants.GEMINI_PRO_PROMPT
-        + "Current time: "
-        + str(time.time())
-        + "\n"
         + "Message:\n"
         + msgyaml
         + "\nMessage history:\n"
@@ -82,9 +79,6 @@ async def send(msg: discord.Message, bot_user: discord.ClientUser) -> str:
             await gemini_pro.generate_content_async(
                 (
                     constants.GEMINI_PRO_PROMPT
-                    + "Current time: "
-                    + str(time.time())
-                    + "\n"
                     + "Message:\n"
                     + msgyaml
                     + "\nMessage history:\n"
