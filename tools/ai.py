@@ -18,7 +18,7 @@ async def msgyaml_histyml(
                 "username": msg.author.name,
             },
             "channel_name": (
-                msg.channel.name or msg.author.display_name
+                msg.channel.name or msg.author.display_name  # type: ignore
                 if not isinstance(msg.channel, discord.DMChannel)
                 else msg.author.display_name
             ),
@@ -43,7 +43,7 @@ async def msgyaml_histyml(
                         "username": history_msg.author.name,
                     },
                     "channel_name": (
-                        history_msg.channel.name or history_msg.author.display_name
+                        history_msg.channel.name or history_msg.author.display_name  # type: ignore
                         if not isinstance(history_msg.channel, discord.DMChannel)
                         else history_msg.author.display_name
                     ),
